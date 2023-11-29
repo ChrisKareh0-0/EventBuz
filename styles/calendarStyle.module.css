@@ -1,0 +1,19 @@
+.dhx_cal_data td {
+    padding: 0;
+    margin: 0;
+  }
+
+  .dhx_cal_ltitle {
+    padding: 3px 15px 1px;
+    height: 35px;
+    line-height: 35px;
+    border-bottom: 1px solid #b62872;
+    background: #0000 !important;
+    margin: 0 0 20px;
+    border-radius: 2px 2px 0 0;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}

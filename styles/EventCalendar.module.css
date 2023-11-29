@@ -1,0 +1,56 @@
+/* Calendar Container */
+.calendarContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f7fa;
+    height: 200px;
+}
+
+/* Calendar Styles */
+.calendar {
+    border: none;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.calendar button {
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-color: transparent;
+    color: #333;
+    font-size: 16px;
+}
+
+.calendar button:hover {
+    background-color: #e7e9ed;
+}
+
+.calendar button:active {
+    background-color: #d1d3d8;
+}
+
+.calendar abbr[title] {
+    text-decoration: none;
+    cursor: pointer;
+    border-bottom: none;
+}
+
+.calendar abbr[title]:hover {
+    background-color: #e7e9ed;
+}
+
+/* Event Tile Styles */
+.eventTile {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4a90e2;
+    color: #ffffff;
+    margin: auto;
+}
+
