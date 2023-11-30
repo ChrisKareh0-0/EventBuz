@@ -602,7 +602,7 @@ button:hover {
   margin-left: 10px;
 }
 .PhoneInputCountrySelectArrow{
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   margin-left: 10px;
 }
 
@@ -4092,4 +4092,8 @@ body .dhx_repeat_radio{
 
 .css-16xfy0z-control{
   background-color: #3b3b3b !important;
+}
+
+.PhoneInputCountryIconImg{
+  margin-top: 13px !important;
 }

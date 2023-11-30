@@ -5,6 +5,7 @@ import axios from 'axios';
 import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable';
 import MapComponent from "@/Components/MapComponent";
+import {useSelector} from "react-redux";
 
 
 
@@ -20,7 +21,8 @@ const EditEvent = () => {
     const router = useRouter();
     const { eventID } = router.query;
     const [isClientSide, setIsClientSide] = useState(false);
-
+//Redux
+    const countryRedux = useSelector(state => state.data.countryRedux)
 
     let loadRendered = false;    
 
@@ -375,14 +377,9 @@ const EditEvent = () => {
                   ) }
                     {renderMapComponent()}
                   <label>{title}</label>
-                  {title == "country" && (
-                    <Select options={nameCountry} 
-                      styles={selectStyles}
-                    onChange={(selectedOption) => handleCountryChange("country", selectedOption)}
-                    
-                      value={inputValues.country}
-                    />
-                  )}
+                    {title == "country" && (
+                        <input disabled={true} style={{color: "#FFF", backgroundColor:"#3b3b3b"}} placeholder={countryRedux}/>
+                    )}
 
                   {title != "country" && (
                         <input 

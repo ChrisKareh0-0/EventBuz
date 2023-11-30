@@ -155,6 +155,8 @@ export default function CreateEvent() {
     })
     .catch((error) => {
         console.log(error)
+        toast.error('Error Occurred, Please try Again')
+
     })
 }
 
@@ -1062,7 +1064,7 @@ const rows = files.reduce((acc, current, index) => {
                       
                     // } else {
 
-                      // handleAddElements();  
+                      handleAddElements();
                       createEventSponsor(elements)  
                     // }
                   }
@@ -1145,7 +1147,7 @@ const rows = files.reduce((acc, current, index) => {
                           {renderMapComponent()}
                         <label>{title}</label>
                         {title == "country" && (
-                          <input style={{color: "#FFF", backgroundColor:"#3b3b3b"}} disabled={true} placeholder={countryRedux}/>
+                          <input disabled={true} style={{color: "#FFF", backgroundColor:"#3b3b3b"}} placeholder={countryRedux}/>
                         )}
 
 
@@ -1292,6 +1294,8 @@ const rows = files.reduce((acc, current, index) => {
           height: 400px;
           border-radius: 10px;
         }
+
+       
         
         
         

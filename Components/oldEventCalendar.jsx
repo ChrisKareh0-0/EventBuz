@@ -13,6 +13,7 @@ const Scheduler = () => {
   const scheduleAPI = () => {
     const axios = require('axios');
     const createEvent_ID = localStorage.getItem('createEvent_ID')
+    const Token = localStorage.getItem('access_Token')
     console.log("Event ID in schedule", data)
     let config = {
       method: 'post',
@@ -20,7 +21,7 @@ const Scheduler = () => {
       url: 'https://stageeventbuz.online/api/v1/event-schedule',
       headers: { 
         'Content-Type': 'application/json', 
-        'Authorization': 'Bearer 51|NEv7YHB9Sylk3jwuLbKbzeSbH6KwfcjnmZ3rZw8A410046bf', 
+        'Authorization': 'Bearer '+Token,
         
       },
       data : {
