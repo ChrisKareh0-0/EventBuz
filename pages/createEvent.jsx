@@ -242,6 +242,10 @@ const selectStyles = {
     ...provided,
     color: 'white'
   }),
+  input: (provided) => ({
+    ...provided,
+    color: 'white', // Sets text color inside the input field to white
+  }),
 };
 
 const saveStateToLocalStorage = () => {
@@ -979,7 +983,7 @@ const rows = files.reduce((acc, current, index) => {
                   {title == "keyword" ? (
                     <CreatableSelect 
                     key={`${selectedCategory}-${title}`}
-                    style={{color: '#FFF'}}
+
                     isMulti options={keywords}  
                     onChange={(selectedOptions) => {
                       const syntheticEvent = {
