@@ -825,7 +825,7 @@ const rows = files.reduce((acc, current, index) => {
                       </>
                     )}
             
-                    {reservations === '1' && bookingType === 'Booking on Eventbuz' && (
+                    {reservations === '1' && bookingType === 'booking_on_eventBuz' && (
                       <>
                         <div style={{width:'100%', height: '10%', marginTop:90}}></div>
                          {ticketFields.map((field, idx) => (
