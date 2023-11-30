@@ -26,11 +26,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/createEvent.js"
-    ],
-    "/editEvent": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/editEvent.js"
     ]
   },
   "ampFirstPages": []
