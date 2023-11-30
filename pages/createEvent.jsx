@@ -979,7 +979,8 @@ const rows = files.reduce((acc, current, index) => {
                   {title == "keyword" ? (
                     <CreatableSelect 
                     key={`${selectedCategory}-${title}`} 
-                    isMulti options={keywords}  
+                    isMulti options={keywords}
+                    style={{color: '#FFF'}}
                     onChange={(selectedOptions) => {
                       const syntheticEvent = {
                           target: {
