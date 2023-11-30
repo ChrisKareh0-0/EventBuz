@@ -59,9 +59,9 @@ const myEvents = () => {
       document.body.style.setProperty('--color-page-background', '#2a2b2e');
   
       // When the component unmounts
-      return () => {
-        document.body.style.setProperty('--color-page-background', 'white'); // Reset to original color
-      };
+      // return () => {
+      //   document.body.style.setProperty('--color-page-background', 'white'); // Reset to original color
+      // };
     }, []);
 
     const getEvents = () => {

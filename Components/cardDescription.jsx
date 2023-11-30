@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useReducer } from 'react';
 
 
-const cardDescription = ({countryCode, title, phoneNumber, locationText}) => {
+const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl}) => {
   const [isChecked, setIsChecked] = useState(false)
 
   const toggleCheckbox = () => {
@@ -18,16 +18,17 @@ const cardDescription = ({countryCode, title, phoneNumber, locationText}) => {
 
 
   return (
-    <div className="card">
+  
+    <div className="cardDescription">
       
       <div className="card-image">
       <button className="favorite-button" onClick={toggleCheckbox}>
         <FontAwesomeIcon icon={isChecked ? fasHeart : farHeart} />
       </button>
-        <img src='/_next/static/media/image1.cfe85494.jpg' alt="Restaurant Image" />
+        <img style={{height: '200px'}} src={imageUrl} alt="Restaurant Image" />
 
         <ReactCountryFlag
-          countryCode="LB" // Replace with the appropriate country code
+          countryCode={countryCode}// Replace with the appropriate country code
           svg
           style={{
             position: 'absolute',
@@ -36,29 +37,28 @@ const cardDescription = ({countryCode, title, phoneNumber, locationText}) => {
             width: '30px', // Adjust as needed
             height: '20px' // Adjust as needed
           }}
-          title="Lebanon" // Replace with the appropriate country name
+          title={countryCode} // Replace with the appropriate country name
         />
 
         
         <div className="card-info">
-          <h2>Massaya Zaman</h2>
+          <h2>{title}</h2>
           <div className='location-row'>
             <i className="fas fa-phone"></i>
-            <p className="phone-number">+9616665802</p>
+            <p className="phone-number">{phoneNumber}</p>
           </div>
           <div className="location-row">
             <i className="fas fa-map-marker-alt"></i>
-            <span>Location Text</span> 
+            <span>{locationText}</span> 
           </div>
           <button className="info-button">Book Now</button> 
 
         </div>
       </div>
       <style jsx>{`
-        .card {
+        .cardDescription {
           position: relative;
-          max-width: 400px;
-          max-height: 400px;
+          
           border: 1px solid #ccc;
           border-radius: 8px;
           overflow: hidden;
@@ -136,7 +136,8 @@ const cardDescription = ({countryCode, title, phoneNumber, locationText}) => {
 }
       `}</style>
     </div>
+   
   );
 };
 
-export default cardDescription;
+export default RestaurantCard;

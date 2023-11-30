@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import { useReducer } from 'react';
 import axios from 'axios';
 import styles from '../styles/eventsPage.module.css'
-import cardDescription from '@/Components/cardDescription';
+import RestaurantCard from '@/Components/cardDescription';
 const Events = () => {
     const events = [
         {
@@ -48,20 +48,26 @@ const Events = () => {
         }
       ]
     const [loading, setLoading] = useState(true);
+      useEffect(() => {
+
+        document.body.style.setProperty('--color-page-background', '#2a2b2e');
+      })
 
    return (
+    
     <div className={styles.grid}>
-        {events.map((event) => {
-            <cardDescription
-                key={event.id}
-                countryCode={event.country}
-                title={event.name}
-                phoneNumber={event.phoneNumber}
-                locationText={event.city}
-            />
-            
-        })}
-    </div>
+            {events.map(event => (
+                <RestaurantCard
+                    key={event.id}
+                    countryCode={event.countryCode}
+                    title={event.title}
+                    phoneNumber={event.phoneNumber}
+                    locationText={event.locationText}
+                    imageUrl={event.imageUrl} // Pass the image URL to the card
+                />
+            ))}
+        </div>
+        
    )
 }
 export default Events;

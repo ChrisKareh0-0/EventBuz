@@ -1,9 +1,10 @@
 .card {
   width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  /* border: 1px solid #ccc; */
+  /* border-radius: 8px; */
   overflow: hidden;
   position: relative;
+  background-color: #2a2b2e;
 }
 
 .imageWrapper {
