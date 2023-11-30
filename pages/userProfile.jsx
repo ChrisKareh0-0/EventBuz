@@ -345,8 +345,8 @@ const userProfile = () => {
                             
                             
                             <Image
-                                src={profilePicture ? (profilePicture):(noImage)} 
-                                alt="Car Image"
+                                src={profilePicture || noImage} 
+                                alt="Picture"
                                 style={{paddingTop: 130}}
                                 width={954} 
                                 height={432} 
@@ -380,7 +380,7 @@ const userProfile = () => {
                         </div>
                     </div>
 
-                        <div style={{minHeight: '30vh'}} className="row">          
+                        <div style={{minHeight: '20vh'}} className="row">          
                             <ContactInfo
                                 loading={loading}
                                 
