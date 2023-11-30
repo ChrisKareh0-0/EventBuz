@@ -1,0 +1,32 @@
+/* EventTable.module.css */
+.tableContainer {
+    overflow-x: auto;
+    margin-top: 20px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table th,
+  .table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #f4f4f4;
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: #fbfbfb;
+  }
+  
+  .eventImage {
+    width: 50px;
+    height: auto;
+  }
+  

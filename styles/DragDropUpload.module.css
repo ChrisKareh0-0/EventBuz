@@ -1,0 +1,23 @@
+.dropzone {
+  
+    width: 400px;
+    height: 150px;
+    border: 2px dashed #ccc;
+    position: relative;
+    overflow: hidden;  /* Add this line */
+
+    
+  }
+  .previewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+  
+  .dropzone.active {
+    border-color: #B62872;
+  }
+
