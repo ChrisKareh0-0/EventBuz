@@ -80,6 +80,8 @@ export default function CreateEvent() {
   const latte = useSelector(state => state.data.latitude)
   const long = useSelector(state => state.data.longitude)
 
+  //Country Redux
+  const countryRedux = useSelector(state => state.data.countryRedux)
   const listOfCurrencies = useSelector(state => state.data.listOfCurrencies)
 
   const [nextId, setNextId] = useState(1);
@@ -329,6 +331,7 @@ const saveStateToLocalStorage = () => {
     console.log("List of currencies Redux", listOfCurrencies)
     getKeywords()
 
+    console.log("Redux Country", countryRedux)
   },[])
 
   useEffect(() => {
@@ -1142,13 +1145,9 @@ const rows = files.reduce((acc, current, index) => {
                           {renderMapComponent()}
                         <label>{title}</label>
                         {title == "country" && (
-                          <Select options={nameCountry} 
-                            styles={selectStyles}
-                          onChange={(selectedOption) => handleCountryChange("country", selectedOption)}
-
-                            value={nameCountry.find(option => option.value === selectedCountryId)}
-                          />
+                          <input style={{color: "#FFF", backgroundColor:"#3b3b3b"}} disabled={true} placeholder={countryRedux}/>
                         )}
+
 
                         {title != "country" && (
                               <input style={{color: "#FFF", backgroundColor:"#3b3b3b"}} type="text" placeholder={title} value={inputValues[title] || ''}

@@ -17,12 +17,16 @@ const initialState =  {
     sponsorPicture: {},
     listOfCurrencies: [],
     isSwitch: false,
+    countryRedux: ''
 }
 
 const Slice = createSlice({
     name: 'data',
     initialState,
     reducers: {
+        setCountryRedux(state, action){
+          state.countryRedux = action.payload;
+        },
         setIsSwitch(state, action){
             state.isSwitch = action.payload;
         },
@@ -83,6 +87,7 @@ const Slice = createSlice({
 })
 
 export const {
+    setCountryRedux,
     setNotUsername,
     setIsSwitch,
     setListofCurrencies,

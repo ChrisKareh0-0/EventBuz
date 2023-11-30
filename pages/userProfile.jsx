@@ -20,7 +20,7 @@ import { useSelector } from "react-redux"
 import { Router, useRouter } from "next/router"
 import { getPlacesURL } from "@/pages/api/auth/URL"
 import { Store } from "@/Redux/store";
-import { setIsSwitch, setusername } from "@/Redux/slice";
+import {setCountryRedux, setIsSwitch, setusername} from "@/Redux/slice";
 import { toast } from "react-toastify";
 import noImage from '../assets/NoImage.png'
 
@@ -229,6 +229,7 @@ const userProfile = () => {
             setemail(response.data.data.email)
             setphoneNumber(response.data.data.phone)
             setLocation(response.data.data.country)
+            Store.dispatch(setCountryRedux(response.data.data.country))
             setWebsite(response.data.data.website)
             setUsername(response.data.data.name)
             Store.dispatch(setusername(response.data.data.name))
