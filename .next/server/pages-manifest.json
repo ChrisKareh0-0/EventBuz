@@ -3,5 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/Events": "pages/Events.js",
-  "/createEvent": "pages/createEvent.js"
+  "/createEvent": "pages/createEvent.js",
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js"
 }
