@@ -31,7 +31,27 @@ const EditEvent = () => {
 //Redux
     const countryRedux = useSelector(state => state.data.countryRedux)
 
-    let loadRendered = false;    
+    let loadRendered = false;
+
+
+    const getCategoryFields = (category) => {
+        switch (category) {
+            case "General Information":
+                return categories["General Information"];
+            case "Venue Location":
+                return categories["Venue Location"];
+            case "Contact Person":
+                return categories["Contact Person"];
+            case "Contact Persons":
+                return categories["Contact Persons"];
+            case "Social Media":
+                return categories["Social Media"];
+            case "Options":
+                return categories["Options"];
+            default:
+                return [];
+        }
+    }
 
     useEffect(() => {
         if (eventID) {
@@ -309,6 +329,11 @@ const EditEvent = () => {
             full_address: eventData.venue_location?.full_address || 'null',
             street: eventData.venue_location?.street || 'null',
             social_media: eventData.social_media || {},
+            facebook: eventData.social_media.facebook || 'null',
+            instagram: eventData.social_media.instagram || 'null',
+            twitter: eventData.social_media.twitter || 'null',
+            pinterest: eventData.social_media.pinterest || 'null',
+            linkedin: eventData.social_media.linkedin || 'null',
             options: eventData.options || {},
         });
 
@@ -610,6 +635,17 @@ const EditEvent = () => {
                     </>
                 );
 
+            default:
+                return (
+                    getCategoryFields(selectedCategory).map((field, index) => (
+                        <div key={index} className="input-group" style={{backgroundColor: "#2a2b2e"}}>
+                            <label>{field}</label>
+                            <input type="text"  value={inputValues[field] || 'null'}
+                                   onChange={(e) => handleInputChange(e, field)}
+                                   style={{backgroundColor: "#3b3b3b"}}/>
+                        </div>
+                    ))
+                );
 
         }
        })()}
