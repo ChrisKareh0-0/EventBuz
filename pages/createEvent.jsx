@@ -642,6 +642,7 @@ const createEventVenue = async(inputValue) => {
       },
       data : {
         ...inputValue,
+        country: countryRedux,
         event_id: createEvent_ID,
       }
   

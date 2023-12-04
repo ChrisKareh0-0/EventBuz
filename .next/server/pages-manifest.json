@@ -3,5 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/myEvents": "pages/myEvents.js",
+  "/createEvent": "pages/createEvent.js",
   "/editEvent": "pages/editEvent.js"
 }

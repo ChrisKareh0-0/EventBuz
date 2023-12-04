@@ -22,15 +22,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/createEvent": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/createEvent.js"
+    ],
     "/editEvent": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/editEvent.js"
-    ],
-    "/myEvents": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/myEvents.js"
     ]
   },
   "ampFirstPages": []

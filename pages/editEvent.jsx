@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import {useEffect, useMemo, useState} from "react";
 import { toast } from "react-toastify";
 import axios from 'axios'; 
 import Select from 'react-select'
@@ -11,6 +11,11 @@ import 'react-phone-number-input/style.css'
 import FileUploadComponent from "@/pages/singleFileUpload";
 import PromotionalVideosAndImages from "@/Components/PromotionalVideos&Images";
 import Scheduler from "@/Components/oldEventCalendar";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import FieldRow from "@/Components/FieldRow";
+import CKeditor from "@/Components/ckEditor";
+import countryList from "react-select-country-list";
 
 
 
@@ -28,6 +33,8 @@ const EditEvent = () => {
     const router = useRouter();
     const { eventID } = router.query;
     const [isClientSide, setIsClientSide] = useState(false);
+    const options = useMemo(() => countryList().getData(), [])
+
 //Redux
     const countryRedux = useSelector(state => state.data.countryRedux)
 
@@ -632,6 +639,234 @@ const EditEvent = () => {
                 return (
                     <>
                         <Scheduler schedules={scheduleData} />
+                    </>
+                );
+
+            case "Options":
+                const addFieldsOp = () => {
+                    // const newFields = [...fields];
+                    // newFields.push({ id:new Date().getTime()})
+                    // setFields(newFields);
+
+                    // Check if any field has an empty 'name'.
+                    const isAnyFieldNameEmpty = fields.some(field => !field.name.trim());
+
+                    if (isAnyFieldNameEmpty) {
+                        // Alert the user or handle the error as needed
+
+                        toast.error("Please fill in the name for all fields before adding a new one.")
+                    } else {
+                        // All field names are filled, proceed to add a new field
+                        const newFields = [...fields, { id: new Date().getTime(), name: '', type: 'Text', isRequired: false }];
+                        setFields(newFields);
+                    }
+                }
+
+
+                const addPhoneInput = () => {
+                    setPhoneInputs([...phoneInputs, '']);
+                };
+
+
+                const removePhoneInput = (indexToRemove) => {
+                    const newPhoneInputs = [...phoneInputs];
+                    newPhoneInputs.splice(index, 1);
+                    setPhoneInputs(newPhoneInputs);
+                };
+                const handleCurrencyChange = (selectedOption) => {
+                    setCurrency(selectedOption ? selectedOption.value : '');
+                };
+                return (
+                    <>
+                        <div className="calendar-options-container">
+                            {/* ... other fields ... */}
+                            <a>Show on Main Calendar ?</a>
+                            <Select
+                                options={[
+                                    { value: '1', label: 'Yes' },
+                                    { value: '0', label: 'No' }
+                                ]}
+                                styles={selectStyles}
+                                value={inputValues.options.showOnMainCalendar || 'null'}
+                                onChange={(selectedOption) => handleInputChange({ target: { value: selectedOption ? selectedOption.value : '' } }, 'show_on_main_calendar')}
+                            />
+                            <a>Free Event ?</a>
+                            <Select
+                                options={[
+                                    { value: '1', label: 'Yes' },
+                                    { value: '0', label: 'No' }
+                                ]}
+                                styles={selectStyles}
+                                value={inputValues.options.freeEvent || 'null'}
+                                onChange={(selectedOption) => handleInputChange({ target: { value: selectedOption ? selectedOption.value : '' } }, 'free_event')}
+                            />
+
+                            <a>Reservations ?</a>
+                            <Select
+                                options={[
+                                    { value: '1', label: 'Yes' },
+                                    { value: '0', label: 'No' }
+                                ]}
+                                styles={selectStyles}
+                                value={inputValues.options.reservations || ''}
+                                onChange={(selectedOption) => setReservations(selectedOption.value)}
+                            />
+
+
+                            <div>
+
+
+                            </div>
+
+                            {reservations === '1' && (
+                                <>
+                                    <a>Booking Type</a>
+                                    <Select
+                                        placeholder="Pick your booking type"
+                                        options={[
+                                            { value: 'Url', label: 'Url' },
+                                            { value: 'Call', label: 'Call' },
+                                            { value: 'booking_on_eventBuz', label: 'booking_on_eventBuz' }
+                                        ]}
+                                        value={options.find(option => option.value === bookingType)}
+                                        onChange={handleBookingTypeChange}
+                                        styles={selectStyles}
+                                    />
+                                    <input type="number" placeholder="Max Number of orders" value={numberOfOrders} style={{backgroundColor: "#3b3b3b"}}  onChange={(e) => setMaxNbReservations(e.target.value)}/>
+
+                                    <a>Currency</a>
+                                    <Select
+                                        options={listOfCurrencies}
+                                        value={listOfCurrencies.find(option => option.value === listOfCurrencies)}
+                                        onChange={handleCurrencyChange}
+                                        styles={selectStyles}
+                                    />
+
+
+                                </>
+                            )}
+
+                            {reservations === '1' && bookingType === 'booking_on_eventBuz' && (
+                                <>
+                                    <div style={{width:'100%', height: '10%', marginTop:90}}></div>
+                                    {ticketFields.map((field, idx) => (
+                                        <div key={idx} className="ticket-field-row">
+                                            <FontAwesomeIcon icon={faTrashAlt} onClick={() => removeTicketField(idx)} style={{ color: 'red', fontSize: '15px', marginTop: 23 }} />
+                                            <input
+                                                type="text"
+                                                placeholder="Category Name"
+                                                value={field.categoryName}
+                                                onChange={(e) => handleTicketInputChange(idx, 'name', e)}
+                                                style={{backgroundColor: "#3b3b3b"}}
+                                            />
+                                            <input
+                                                type="number"
+                                                placeholder="Price"
+                                                value={field.price}
+                                                onChange={(e) => handleTicketInputChange(idx, 'price', e)}
+                                                style={{backgroundColor: "#3b3b3b"}}
+                                            />
+                                            <input
+                                                type="number"
+                                                placeholder="NB Reservations"
+                                                value={field.nbReservations}
+                                                onChange={(e) => handleTicketInputChange(idx, 'number_of_tickets', e)}
+                                                style={{backgroundColor: "#3b3b3b"}}
+                                            />
+                                            {/* <button classame="userPrfileButton" onClick={() => removeTicketField(idx)}><a>Remove</a></button> */}
+
+                                        </div>
+                                    ))}
+                                    <button className="userProfileButton" style={{height: 30, marginLeft: 770, marginTop: 10}} onClick={addTicketField}><a style={{marginLeft: 35}}>Add Ticket Field</a></button>
+
+
+
+
+
+
+                                    <div style={{width:'100%', height: '10%', marginTop:90}}></div>
+                                    <a style={{fontSize: 25}}>Additional Fields</a>
+                                    {fields.map((field, index, array) => (
+                                        <FieldRow
+                                            key={field.id}
+                                            field={field}
+                                            onInputChange={handleFieldRowChange}
+                                            onDelete={deleteFieldRow}
+                                            isOnlyField={index == 0}
+                                            onValueChange={(newValue) => handleValueChange(field.id, newValue)}
+
+
+                                        />
+                                    ))}
+                                    <button className="userProfileButton"  style={{marginTop: 10, height: 30, marginLeft: 770}} onClick={addFieldsOp}><a style={{marginLeft: 50}}>Add Field</a></button>
+
+                                </>
+                            )}
+                            {reservations === '1' && bookingType === 'Url' && (
+
+                                <>
+                                    {websiteData.map((website, index) => (
+                                        <div key={index} style={{ marginBottom: '10px', display:"flex" }}>
+                                            <input
+                                                type="text"
+                                                placeholder="Website"
+                                                value={website.value}
+                                                onChange={(e) => handleWebsiteInputChange(index, e)}
+                                                style={{backgroundColor: "#3b3b3b"}}
+                                            />
+                                            <span
+                                                style={{ color: 'pink', marginTop: 15, cursor:'pointer' }}
+                                                onClick={() => removeWebsiteInput(index)}
+                                            >
+                                        🗑️
+                                    </span>
+                                        </div>
+                                    ))}
+                                    <button onClick={addWebsiteField}>+ Add Website</button>
+                                </>
+
+                            )}
+                            {reservations === '1' && bookingType === 'Call' && (
+                                <div style={{marginLeft: 50, marginTop: 20}}>
+                                    <label style={{color: '#FFF', marginLeft:20}}>Phones</label>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                                        {phoneInputs.map((phone, index) => (
+                                            <div className='inputCell' key={index} style={{ marginBottom: '10px', display:"flex" }}>
+
+                                                <PhoneInput
+                                                    placeholder = "Enter Phone Number"
+                                                    value={phone}
+                                                    onChange={(eventOrValue) => handlePhoneInputChange(index, eventOrValue)}
+                                                    style={{ padding: '10px', width: '300px', marginRight: '10px' }}
+                                                />
+                                                <span style={{ color: 'pink', marginTop: 15, cursor:'pointer' }}  onClick={() => removePhoneInput(index)} >🗑️</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button onClick={addPhoneInput} style={{ marginTop: '10px', padding: '10px' }}>
+                                        + Add New Phone
+                                    </button>
+                                </div>
+                            )}
+                            <input
+                                type="text"
+                                placeholder="Tag Line"
+                                onChange={(e) => handleInputChange(e, 'tag_line')}
+                                style={{backgroundColor: "#3b3b3b", marginTop: 90}}
+                            />
+                            <label style={{color:"#FFF", marginTop:20}}>Event Terms & Conditions</label>
+                            <CKeditor
+                                name="editor1"
+                                onChange={setTermsConditions}
+                                editorLoaded={true}
+                                style={{
+                                    borderRadius: '10px',
+                                    width: '500px',
+                                    height: '600px'
+                                }}
+                            />
+
+                        </div>
                     </>
                 );
 
