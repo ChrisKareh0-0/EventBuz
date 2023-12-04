@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 let scheduler;
 
-const Scheduler = () => {
+const Scheduler = ({ schedules }) => {
   const [events, setEvents] = useState([]);
   const [data, setData] = useState([]);
   const [scheduleID, setScheduleID] = useState('');
@@ -46,6 +46,7 @@ const Scheduler = () => {
     console.log("delete api function")
     const axios = require('axios');
     const createEvent_ID = localStorage.getItem('createEvent_ID')
+    const Token = localStorage.getItem('access_Token')
     setScheduleID(event.schedule_id)
     console.log("SCHEDULE ID IN DELETE", event.schedule_id)
     let config = {
@@ -54,7 +55,7 @@ const Scheduler = () => {
       url: `https://stageeventbuz.online/api/v1/event-schedule/${createEvent_ID}/${scheduleID}`,
       headers: { 
         'Content-Type': 'application/json', 
-        'Authorization': 'Bearer 51|NEv7YHB9Sylk3jwuLbKbzeSbH6KwfcjnmZ3rZw8A410046bf', 
+        'Authorization': 'Bearer '+Token,
         
       }
     }
@@ -126,6 +127,7 @@ const Scheduler = () => {
 
   useEffect(() => {
     console.log(events)
+    console.log("SCHEDULES IN CALENDAR",schedules)
     const createEvent_ID = localStorage.getItem('createEvent_ID')
     async function initScheduler() {
       const Token = localStorage.getItem('access_Token');
@@ -143,6 +145,10 @@ const Scheduler = () => {
         // mode: 'GET',
         
       });
+
+      if (Array.isArray(schedules)) {
+        dhxScheduler.parse(schedules, "json"); // Ensure the format matches your calendar's expected format
+      }
 
       dp.init(dhxScheduler);
       dp.setTransactionMode({

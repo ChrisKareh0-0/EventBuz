@@ -6,6 +6,12 @@ import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable';
 import MapComponent from "@/Components/MapComponent";
 import {useSelector} from "react-redux";
+import PhoneInput from "react-phone-number-input";
+import 'react-phone-number-input/style.css'
+import FileUploadComponent from "@/pages/singleFileUpload";
+import PromotionalVideosAndImages from "@/Components/PromotionalVideos&Images";
+import Scheduler from "@/Components/oldEventCalendar";
+
 
 
 
@@ -17,7 +23,8 @@ const EditEvent = () => {
     const [loading, setLoading] = useState(true);
     const [nameCountry, setNameCountry] = useState([])
     const [selectedCountryId, setSelectedCountryId] = useState(null);
-
+    const [eventSponsorData, setEventSponsorData] = useState({ file: null, preview: null });
+    const [scheduleData, setScheduleData] = useState([])
     const router = useRouter();
     const { eventID } = router.query;
     const [isClientSide, setIsClientSide] = useState(false);
@@ -59,6 +66,7 @@ const EditEvent = () => {
             const response = await axios.get(`https://stageeventbuz.online/api/v1/events/${eventID}/details`);
             console.log("[+] EDIT DATA", response.data.data)
             populateFormWithEventData(response.data.data);
+            setScheduleData(response.data.data.schedules)
         } catch (error) {
             console.error(error);
             toast.error('Failed to fetch event data');
@@ -156,7 +164,7 @@ const EditEvent = () => {
 
     const handleCategoryClick = (category) => {
       setSelectedCategory(category);
-      setInputValues({})
+      // setInputValues({})
     }
     const renderMapComponent = () => {
       if (!mapRendered) {
@@ -178,7 +186,7 @@ const EditEvent = () => {
         "Venue Location": ["venue_name", "country", "city", "building_name", "room_name", "room_number", "full_address", "street"],
         "Contact Person": ["Contact Name", "Contact Phone", "Contact Email"],
         "Event Sponsor": [],
-        "Promotional Video and Images": ["Contact Namme", "Contact Phone", "Contact Email"],
+        "Promotional Video and Images": ["contact_name", "contact_phone", "contact_email"],
         "Event Schedule": ["Contact Name", "Contact Phone", "Contact Email"],
         "Social Media": ["facebook", "instagram", "twitter", "pinterest", "linkedin"],
         "Options": ["Show on Main Calendar?", "Free Event?", "Reservations", "Max. Number of Orders, Tickets Additional Fields", "Tag Line", "Event Term & Condition", "Ticket Attachment"],
@@ -245,52 +253,72 @@ const EditEvent = () => {
 //   ...prevValues,
 //   [fieldName]: selectedOptions // Assuming selectedOptions is the event for text input
 // }));
-    
-      
+
+
     const populateFormWithEventData = (eventData) => {
-      const transformedTypes = eventData.types.map(type => ({
-        value: type.id,
-        label: type.name
-      }));
-      
-      let transformedKeywords = [];
-      if (Array.isArray(eventData.keywords)) {
-        transformedKeywords = eventData.keywords.map(keyword => ({
-          value: keyword.id, // Assuming keyword is a string or has a similar structure
-          label: keyword.name  // Use the same string as label
+        const transformedTypes = eventData.types.map(type => ({
+            value: type.id,
+            label: type.name
         }));
-      }
-        //console.log("Types for the select field", transformedTypes)
+
+        let transformedKeywords = [];
+        if (Array.isArray(eventData.keywords)) {
+            transformedKeywords = eventData.keywords.map(keyword => ({
+                value: keyword.id,
+                label: keyword.name
+            }));
+        }
+
+        // Check if contact is not null/undefined before accessing its properties
+        const contact_name = eventData.contact ? eventData.contact.name || '' : '';
+        const contact_phone = eventData.contact ? eventData.contact.phone || '' : '';
+        const contact_email = eventData.contact ? eventData.contact.email || '' : '';
+
+        // For sponsors, ensure that it's an array and each element has name and url properties
+        let sponsors = Array.isArray(eventData.sponsors) ? eventData.sponsors.map(sponsor => ({
+            id: sponsor.id,
+            name: sponsor.name || '',
+            url: sponsor.url || ''
+        })) : [];
+
+        setInputValues(eventData.media && eventData.media.length > 0
+            ? eventData.media
+            : Array(6).fill({})); // Creates an array with 6 empty objects
+
         setInputValues({
-            name: eventData.name || '',
+            name: eventData.name || 'null',
             type: transformedTypes,
             keyword: transformedKeywords,
-            description: eventData.description || '',
-            contact: eventData.contact || '',
-            types: eventData.types || '',
-            keywords: eventData.keywords || '',
-            schedules: eventData.schedules || '',
-            sponsors: eventData.sponsors || '',
-            additional_fields: eventData.additional_fields || '',
-            media: eventData.media || '',
-            venue_location: eventData.venue_location || '',
-            country: eventData.venue_location.country || '',
-            venue_name: eventData.venue_location?.venue_name || '',
-            city: eventData.venue_location?.city || '',
-            building_name: eventData.venue_location?.building_name || '',
-            room_name: eventData.venue_location?.room_name || '',
-            room_number: eventData.venue_location?.room_number || '',
-            full_address: eventData.venue_location?.full_address || '',
-            street: eventData.venue_location?.street || '',
-            social_media: eventData.social_media || '',
-            options: eventData.options || '',             
+            description: eventData.description || 'null',
+            contact_name,
+            contact_phone,
+            contact_email,
+            types: eventData.types || [],
+            keywords: transformedKeywords,
+            schedules: eventData.schedules || [],
+            sponsors, // Use the sponsors array with default values for name and url
+            additional_fields: eventData.additional_fields || [],
+            media: eventData.media || [],
+            venue_location: eventData.venue_location || {},
+            country: eventData.venue_location?.country || 'null',
+            venue_name: eventData.venue_location?.venue_name || 'null',
+            city: eventData.venue_location?.city || 'null',
+            building_name: eventData.venue_location?.building_name || 'null',
+            room_name: eventData.venue_location?.room_name || 'null',
+            room_number: eventData.venue_location?.room_number || 'null',
+            full_address: eventData.venue_location?.full_address || 'null',
+            street: eventData.venue_location?.street || 'null',
+            social_media: eventData.social_media || {},
+            options: eventData.options || {},
         });
-        
+
+        console.log("Updated Input Values:", inputValues);
     };
 
     // Observe changes to inputValues
     useEffect(() => {
         setIsClientSide(true);
+        console.log("Data in edit", inputValues)
     }, []);
 
     // Add the return statement for your component's JSX
@@ -397,8 +425,192 @@ const EditEvent = () => {
               </>
               ))
 
+            case "Contact Person":
+                const contactPersonFields = categories["Contact Person"];
+                if (!contactPersonFields) return <p>Contact Person not found</p>;
 
-              
+                return contactPersonFields.map((title, index) => (
+                    <div key={`${selectedCategory}-${index}`} className="input-group">
+                        <label>{title}</label>
+                        {title === "Contact Phone" ? (
+
+                            <PhoneInput
+                                style={{marginTop:0, marginLeft: 0, borderRadius: 10, backgroundColor: "#3b3b3b", border: "1px solid #cccccc", minWidth:'100%'}}
+
+
+                                value={inputValues.contact_phone || 'null'}
+                                onChange={(value) => handleInputChange({ target: { value } }, title)}
+                            />
+
+
+
+                        ) : (
+                            <input
+                                key={`${selectedCategory}-${title}`}
+                                type="text"
+
+                                value={inputValues[title] || 'null'}
+                                onChange={(e) => handleInputChange(e, title)}
+                                style={{backgroundColor: "#3b3b3b"}}
+                            />
+                        )}
+                    </div>
+                ));
+            case "Event Sponsor":
+                const handleAddElements = () => {
+                    setElements(prevElements => {
+                        const newElements = [...prevElements];
+                        newElements.unshift({ id: nextId });
+                        setNextId(prevNextId => prevNextId + 1);  // Functional update
+                        return newElements;
+                    });
+                };
+                const handleSponsorInputChange = (id, field, value) => {
+                    setElements(prevElements => prevElements.map(element =>
+                        element.id === id
+                            ? { ...element, [field]: value }
+                            : element
+                    ));
+                    console.log(elements)
+                };
+                const handleRemoveElement = (id) => {
+                    console.log('Removing element with id:', id);  // Log the id value
+                    setElements(prevElements => prevElements.filter(element => element.id !== id));
+                }
+
+                const isSingleEventSponsorValid = (element) => {
+                    return element.sponsorName && element.sponsorURL;
+                }
+
+                const handleSaveAndAdd = (id) => {
+                    // if(!isEventSponsorValid()){
+                    //   toast.error("Please fill in all the fields")
+
+                    // } else {
+
+                    handleAddElements();
+                    createEventSponsor(elements)
+                    // }
+                }
+                const handleEventSponsorFileUpload = (file) => {
+                    // Handle the file upload for Event Sponsor
+                    setEventSponsorData({ file: file, preview: URL.createObjectURL(file) });
+                };
+                const isEventSponsorValid = () => {
+                    return eventSponsorData.file !== null && elements.every(element => element.sponsorName && element.sponsorURL);
+                };
+                console.log("Data before event sponsor", inputValues)
+                console.log("Data in event sponsors", inputValues.sponsors)
+                return (
+                    <div>
+                        {inputValues.sponsors.length === 0 ? (
+                            <div className='uploadZones'>
+                                <FileUploadComponent onFileUpload={handleEventSponsorFileUpload} />
+
+                                <div style={{marginTop:'60px'}}>
+                                    <input
+                                        type="text"
+                                        placeholder="Sponsor Name"
+                                        style={{marginTop: 20, width: "145%", backgroundColor: "#3b3b3b"}}
+                                        value={''} // Empty value for new sponsor
+                                        onChange={e => handleSponsorInputChange('sponsorName', e.target.value)}
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Sponsor URL"
+                                        style={{marginTop: 30, width: "145%", backgroundColor:"#3b3b3b"}}
+                                        value={''} // Empty value for new sponsor
+                                        onChange={e => handleSponsorInputChange('sponsorURL', e.target.value)}
+                                    />
+                                </div>
+                                <button className='userProfileButton' onClick={handleSaveAndAdd}>Add Sponsor</button>
+                            </div>
+                        ) : (
+                            inputValues.sponsors.map((element, index) => (
+                                <div key={element.id} className='uploadZones'>
+                                    <FileUploadComponent onFileUpload={handleEventSponsorFileUpload} />
+
+                                    <div style={{marginTop:'60px'}}>
+                                        <input
+                                            type="text"
+
+                                            style={{marginTop: 20, width: "145%", backgroundColor: "#3b3b3b"}}
+                                            value={element.name || ''}
+                                            onChange={e => handleSponsorInputChange(element.id, 'sponsorName', e.target.value)}
+                                        />
+                                        <input
+                                            type="text"
+
+                                            style={{marginTop: 30, width: "145%", backgroundColor:"#3b3b3b"}}
+                                            value={element.url || ''}
+                                            onChange={e => handleSponsorInputChange(element.id, 'sponsorURL', e.target.value)}
+                                        />
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection:'column' ,justifyContent: 'flex-end', gap: 3, marginBottom:30, marginLeft: 60 }}>
+                                        <button className='userProfileButton' style={{marginLeft: 0, width: 160}} onClick={() => handleSaveAndAdd(element.id)}><a style={{marginLeft:62}}>Save</a></button>
+                                        {index !== 0 && (
+                                            <button
+                                                disabled={!isSingleEventSponsorValid(element)}
+                                                className='userProfileButton'
+                                                style={{marginLeft: 0, width: 160}}
+                                                onClick={() => handleRemoveElement(element.id)}
+                                            >
+                                                <a style={{marginLeft:60}}>Delete</a>
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            ))
+                        )}
+
+
+
+
+                        {eventSponsorData.preview && (
+                            <>
+                                <a style={{marginTop: '30px'}}>Uploaded Image Preview</a>
+                                <div style={{marginLeft:'50px'}}className="file-preview">
+                                    <img src={eventSponsorData.preview} alt="Uploaded File Preview" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                                </div>
+                            </>
+                        )}
+                    </div>
+                );
+            case "Promotional Video and Images":
+                const mediaItems = [...Array(6)].map((_, index) =>
+                    inputValues.media && inputValues.media[index] ? inputValues.media[index] : {}
+                );
+
+                // Chunk mediaItems into pairs
+                const chunkedMediaItems = [];
+                for (let i = 0; i < mediaItems.length; i += 2) {
+                    chunkedMediaItems.push(mediaItems.slice(i, i + 2));
+                }
+
+                return (
+                    <div>
+                        {chunkedMediaItems.map((pair, rowIndex) => (
+                            <div className="row" key={rowIndex} style={{ display: 'flex', marginTop: '40px' }}>
+                                {pair.map((fileData, index) => (
+                                    <PromotionalVideosAndImages
+                                        key={rowIndex * 2 + index} // Unique key for each component
+                                        fileData={fileData}
+                                        onFileChange={(file) => handleMediaFileChange(file, rowIndex * 2 + index)}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                );
+
+            case "Event Schedule":
+                return (
+                    <>
+                        <Scheduler schedules={scheduleData} />
+                    </>
+                );
+
+
         }
        })()}
 
@@ -434,7 +646,7 @@ const EditEvent = () => {
         .category-list {
           flex: 1;
           margin-right: 20px;
-          height: 700px
+          height: 700px;
           position: sticky;
           top: 0;
           overflow-x: hidden;  // Prevent horizontal scrolling

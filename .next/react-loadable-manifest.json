@@ -1,16 +1,4 @@
 {
-  "..\\Components\\ckEditor.jsx -> @ckeditor/ckeditor5-build-classic": {
-    "id": "..\\Components\\ckEditor.jsx -> @ckeditor/ckeditor5-build-classic",
-    "files": [
-      "static/chunks/node_modules_ckeditor_ckeditor5-build-classic_build_ckeditor_js.js"
-    ]
-  },
-  "..\\Components\\ckEditor.jsx -> @ckeditor/ckeditor5-react": {
-    "id": "..\\Components\\ckEditor.jsx -> @ckeditor/ckeditor5-react",
-    "files": [
-      "static/chunks/node_modules_ckeditor_ckeditor5-react_dist_index_js.js"
-    ]
-  },
   "..\\Components\\oldEventCalendar.jsx -> dhtmlx-scheduler": {
     "id": "..\\Components\\oldEventCalendar.jsx -> dhtmlx-scheduler",
     "files": [

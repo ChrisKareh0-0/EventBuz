@@ -3,7 +3,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useRouter } from 'next/router'; // Import useRouter for navigation
-
+import styles from '../styles/homeScreenCalendar.module.css'
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = () => {
@@ -29,14 +29,14 @@ const MyCalendar = () => {
                 className="customEvent"
                 onClick={() => router.push(event.url)} // Navigate to the event's URL on click
             >
-                <img src={event.image} alt={event.title} />
+                <img width={300} src={event.image} alt={event.title} />
 
             </div>
         );
     };
 
     return (
-        <div style={{ height: '800px' }}>
+        <div style={{ height: '900px' }}>
             <Calendar
                 localizer={localizer}
                 events={events}

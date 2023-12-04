@@ -5,7 +5,8 @@ import { setSponsorPicture } from '@/Redux/slice'
 
 export default function PromotionalVideosAndImages({ fileData, onFileChange }) {
     const [isDragActive, setIsDragActive] = useState(false)
-    const [filePreview, setFilePreview] = useState(null)
+    const [filePreview, setFilePreview] = useState(fileData.preview); // Initialize with passed preview
+
     const fileInputRef = useRef(null)
     
 
@@ -55,8 +56,8 @@ export default function PromotionalVideosAndImages({ fileData, onFileChange }) {
             onDrop={handleDrop}
             onClick={() => fileInputRef.current.click()} // Trigger hidden file input click on dropzone click
         >
-            {fileData.preview ? (
-                <img src={fileData.preview} alt="Uploaded Preview" className={styles.previewImage} />
+            {fileData.preview || filePreview ? (
+                <img src={filePreview ||fileData.preview} alt="Uploaded Preview" className={styles.previewImage} />
             ) : (
                 <p style={{marginTop: 50, marginLeft: 70}}>Drag & drop a file or click to select one</p>
             )}
