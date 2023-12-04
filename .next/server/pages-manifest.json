@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/myEvents": "pages/myEvents.js",
-  "/createEvent": "pages/createEvent.js",
-  "/editEvent": "pages/editEvent.js"
+  "/editEvent": "pages/editEvent.js",
+  "/createEvent": "pages/createEvent.js"
 }

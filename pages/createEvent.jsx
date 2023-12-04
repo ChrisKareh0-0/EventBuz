@@ -503,7 +503,7 @@ const saveStateToLocalStorage = () => {
 
 
   const nextCategory = () => {
-    setInputValues({});
+
 
     const categoryKeys = Object.keys(categories);
     const currentIndex = categoryKeys.indexOf(selectedCategory);
@@ -587,7 +587,7 @@ const removeTicketField = (index) => {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    setInputValues({})
+
   }
   const handleAddField = () => {
     setTicketFields([...ticketFields, { name: '', price: '', number_of_tickets: '' }]);
@@ -802,7 +802,7 @@ const rows = files.reduce((acc, current, index) => {
                       <>
                         <a>Booking Type</a>
                         <Select 
-                        placeholder="Pick your booking type"
+
                           options={[
                             { value: 'Url', label: 'Url' },
                             { value: 'Call', label: 'Call' },
@@ -812,7 +812,7 @@ const rows = files.reduce((acc, current, index) => {
                           onChange={handleBookingTypeChange}
                           styles={selectStyles}
                         />
-                        <input type="number" placeholder="Max Number of orders" value={numberOfOrders} style={{backgroundColor: "#3b3b3b"}}  onChange={(e) => setMaxNbReservations(e.target.value)}/>
+                        <input type="number" value={numberOfOrders} style={{backgroundColor: "#3b3b3b"}}  onChange={(e) => setMaxNbReservations(e.target.value)}/>
                         
                         <a>Currency</a>
                         <Select 
@@ -834,21 +834,21 @@ const rows = files.reduce((acc, current, index) => {
                                 <FontAwesomeIcon icon={faTrashAlt} onClick={() => removeTicketField(idx)} style={{ color: 'red', fontSize: '15px', marginTop: 23 }} />
                                 <input 
                                     type="text" 
-                                    placeholder="Category Name" 
+
                                     value={field.categoryName} 
                                     onChange={(e) => handleTicketInputChange(idx, 'name', e)}
                                     style={{backgroundColor: "#3b3b3b"}}
                                 />
                                 <input 
                                     type="number" 
-                                    placeholder="Price" 
+
                                     value={field.price} 
                                     onChange={(e) => handleTicketInputChange(idx, 'price', e)}
                                     style={{backgroundColor: "#3b3b3b"}}
                                 />
                                 <input 
                                     type="number" 
-                                    placeholder="NB Reservations" 
+
                                     value={field.nbReservations} 
                                     onChange={(e) => handleTicketInputChange(idx, 'number_of_tickets', e)}
                                     style={{backgroundColor: "#3b3b3b"}}
@@ -889,7 +889,7 @@ const rows = files.reduce((acc, current, index) => {
                                 <div key={index} style={{ marginBottom: '10px', display:"flex" }}>
                                     <input
                                         type="text"
-                                        placeholder="Website"
+
                                         value={website.value}
                                         onChange={(e) => handleWebsiteInputChange(index, e)}
                                         style={{backgroundColor: "#3b3b3b"}}
@@ -914,7 +914,7 @@ const rows = files.reduce((acc, current, index) => {
                         <div className='inputCell' key={index} style={{ marginBottom: '10px', display:"flex" }}>
                           
                           <PhoneInput
-                            placeholder = "Enter Phone Number"
+
                             value={phone}
                             onChange={(eventOrValue) => handlePhoneInputChange(index, eventOrValue)}
                             style={{ padding: '10px', width: '300px', marginRight: '10px' }}
@@ -930,7 +930,7 @@ const rows = files.reduce((acc, current, index) => {
                     )}
                     <input 
                         type="text" 
-                        placeholder="Tag Line" 
+
                         onChange={(e) => handleInputChange(e, 'tag_line')}
                         style={{backgroundColor: "#3b3b3b", marginTop: 90}}
                     />
@@ -989,6 +989,7 @@ const rows = files.reduce((acc, current, index) => {
                   {title == "keyword" ? (
                     <CreatableSelect 
                     key={`${selectedCategory}-${title}`}
+                    value={keywords.filter(option => inputValues[title] && JSON.parse(inputValues[title]).includes(option.value))}
 
                     isMulti options={keywords}  
                     onChange={(selectedOptions) => {
@@ -1006,7 +1007,9 @@ const rows = files.reduce((acc, current, index) => {
                     
                     <Select 
                       key={`${selectedCategory}-${title}`}
-                      options={listTypes} 
+                      options={listTypes}
+                      value={listTypes.filter(option => inputValues[title] && inputValues[title].includes(option.value))}
+
                       isMulti  
                       onChange={(selectedOptions) => {
                         const syntheticEvent = {
@@ -1022,7 +1025,7 @@ const rows = files.reduce((acc, current, index) => {
                     <input 
                       key={`${selectedCategory}-${title}`}
                       type="text" 
-                      placeholder={`Enter ${title}`} 
+
                       value={inputValues[title] || ''}
                       onChange={(e) => handleInputChange(e, title)}
                       style={{backgroundColor: "#3b3b3b"}}
@@ -1088,14 +1091,14 @@ const rows = files.reduce((acc, current, index) => {
                         <div style={{marginTop:'60px'}}>
                           <input
                             type="text"
-                            placeholder='Sponsor Name'
+
                             style={{marginTop: 20, width: "145%", backgroundColor: "#3b3b3b"}}
                             value={element.sponsorName || ''}
                             onChange={e => handleSponsorInputChange(element.id, 'sponsorName', e.target.value)}
                           />
                           <input
                             type="text"
-                            placeholder='Sponsor URL'
+
                             style={{marginTop: 30, width: "145%", backgroundColor:"#3b3b3b"}}
                             value={element.sponsorURL || ''}
                             onChange={e => handleSponsorInputChange(element.id, 'sponsorURL', e.target.value)}
@@ -1153,7 +1156,7 @@ const rows = files.reduce((acc, current, index) => {
 
 
                         {title != "country" && (
-                              <input style={{color: "#FFF", backgroundColor:"#3b3b3b"}} type="text" placeholder={title} value={inputValues[title] || ''}
+                              <input style={{color: "#FFF", backgroundColor:"#3b3b3b"}} type="text" value={inputValues[title] || ''}
                               onChange={(e) => handleInputChange(e, title)}/>
                         )}
                       </div>
@@ -1172,7 +1175,7 @@ const rows = files.reduce((acc, current, index) => {
  
                             <PhoneInput
                                 style={{marginTop:0, marginLeft: 0, borderRadius: 10, backgroundColor: "#3b3b3b", border: "1px solid #cccccc", minWidth:'100%'}}
-                                placeholder="Enter phone number"
+
                                 
                                 value={inputValues[title] || ''}
                                 onChange={(value) => handleInputChange({ target: { value } }, title)}
@@ -1184,7 +1187,7 @@ const rows = files.reduce((acc, current, index) => {
                             <input
                               key={`${selectedCategory}-${title}`}
                               type="text"
-                              placeholder={`Enter ${title}`}
+
                               value={inputValues[title] || ''}
                               onChange={(e) => handleInputChange(e, title)}
                               style={{backgroundColor: "#3b3b3b"}}
@@ -1198,7 +1201,7 @@ const rows = files.reduce((acc, current, index) => {
               getCategoryFields(selectedCategory).map((field, index) => (
                 <div key={index} className="input-group" style={{backgroundColor: "#2a2b2e"}}>
                   <label>{field}</label>
-                  <input type="text" placeholder={field} value={inputValues[field] || ''}
+                  <input type="text" value={inputValues[field] || ''}
                               onChange={(e) => handleInputChange(e, field)} 
                               style={{backgroundColor: "#3b3b3b"}}/>
                 </div>
