@@ -237,6 +237,7 @@ const createEvent = async (inputValue, onError) => {
     const axios = require('axios');
     const Token = localStorage.getItem('access_Token')
     console.log("TOKEN in verifyEmail Function", Token)
+
     
     //send via parameter the inputValue 
 
@@ -256,7 +257,7 @@ let config = {
 
 axios.request(config)
 .then((response) => {
-  console.log(JSON.stringify(response.data));
+  console.log("EVENT'S DATA",response.data);
   localStorage.setItem('createEvent_ID', response.data.data.id)
     toast.success("General Information Saved")
 })
@@ -300,7 +301,38 @@ const createEventContact = async(inputValue, onError) => {
     })
 }
 
+const createEventMedia = (media) => {
+    const axios = require('axios');
+    const createEvent_ID = localStorage.getItem('createEvent_ID')
+    const Token = localStorage.getItem('access_Token')
 
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://jonathana74.sg-host.com/event-buz-backend/api/v1/upload-event-media',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer '+Token,
+
+        },
+        data : {
+            event_id: createEvent_ID,
+            event_main_photo: media[0],
+            event_main_video: media[1],
+            event_additional_photo1: media[2],
+        }
+    };
+
+    axios.request(config)
+        .then((response) => {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch((error) => {
+            console.log(error);
+            toast.error(error.response.data.message)
+        });
+}
 
 const createEventSocial = async(inputValue, onError) => {
     const axios = require('axios');
@@ -363,4 +395,4 @@ const getListofCurrencies = async() => {
     
 }
 
-export {registerEmail,  resendVerificationCode, verifyEmail, SendSMS, organizationTypeList, subscriptionsData, createEvent, createEventContact, createEventSocial, registerEmailOrganizer, getListofCurrencies}
+export {registerEmail,  resendVerificationCode, verifyEmail, SendSMS, organizationTypeList, subscriptionsData, createEvent, createEventContact, createEventSocial, registerEmailOrganizer, getListofCurrencies, createEventMedia}

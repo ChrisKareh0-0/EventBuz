@@ -6,7 +6,13 @@ import 'react-phone-number-input/style.css'
 import PromotionalVideosAndImages from '@/Components/PromotionalVideos&Images';
 import { useEffect } from 'react';
 import CreatableSelect from 'react-select/creatable';
-import { createEventContact, createEventOptions, createEventSocial, getListofCurrencies } from './api/auth/APICalls';
+import {
+  createEventContact,
+  createEventMedia,
+  createEventOptions,
+  createEventSocial,
+  getListofCurrencies
+} from './api/auth/APICalls';
 import PhoneInput from 'react-phone-number-input'
 // import ListOfCountries from './api/auth/ListOfCountries';
 import { createEvent } from './api/auth/APICalls';
@@ -482,7 +488,10 @@ const saveStateToLocalStorage = () => {
       case "Additional Fields":
         createAdditionalFields()
         break;
-        
+      case "Promotional Video and Images":
+        createEventMedia(files)
+        break;
+
     }
 
   }
@@ -833,8 +842,7 @@ const rows = files.reduce((acc, current, index) => {
                             <div key={idx} className="ticket-field-row">
                                 <FontAwesomeIcon icon={faTrashAlt} onClick={() => removeTicketField(idx)} style={{ color: 'red', fontSize: '15px', marginTop: 23 }} />
                                 <input 
-                                    type="text" 
-
+                                    type="text"
                                     value={field.categoryName} 
                                     onChange={(e) => handleTicketInputChange(idx, 'name', e)}
                                     style={{backgroundColor: "#3b3b3b"}}

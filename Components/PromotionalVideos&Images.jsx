@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import {useState, useRef, useEffect} from 'react'
 import styles from '../styles/DragDropUpload.module.css'
 import { Store } from '@/Redux/store'
 import { setSponsorPicture } from '@/Redux/slice'
@@ -8,8 +8,12 @@ export default function PromotionalVideosAndImages({ fileData, onFileChange }) {
     const [filePreview, setFilePreview] = useState(fileData.preview); // Initialize with passed preview
 
     const fileInputRef = useRef(null)
-    
 
+    useEffect(() => {
+        if(fileData && fileData.url){
+            setFilePreview(fileData.url)
+        }
+    }, [fileData]);
 
     const handleDragOver = (event) => {
         event.preventDefault();
@@ -32,19 +36,20 @@ export default function PromotionalVideosAndImages({ fileData, onFileChange }) {
        }
     }
 
-    const processFile = (file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            onFileChange(file, reader.result);  // Call the handler from the parent component
-        }
-        reader.readAsDataURL(file);
-    }
-
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            onFileChange(file); // Call the handler from the parent component
+            processFile(file);
         }
+    };
+
+    const processFile = (file) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setFilePreview(reader.result); // Update local state for preview
+            onFileChange(file, reader.result); // Update parent component
+        };
+        reader.readAsDataURL(file);
     };
 
     return (

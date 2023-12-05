@@ -33,7 +33,8 @@ const Home = () => {
         containScroll: 'keepSnaps',
         dragFree: true
       })
-      const username = useSelector(state => state.data.username)
+    const Token = localStorage.getItem('access_Token')
+    const username = useSelector(state => state.data.username)
 
       useEffect(() => {
         // When the component mounts
@@ -47,7 +48,7 @@ const Home = () => {
         let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/get-events/all',
+        url: 'https://stageeventbuz.online/api/v1/events/all',
         headers: { 
             'Accept': 'application/json', 
             'Content-Type': 'application/json'
@@ -110,7 +111,8 @@ const Home = () => {
 
     return(
         <>
-            <Header/>
+
+            {Token ? <HeaderSignIn /> : <Header />}  // Conditional rendering based on Token
             <div className="Home" style={{paddingTop: 90}}> 
                 <div className="top-left">
                     <HorizontalCaroussel slides={SLIDES} options={{}} />

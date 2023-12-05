@@ -308,9 +308,16 @@ const EditEvent = () => {
             url: sponsor.url || ''
         })) : [];
 
-        setInputValues(eventData.media && eventData.media.length > 0
-            ? eventData.media
-            : Array(6).fill({})); // Creates an array with 6 empty objects
+        const media = [
+            { id: eventData.media.event_main_photo?.id || null, url: eventData.media.event_main_photo?.url || null },
+            { id: eventData.media.event_additional_photo1?.id || null, url: eventData.media.event_additional_photo1?.url || null },
+            { id: eventData.media.event_additional_photo2?.id || null, url: eventData.media.event_additional_photo2?.url || null },
+            { id: eventData.media.event_additional_photo3?.id || null, url: eventData.media.event_additional_photo3?.url || null },
+            { id: eventData.media.event_additional_photo4?.id || null, url: eventData.media.event_additional_photo4?.url || null },
+            { id: eventData.media.event_main_video?.id || null, url: eventData.media.event_main_video?.url || null }
+        ];
+
+
 
         setInputValues({
             name: eventData.name || 'null',
@@ -325,7 +332,7 @@ const EditEvent = () => {
             schedules: eventData.schedules || [],
             sponsors, // Use the sponsors array with default values for name and url
             additional_fields: eventData.additional_fields || [],
-            media: eventData.media || [],
+            media: media,
             venue_location: eventData.venue_location || {},
             country: eventData.venue_location?.country || 'null',
             venue_name: eventData.venue_location?.venue_name || 'null',
@@ -619,18 +626,26 @@ const EditEvent = () => {
                     chunkedMediaItems.push(mediaItems.slice(i, i + 2));
                 }
 
+                const handleMediaFileChange = (file, index) => {
+                    if (Array.isArray(inputValues.media)) {
+                        const updatedMedia = [...inputValues.media];
+                        updatedMedia[index] = { ...updatedMedia[index], file, preview: URL.createObjectURL(file) };
+                        setInputValues({ ...inputValues, media: updatedMedia });
+                    } else {
+                        // Handle the case where media is not an array
+                        console.error('inputValues.media is not an array');
+                    }
+                };
+
+
                 return (
                     <div>
-                        {chunkedMediaItems.map((pair, rowIndex) => (
-                            <div className="row" key={rowIndex} style={{ display: 'flex', marginTop: '40px' }}>
-                                {pair.map((fileData, index) => (
-                                    <PromotionalVideosAndImages
-                                        key={rowIndex * 2 + index} // Unique key for each component
-                                        fileData={fileData}
-                                        onFileChange={(file) => handleMediaFileChange(file, rowIndex * 2 + index)}
-                                    />
-                                ))}
-                            </div>
+                        {Array.isArray(inputValues.media) && inputValues.media.map((fileData, index) => (
+                            <PromotionalVideosAndImages
+                                key={index}
+                                fileData={fileData}
+                                onFileChange={(file, preview) => handleMediaFileChange(file, index)}
+                            />
                         ))}
                     </div>
                 );
