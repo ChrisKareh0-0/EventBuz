@@ -4,7 +4,7 @@ const SecondaryHeader = () => {
     const router = useRouter();
 
     return (
-        <div className="secondary-et-hero-tabs-container">
+        <div style={{top: 90}} className="secondary-et-hero-tabs-container">
 
             <a className="secondary-et-hero-tab" href="#tab-es6">My Panel</a>
             <a className="secondary-et-hero-tab" onClick={() => router.push('/userProfile')}>My Profile</a>

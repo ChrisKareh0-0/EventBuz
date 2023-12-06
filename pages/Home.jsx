@@ -2,7 +2,7 @@ import Header from "@/Components/Header";
 import HorizontalCaroussel from "@/Components/HorizontalCaroussel";
 import useEmblaCarousel from 'embla-carousel-react'
 import imageByIndex from '../functions/imageByIndex'
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Thumb } from '../Components/VerticalThumbSlider'
 import Autoplay from 'embla-carousel-autoplay'
 import FullCalendar from '@fullcalendar/react'
@@ -15,6 +15,10 @@ import { Store } from "@/Redux/store";
 import { setusername } from "@/Redux/slice";
 import { registerEmail } from "./api/auth/APICalls";
 import { useSelector } from "react-redux";
+import RestaurantCard from "@/Components/cardDescription";
+import HeaderSignedIn from "@/Components/HeaderSignedIn";
+import SecondaryHeader from "@/Components/SecondaryHeader";
+
 
 const Home = () => {
 
@@ -31,9 +35,10 @@ const Home = () => {
     const [emblaMainRef, emblaMainApi] = useEmblaCarousel(OPTIONS, [Autoplay()])
     const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
         containScroll: 'keepSnaps',
-        dragFree: true
+        dragFree: true,
+        axis: 'y'
       })
-    const Token = localStorage.getItem('access_Token')
+
     const username = useSelector(state => state.data.username)
 
       useEffect(() => {
@@ -52,7 +57,7 @@ const Home = () => {
         headers: { 
             'Accept': 'application/json', 
             'Content-Type': 'application/json'
-        }
+            }
         };
 
         axios.request(config)
@@ -104,52 +109,99 @@ const Home = () => {
               </>
             );
           };
-     
-        
 
-   
+    const events = [
+        {
+            "id": 1,
+            "title": "Massaya Zaman",
+            "countryCode": "LB",
+            "phoneNumber": "+9616665802",
+            "locationText": "Beirut, Lebanon",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 2,
+            "title": "La Petite Maison",
+            "countryCode": "FR",
+            "phoneNumber": "+33170360050",
+            "locationText": "Paris, France",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 3,
+            "title": "Pizzeria Bianco",
+            "countryCode": "US",
+            "phoneNumber": "+16022620200",
+            "locationText": "Phoenix, AZ, USA",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 4,
+            "title": "Din Tai Fung",
+            "countryCode": "TW",
+            "phoneNumber": "+886277381066",
+            "locationText": "Taipei, Taiwan",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 5,
+            "title": "Gaggan",
+            "countryCode": "TH",
+            "phoneNumber": "+6626521700",
+            "locationText": "Bangkok, Thailand",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        }
+    ]
+
+    const Token = typeof window !== "undefined" ? localStorage.getItem('access_Token') : null;
 
     return(
         <>
 
-            {Token ? <HeaderSignIn /> : <Header />}  // Conditional rendering based on Token
-            <div className="Home" style={{paddingTop: 90}}> 
-                <div className="top-left">
-                    <HorizontalCaroussel slides={SLIDES} options={{}} />
+            {Token ? <HeaderSignedIn /> : <Header />}  // Conditional rendering based on Token
+            {Token && <SecondaryHeader /> }
+            <div className="Home" >
+                <div className="top-left" >
+                    <HorizontalCaroussel slides={events} options={{}} />
                 </div>
 
                 <div className="top-right">
-                    <div className="emblaV">
+                    <div className="emblaV" style={{marginTop: '15px'}}>
                         <div className="embla__viewportV" ref={emblaMainRef}>
                             <div className="embla__containerV">
-                                {SLIDES.map((index) => (
-                                    <div className="embla__slideV" key={index}>
+                                {events.map((event,index) => (
+                                    <div className="embla__slideV" >
                                             <div className="embla__slide__numberV">
                                             <span>{index + 1}</span>
                                             </div>
-                                            <img
-                                            className="embla__slide__imgV"
-                                            src={imageByIndex(index)}
-                                            alt="Your alt text"
+
+                                            <RestaurantCard
+                                                key={event.id}
+                                                countryCode={event.countryCode}
+                                                title={event.title}
+                                                phoneNumber={event.phoneNumber}
+                                                locationText={event.locationText}
+                                                imageUrl={event.imageUrl} // Pass the image URL to the card
                                             />
+                                        
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </div>
 
-                    <div className="embla-thumbs">
+                    <div className="embla-thumbs" style={{marginTop: '20px'}}>
                         <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
                             <div className="embla-thumbs__container">
-                                {SLIDES.map((index) => (
+                                {events.map((event,index) => (
                                 <Thumb
                                     onClick={() => onThumbClick(index)}
                                     selected={index === selectedIndex}
                                     index={index}
-                                    imgSrc={imageByIndex(index)}
+                                    imgSrc={event.imageUrl}
                                     key={index}
                                 />
-                                
+
                                 ))}
                             </div>
                         </div>
@@ -173,18 +225,23 @@ const Home = () => {
                     <div className="embla2">
                         <div className="embla__viewport2" ref={emblaRef3}>
                             <div className="embla__container2">
-                            {SLIDES.map((index) => (
-                                <div className="embla__slide2" key={index}>
-                                <div className="embla__slide__number2">
-                                    <span>{index + 1}</span>
-                                </div>
-                                <img
-                                    className="embla__slide__img2"
-                                    src={imageByIndex(index)}
-                                    alt="Your alt text"
-                                />
-                                </div>
-                            ))}
+                                {events.map((event,index) => (
+                                    <div className="embla__slideV" >
+                                        <div className="embla__slide__numberV">
+                                            <span>{index + 1}</span>
+                                        </div>
+
+                                        <RestaurantCard
+                                            key={event.id}
+                                            countryCode={event.countryCode}
+                                            title={event.title}
+                                            phoneNumber={event.phoneNumber}
+                                            locationText={event.locationText}
+                                            imageUrl={event.imageUrl} // Pass the image URL to the card
+                                        />
+
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -192,18 +249,23 @@ const Home = () => {
                     <div className="embla3">
                         <div className="embla__viewport3" ref={emblaRef2}>
                             <div className="embla__container3">
-                            {SLIDES.map((index) => (
-                                <div className="embla__slide3" key={index}>
-                                <div className="embla__slide__number3">
-                                    <span>{index + 1}</span>
-                                </div>
-                                <img
-                                    className="embla__slide__img3"
-                                    src={imageByIndex(index)}
-                                    alt="Your alt text"
-                                />
-                                </div>
-                            ))}
+                                {events.map((event,index) => (
+                                    <div className="embla__slideV" >
+                                        <div className="embla__slide__numberV">
+                                            <span>{index + 1}</span>
+                                        </div>
+
+                                        <RestaurantCard
+                                            key={event.id}
+                                            countryCode={event.countryCode}
+                                            title={event.title}
+                                            phoneNumber={event.phoneNumber}
+                                            locationText={event.locationText}
+                                            imageUrl={event.imageUrl} // Pass the image URL to the card
+                                        />
+
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>

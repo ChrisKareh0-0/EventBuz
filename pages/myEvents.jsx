@@ -65,24 +65,30 @@ const myEvents = () => {
     }, []);
 
     const getEvents = () => {
+        const axios = require('axios');
+        const Token = localStorage.getItem('access_Token')
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'https://stageeventbuz.online/api/v1/events/all',
-            headers: { 
-              'Accept': 'application/json', 
-              'Content-Type': 'application/json'
-            }
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            console.log(response.data.data);
-            setEvents(response.data.data)
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+            url: 'https://stageeventbuz.online/api/v1/events/get-user-events',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+Token,
+
+            },
+
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(response.data);
+                setEvents(response.data.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
 
     const styles = {

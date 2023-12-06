@@ -1679,7 +1679,9 @@ body.nav-active .nav__list-item:nth-child(10) {
 .embla {
   --slide-spacing: 1rem;
   --slide-size: 100%;
-  --slide-height: 22.5rem;
+  --carousel-height: 380px;
+
+  height: var(--carousel-height);
   padding: 1.6rem;
 
 }
@@ -1691,16 +1693,18 @@ body.nav-active .nav__list-item:nth-child(10) {
   display: flex;
   touch-action: pan-y;
   margin-left: calc(var(--slide-spacing) * -1);
+  height: var(--carousel-height);
 }
 .embla__slide {
   flex: 0 0 var(--slide-size);
+  height: var(--carousel-height);
   min-width: 0;
   padding-left: var(--slide-spacing);
   position: relative;
 }
 .embla__slide__img {
   display: block;
-  height: var(--slide-height);
+  height: var(--carousel-height);
 
   width: 100%;
   object-fit: cover;
@@ -1762,6 +1766,7 @@ body.nav-active .nav__list-item:nth-child(10) {
   --slide-size: 100%;
   --slide-height: 22.5rem;
   padding: 1.6rem;
+  padding-left: 0.4rem !important;
   width: 60%;
 }
 .embla__viewportV {

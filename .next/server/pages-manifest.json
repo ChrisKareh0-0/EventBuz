@@ -2,8 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/createEvent": "pages/createEvent.js",
-  "/editEvent": "pages/editEvent.js",
-  "/myEvents": "pages/myEvents.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js"
+  "/userProfile": "pages/userProfile.js",
+  "/Home": "pages/Home.js"
 }

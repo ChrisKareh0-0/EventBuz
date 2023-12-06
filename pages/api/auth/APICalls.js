@@ -309,7 +309,7 @@ const createEventMedia = (media) => {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://jonathana74.sg-host.com/event-buz-backend/api/v1/upload-event-media',
+        url: 'https://stageeventbuz.online/api/v1/upload-event-media',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',

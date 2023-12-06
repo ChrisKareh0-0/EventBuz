@@ -25,7 +25,7 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
       <button className="favorite-button" onClick={toggleCheckbox}>
         <FontAwesomeIcon icon={isChecked ? fasHeart : farHeart} />
       </button>
-        <img style={{height: '200px'}} src={imageUrl} alt="Restaurant Image" />
+        <img style={{minHeight: '300px', maxHeight: '500px'}} src={imageUrl} alt="Restaurant Image" />
 
         <ReactCountryFlag
           countryCode={countryCode}// Replace with the appropriate country code
@@ -58,10 +58,11 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
       <style jsx>{`
         .cardDescription {
           position: relative;
-          
           border: 1px solid #ccc;
           border-radius: 8px;
           overflow: hidden;
+          height: 100%; /* Ensure full height */
+          margin-left: 20px;
         }
         .favorite-button {
           position: absolute;
@@ -80,14 +81,16 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
           color: ${isChecked ? 'red' : 'gray'}; // Color changes based on isChecked
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); // Optional: adds a subtle shadow for depth
         }
-        
+
         .card-image {
           position: relative;
           width: 100%;
+          height: 100%; /* Adjust height as necessary */
         }
         img {
           width: 100%;
-          height: auto;
+          height: 100%;
+          object-fit: cover;
         }
         .card-info {
           position: absolute;
@@ -96,7 +99,8 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
           right: 0;
           padding: 16px;
           background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
-          color: white; // optional: change text color for readability
+          color: white;
+          flex-grow: 1;
         }
         .phone-number {
           margin: 8px 0;

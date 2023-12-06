@@ -94,7 +94,10 @@ const EventTable = ({events}) => {
               {/* <th style={styles.th}>Country</th>
               <th style={styles.th}>City</th> */}
               <th style={styles.th}>Schedules</th>
+              <th style={styles.th}>Status</th> {/* New header for status */}
               <th style={styles.th}>Edit</th> {/* New header for edit action */}
+
+
 
             </tr>
           </thead>
@@ -129,13 +132,16 @@ const EventTable = ({events}) => {
                   )}
                 </td>
                 <td style={styles.td}>
+                  {event.status ? event.status.name : 'Unknown'} {/* Displaying the status name */}
+                </td>
+                <td style={styles.td}>
                 <FontAwesomeIcon 
                   icon={faEdit} 
                   style={styles.editIcon}
                   onClick={() => handleEdit(event.id)}
                 />
-                    
                 </td>
+
               </tr>
             ))}
           </tbody>
