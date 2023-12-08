@@ -16,6 +16,15 @@ import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import FieldRow from "@/Components/FieldRow";
 import CKeditor from "@/Components/ckEditor";
 import countryList from "react-select-country-list";
+import HeaderSignedIn from "@/Components/HeaderSignedIn";
+import SecondaryHeader from "@/Components/SecondaryHeader";
+import {
+    createEvent,
+    createEventContact,
+    createEventMedia,
+    createEventSocial,
+    editEvent
+} from "@/pages/api/auth/APICalls";
 
 
 
@@ -34,6 +43,7 @@ const EditEvent = () => {
     const { eventID } = router.query;
     const [isClientSide, setIsClientSide] = useState(false);
     const options = useMemo(() => countryList().getData(), [])
+    const [status, setStatus] = useState('')
 
 //Redux
     const countryRedux = useSelector(state => state.data.countryRedux)
@@ -94,6 +104,7 @@ const EditEvent = () => {
             console.log("[+] EDIT DATA", response.data.data)
             populateFormWithEventData(response.data.data);
             setScheduleData(response.data.data.schedules)
+            setStatus(response.data.data.status.name)
         } catch (error) {
             console.error(error);
             toast.error('Failed to fetch event data');
@@ -204,6 +215,75 @@ const EditEvent = () => {
     const handleMapLoad = () => {
       setLoading(false);  // Set loading to false when the map has loaded
     };
+
+    const nextCategory = () => {
+
+
+        const categoryKeys = Object.keys(categories);
+        const currentIndex = categoryKeys.indexOf(selectedCategory);
+        const nextIndex = (currentIndex + 1) % categoryKeys.length;
+        setSelectedCategory(categoryKeys[nextIndex]);
+    }
+
+    const executeApiCall = () => {
+        switch (selectedCategory){
+            case "General Information":
+                editEvent(inputValues,() => {
+                    setSelectedCategory("General Information")
+                }, eventID);
+                break;
+            case "Venue Location":
+                createEventVenue(inputValues);
+                break;
+            case "Contact Person":
+                createEventContact(inputValues, () => {
+                    setSelectedCategory("Contact Person")
+                })
+                break;
+            case "Social Media":
+                createEventSocial(inputValues, () => {
+                    setSelectedCategory("Social Media")
+                })
+                break;
+            case "Options":
+                createEventOptions(inputValues,() => {
+                    setSelectedCategory('Options')
+                } )
+                break;
+            case "Additional Fields":
+                createAdditionalFields()
+                break;
+            case "Promotional Video and Images":
+                createEventMedia(files)
+                break;
+
+        }
+
+    }
+
+    const publishFunction = () => {
+        const axios = require('axios');
+
+        let config = {
+            method: 'put',
+            maxBodyLength: Infinity,
+            url: 'https://stageeventbuz.online/api/v1/events/13/check-status',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer 45|ZfKnZgQ1glSNu6la08t8oKwSicaqReBcWnezTvY83ca04939'
+            }
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
   
     
     
@@ -362,11 +442,21 @@ const EditEvent = () => {
 
     // Add the return statement for your component's JSX
     return (
+
         <div className="backgroundCreateEvent" style={{minHeight: '200vh'}}>
+            <HeaderSignedIn />
+            <SecondaryHeader />
+            {status == 'Active' ? (
+                <button className="my-custom-button">{status}</button>
+            ) : (
+                <button onClick={()=> {}} className="my-custom-button-changed">{status}</button>
+            )}
+
+
             <div className="container">
 
 
-                <div className="category-list">
+                <div className="category-list" style={{paddingTop: 50}}>
                 {Object.keys(categories).map((category) => (
                     <div
                         key={category}

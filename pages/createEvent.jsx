@@ -585,7 +585,19 @@ const removeWebsiteInput = (index) => {
 };
 
 const addTicketField = () => {
-  setTicketFields([...ticketFields, { name: '', price: '', number_of_tickets: '' }]);
+  // Check if all fields are filled out
+  const allFieldsFilled = ticketFields.every(field => 
+    field.categoryName && field.categoryName.trim() !== '' &&
+    field.price && field.price.toString().trim() !== '' &&
+    field.nbReservations && field.nbReservations.toString().trim() !== ''
+  );
+
+  if (allFieldsFilled) {
+    setTicketFields([...ticketFields, { categoryName: '', price: '', nbReservations: '' }]);
+  } else {
+    // Optionally, show an alert or message to the user
+    toast.error('Please fill out all the existing fields before adding a new one.')
+  }
 };
 const removeTicketField = (index) => {
   const newTicketFields = [...ticketFields];
@@ -759,7 +771,7 @@ const rows = files.reduce((acc, current, index) => {
               
               const removePhoneInput = (indexToRemove) => {
                 const newPhoneInputs = [...phoneInputs];
-                newPhoneInputs.splice(index, 1);
+                newPhoneInputs.splice(indexToRemove, 1);
                 setPhoneInputs(newPhoneInputs);
               };
               const handleCurrencyChange = (selectedOption) => {
@@ -821,6 +833,7 @@ const rows = files.reduce((acc, current, index) => {
                           onChange={handleBookingTypeChange}
                           styles={selectStyles}
                         />
+                        <label><a>Maximum Number of Reservations</a></label>
                         <input type="number" value={numberOfOrders} style={{backgroundColor: "#3b3b3b"}}  onChange={(e) => setMaxNbReservations(e.target.value)}/>
                         
                         <a>Currency</a>
@@ -838,34 +851,51 @@ const rows = files.reduce((acc, current, index) => {
                     {reservations === '1' && bookingType === 'booking_on_eventBuz' && (
                       <>
                         <div style={{width:'100%', height: '10%', marginTop:90}}></div>
-                         {ticketFields.map((field, idx) => (
-                            <div key={idx} className="ticket-field-row">
-                                <FontAwesomeIcon icon={faTrashAlt} onClick={() => removeTicketField(idx)} style={{ color: 'red', fontSize: '15px', marginTop: 23 }} />
-                                <input 
-                                    type="text"
-                                    value={field.categoryName} 
-                                    onChange={(e) => handleTicketInputChange(idx, 'name', e)}
-                                    style={{backgroundColor: "#3b3b3b"}}
-                                />
-                                <input 
-                                    type="number" 
+                        {ticketFields.map((field, idx) => (
+                          <div key={idx} className="ticket-field-row">
+                            <span 
+                            style={{ cursor: 'pointer', position:'absolute', paddingLeft: 20, paddingTop: 50}} 
+                            onClick={() => {
+                              if (ticketFields.length > 1) {
+                                removeTicketField(idx);
+                              }
+                            }}
+                          >
+                            🗑️
+                          </span>
 
-                                    value={field.price} 
-                                    onChange={(e) => handleTicketInputChange(idx, 'price', e)}
-                                    style={{backgroundColor: "#3b3b3b"}}
-                                />
-                                <input 
-                                    type="number" 
-
-                                    value={field.nbReservations} 
-                                    onChange={(e) => handleTicketInputChange(idx, 'number_of_tickets', e)}
-                                    style={{backgroundColor: "#3b3b3b"}}
-                                />
-                                {/* <button classame="userPrfileButton" onClick={() => removeTicketField(idx)}><a>Remove</a></button> */}
-
+                            <div className="input-group">
+                              <label style={{ color: '#FFF' }}>Name</label>
+                              <input 
+                                type="text"
+                                value={field.categoryName} 
+                                onChange={(e) => handleTicketInputChange(idx, 'name', e)}
+                                style={{ backgroundColor: "#3b3b3b" }}
+                              />
                             </div>
+
+                            <div className="input-group">
+                              <label style={{ color: '#FFF' }}>Price</label>
+                              <input 
+                                type="number"
+                                value={field.price} 
+                                onChange={(e) => handleTicketInputChange(idx, 'price', e)}
+                                style={{ backgroundColor: "#3b3b3b" }}
+                              />
+                            </div>
+
+                            <div className="input-group">
+                              <label style={{ color: '#FFF' }}>Number of Tickets</label>
+                              <input 
+                                type="number"
+                                value={field.nbReservations} 
+                                onChange={(e) => handleTicketInputChange(idx, 'number_of_tickets', e)}
+                                style={{ backgroundColor: "#3b3b3b" }}
+                              />
+                            </div>
+                          </div>
                         ))}
-                        <button className="userProfileButton" style={{height: 30, marginLeft: 770, marginTop: 10}} onClick={addTicketField}><a style={{marginLeft: 35}}>Add Ticket Field</a></button>
+                          <button className="userProfileButton" style={{height: 30, marginLeft: 770, marginTop: 10}} onClick={addTicketField}><a style={{marginLeft: 35}}>Add Ticket Field</a></button>
 
                         
                           
@@ -891,57 +921,70 @@ const rows = files.reduce((acc, current, index) => {
                       </>
                     )}
                     {reservations === '1' && bookingType === 'Url' && (
-                      
-                        <>
-                            {websiteData.map((website, index) => (
-                                <div key={index} style={{ marginBottom: '10px', display:"flex" }}>
-                                    <input
-                                        type="text"
-
-                                        value={website.value}
-                                        onChange={(e) => handleWebsiteInputChange(index, e)}
-                                        style={{backgroundColor: "#3b3b3b"}}
-                                    />
-                                    <span 
-                                        style={{ color: 'pink', marginTop: 15, cursor:'pointer' }}  
-                                        onClick={() => removeWebsiteInput(index)}
-                                    >
-                                        🗑️
-                                    </span>
-                                </div>
-                            ))}
-                            <button onClick={addWebsiteField}>+ Add Website</button>
-                        </>
-                    
+  <>
+                        {websiteData.map((website, index) => (
+                          <div key={index} style={{ marginBottom: '10px', display: "flex" }}>
+                            <a style={{ paddingTop: 20 }}>Website</a>
+                            <input
+                              type="text"
+                              value={website.value}
+                              onChange={(e) => handleWebsiteInputChange(index, e)}
+                              style={{ backgroundColor: "#3b3b3b" }}
+                            />
+                            <span 
+                              style={{ color: 'pink', marginTop: 20, cursor: 'pointer' }}  
+                              onClick={() => {
+                                if (websiteData.length > 1) {
+                                  removeWebsiteInput(index);
+                                }
+                              }}
+                            >
+                              🗑️
+                            </span>
+                          </div>
+                        ))}
+                        <button className="userProfileButton" style={{ height: 30, marginLeft: 770, marginTop: 10 }} onClick={addWebsiteField}><a style={{ marginLeft: 45 }}>Add Website</a></button>
+                      </>
                     )}
                     {reservations === '1' && bookingType === 'Call' && (
-                      <div style={{marginLeft: 50, marginTop: 20}}>
-                      <label style={{color: '#FFF', marginLeft:20}}>Phones</label>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                      <div style={{marginLeft: 20, marginTop: 20}}>
+                      <label style={{color: '#FFF'}}>Phones</label>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 50, marginTop: 30 }}>
                       {phoneInputs.map((phone, index) => (
-                        <div className='inputCell' key={index} style={{ marginBottom: '10px', display:"flex" }}>
+                        <div className='inputCell' key={index} style={{ marginBottom: '10px', display: "flex" }}>
                           
                           <PhoneInput
-
                             value={phone}
                             onChange={(eventOrValue) => handlePhoneInputChange(index, eventOrValue)}
-                            style={{ padding: '10px', width: '300px', marginRight: '10px' }}
+                            style={{ marginTop: 0, marginLeft: 0, borderRadius: 10, backgroundColor: "#3b3b3b", border: "1px solid #cccccc", minWidth: '100%' }}
                           />
-                          <span style={{ color: 'pink', marginTop: 15, cursor:'pointer' }}  onClick={() => removePhoneInput(index)} >🗑️</span>
+                          <span 
+                            style={{ color: 'pink', marginTop: 7, cursor: 'pointer', marginLeft: 10 }} 
+                            onClick={() => {
+                              if (phoneInputs.length > 1) {
+                                removePhoneInput(index);
+                              }
+                            }}
+                          >
+                            🗑️
+                          </span>
                         </div>
                       ))}
                       </div>
-                      <button onClick={addPhoneInput} style={{ marginTop: '10px', padding: '10px' }}>
+                      <button className="userProfileButton"  onClick={addPhoneInput} style={{ marginTop: '10px', padding: '10px' }}>
                         + Add New Phone
                       </button>
                     </div>
                     )}
+                    <div>
+                    <a style={{position: 'absolute', paddingTop: 40}}>Tag Line</a>
                     <input 
                         type="text" 
 
                         onChange={(e) => handleInputChange(e, 'tag_line')}
                         style={{backgroundColor: "#3b3b3b", marginTop: 90}}
                     />
+                    </div>
                     <label style={{color:"#FFF", marginTop:20}}>Event Terms & Conditions</label>
                     <CKeditor
                       name="editor1" 
@@ -982,8 +1025,8 @@ const rows = files.reduce((acc, current, index) => {
 
                 />
                 ))}
-                <button onClick={() => setFields([...fields, { id: new Date().getTime(), name: '', type: 'Text', isRequired: false }])}>
-                  + Add Field
+                <button className="userProfileButton" style={{width: 120, height: 30}} onClick={() => setFields([...fields, { id: new Date().getTime(), name: '', type: 'Text', isRequired: false }])}>
+                  <a style={{padding: 20, paddingLeft: 24}}>+ Add Field</a>
                 </button>
               </div>
               );
@@ -1157,16 +1200,30 @@ const rows = files.reduce((acc, current, index) => {
                           renderLoading()
                         ) }
                           {renderMapComponent()}
-                        <label>{title}</label>
-                        {title == "country" && (
-                          <input disabled={true} style={{color: "#FFF", backgroundColor:"#3b3b3b"}} placeholder={countryRedux}/>
-                        )}
+                        
+                        {title === "country" ? (
+                            // Special rendering for 'country' field
+                            <>
+                              <label>{title}</label>
+                              <input 
+                                disabled={true} 
+                                style={{ color: "#FFF", backgroundColor:"#3b3b3b" }} 
+                                placeholder={countryRedux}
+                              />
+                            </>
+                          ) : (
+                            // Rendering for all other fields
+                            <>
+                              <label>{title}</label>
+                              <input 
+                                style={{ color: "#FFF", backgroundColor:"#3b3b3b" }} 
+                                type={title === "room_number" ? "number" : "text"}
+                                value={inputValues[title] || ''}
+                                onChange={(e) => handleInputChange(e, title)}
+                              />
+                            </>
+                          )}
 
-
-                        {title != "country" && (
-                              <input style={{color: "#FFF", backgroundColor:"#3b3b3b"}} type="text" value={inputValues[title] || ''}
-                              onChange={(e) => handleInputChange(e, title)}/>
-                        )}
                       </div>
                       
                     </>
@@ -1306,7 +1363,23 @@ const rows = files.reduce((acc, current, index) => {
           height: 400px;
           border-radius: 10px;
         }
+        .PhoneInput{
+          font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+  font-weight: 500;
+  font-size: 20;
+  text-indent: 5%;
+  color: #fff;
 
+  border-radius: 63px;
+  border: none;
+  outline: none;
+  padding: 0.4vw;
+  width: 380px;
+  height: 40px;
+  transition: .4s;
+  margin-top: 1%;
+  margin-left: 10px;
+        }
        
         
         

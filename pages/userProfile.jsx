@@ -294,9 +294,14 @@ const userProfile = () => {
                             ) : (
                                 <DropdownMenu.Content style={{maxHeight: "80vh", overflowY: "auto" }}>
                                 
-                                    <DropdownMenu.Item >
+                                    <DropdownMenu.Item style={{color: "grey"}}>
                                         No Suppliers
                                     </DropdownMenu.Item>
+                                    <DropdownMenu.Item onClick={() => {
+                                        router.push('/createSupplier')
+                                    }}>
+                                     + Create Supplier
+                                </DropdownMenu.Item>
                             </DropdownMenu.Content>
                         )}
                     </DropdownMenu.Root>
@@ -350,7 +355,7 @@ const userProfile = () => {
                                 alt="Picture"
                                 style={{paddingTop: 130}}
                                 width={954} 
-                                height={432} 
+                                height={232} 
                                 
                             />
                         )}

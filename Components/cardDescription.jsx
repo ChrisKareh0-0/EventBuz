@@ -11,7 +11,7 @@ import React, { useReducer } from 'react';
 
 const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl}) => {
   const [isChecked, setIsChecked] = useState(false)
-
+    console.log("Data in the caroussel", countryCode, title, phoneNumber, locationText, imageUrl)
   const toggleCheckbox = () => {
     setIsChecked(!isChecked)
   }
@@ -25,7 +25,7 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
       <button className="favorite-button" onClick={toggleCheckbox}>
         <FontAwesomeIcon icon={isChecked ? fasHeart : farHeart} />
       </button>
-        <img style={{minHeight: '300px', maxHeight: '500px'}} src={imageUrl} alt="Restaurant Image" />
+        <img style={{minHeight: '150px', maxHeight: '500px'}} src={imageUrl} alt="Restaurant Image" />
 
         <ReactCountryFlag
           countryCode={countryCode}// Replace with the appropriate country code
@@ -62,7 +62,7 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
           border-radius: 8px;
           overflow: hidden;
           height: 100%; /* Ensure full height */
-          margin-left: 20px;
+          
         }
         .favorite-button {
           position: absolute;

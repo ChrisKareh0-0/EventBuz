@@ -237,11 +237,6 @@ const createEvent = async (inputValue, onError) => {
     const axios = require('axios');
     const Token = localStorage.getItem('access_Token')
     console.log("TOKEN in verifyEmail Function", Token)
-
-    
-    //send via parameter the inputValue 
-
-
 let config = {
   method: 'post',
   maxBodyLength: Infinity,
@@ -268,6 +263,49 @@ axios.request(config)
 });
 
 }
+
+const editEvent = (inputValue, onError, eventID) => {
+    console.log("DATA", inputValue);
+
+    const axios = require('axios');
+    const Token = localStorage.getItem('access_Token');
+
+    // Stringify properties from inputValue
+    const { name, type, keyword, description } = inputValue;
+    const nameStringified = JSON.stringify(name)
+    const typeStrigified = JSON.stringify(type)
+    const keywordStringified = JSON.stringify(keyword)
+    const descriptionStringified = JSON.stringify(description)
+
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `https://stageeventbuz.online/api/v1/create-event/${eventID}`,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + Token,
+        },
+        data: {
+            name: nameStringified,
+            type: typeStrigified,
+            keyword: keywordStringified,
+            description: descriptionStringified
+        }
+
+    };
+
+    axios.request(config)
+        .then((response) => {
+            console.log(JSON.stringify(response.data));
+            toast.success('General Information Edited');
+        })
+        .catch((error) => {
+            console.log(error);
+            onError();
+        });
+}
+
 
 
 const createEventContact = async(inputValue, onError) => {
@@ -357,6 +395,7 @@ const createEventSocial = async(inputValue, onError) => {
     axios.request(config)
     .then((response) => {
         console.log(JSON.stringify(response.data));
+        toast.success('Social Media Data Added Successfully')
     })
     .catch((error) => {
         console.log(error)
@@ -395,4 +434,4 @@ const getListofCurrencies = async() => {
     
 }
 
-export {registerEmail,  resendVerificationCode, verifyEmail, SendSMS, organizationTypeList, subscriptionsData, createEvent, createEventContact, createEventSocial, registerEmailOrganizer, getListofCurrencies, createEventMedia}
+export {registerEmail, editEvent ,resendVerificationCode, verifyEmail, SendSMS, organizationTypeList, subscriptionsData, createEvent, createEventContact, createEventSocial, registerEmailOrganizer, getListofCurrencies, createEventMedia}

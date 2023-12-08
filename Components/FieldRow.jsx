@@ -43,17 +43,21 @@ function FieldRow({ field, onInputChange, onDelete, isOnlyField, onValueChange }
     <>    
     <div className="fieldRow" >
       {/* <button onClick={() => onDelete(id)}>Delete</button> */}
-      {!isOnlyField && (
-
-        <FontAwesomeIcon
-          icon={faTrashAlt}
-          onClick={() => onDelete(id)}
-          style={{ color: "red", fontSize: "15px" }}
-        />
-      )}
+      
+        <span 
+          style={{ cursor: 'pointer', position:'absolute', paddingTop:6}} 
+          onClick={() => {
+            if (!isOnlyField) {
+              onDelete(id);
+            } 
+          }}
+        >
+          🗑️
+        </span>
+      
 
       <div>
-        <label style={{ color: "white", whiteSpace: "nowrap", marginTop: 6 }}>
+        <label style={{ color: "white", whiteSpace: "nowrap", marginTop: 6, paddingLeft: 30 }}>
           Field Name
         </label>
         <input

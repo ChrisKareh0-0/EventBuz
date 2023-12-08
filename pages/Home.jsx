@@ -12,12 +12,18 @@ import image1 from '../public/image1.jpg'
 import image2 from '../public/image2.jpg'
 import image3 from '../public/image3.jpg'
 import { Store } from "@/Redux/store";
-import { setusername } from "@/Redux/slice";
+import { setCountryRedux, setusername } from "@/Redux/slice";
 import { registerEmail } from "./api/auth/APICalls";
 import { useSelector } from "react-redux";
 import RestaurantCard from "@/Components/cardDescription";
 import HeaderSignedIn from "@/Components/HeaderSignedIn";
 import SecondaryHeader from "@/Components/SecondaryHeader";
+// import HomeCalendar from "@/pages/HomeCalendar";
+import dynamic from 'next/dynamic';
+import axios from "axios";
+import { profileData } from "./api/auth/URL";
+const HomeCalendar = dynamic(() => import('@/Components/HomeCalendar'), { ssr: false });
+
 
 
 const Home = () => {
@@ -38,14 +44,74 @@ const Home = () => {
         dragFree: true,
         axis: 'y'
       })
-
+    const [loading, setLoading] = useState(true)
     const username = useSelector(state => state.data.username)
+    const [showCalendar, setShowCalendar] = useState(false)
+    const [isClient, setIsClient] = useState(false);
+ 
 
-      useEffect(() => {
+
+
+    
+    const  userProfileData = async () =>  {
+        console.log("[+] Getting User Data ")
+        
+        let Token = localStorage.getItem('access_Token')
+        // const profile_loggedIn = localStorage.getItem('Profile_LoggedIn')
+        // console.log("Value profile loggedin",profile_loggedIn)
+        // if(profile_loggedIn){ 
+        //     Token = localStorage.getItem('profile_access_token')
+        // } else {
+        //     Token = localStorage.getItem('access_Token')
+        // }
+        console.log("[+] ACCESS TOKEN", Token)
+        console.log("CURRENT TOKEN",Token)
+        await axios.request({
+            method: 'get',
+            url: profileData,
+            headers:{
+                'Content-Type' : 'application/json',
+                'Authorization' : 'Bearer '+Token
+            },
+            
+        })
+        .then((response) => {
+            console.log("User Data",response.data.data)
+            // setemail(response.data.data.email)
+            // setphoneNumber(response.data.data.phone)
+            // setLocation(response.data.data.country)
+            Store.dispatch(setCountryRedux(response.data.data.country))
+            // setWebsite(response.data.data.website)
+            // setUsername(response.data.data.name)
+            Store.dispatch(setusername(response.data.data.name))
+            // setType(response.data.data.types[0].name)
+            // if (response.data.data.profile_image && response.data.data.profile_image.url) {
+            //     setProfilePicture(response.data.data.profile_image.url)
+            // }
+            //console.log("{+++++} TYPE:", response.data.data.types[0])
+            //console.log("{+++++++++++++PROFILE PICTURE}",response.data.data.profile_image.url)
+            setLoading(false)
+            
+        })
+        .catch((error) => {
+            //console.log(error)
+            setLoading(false)
+        })
+    }
+
+
+
+    useEffect(() => {
         // When the component mounts
         document.body.style.setProperty('--color-page-background', '#2a2b2e');
         getAllEvensDetails()
+        userProfileData()
+
       },[])
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
       const getAllEvensDetails = async () => {
         const axios = require('axios');
@@ -158,9 +224,9 @@ const Home = () => {
     return(
         <>
 
-            {Token ? <HeaderSignedIn /> : <Header />}  // Conditional rendering based on Token
-            {Token && <SecondaryHeader /> }
-            <div className="Home" >
+            {isClient && (Token ? <HeaderSignedIn /> : <Header />)}
+            {isClient && Token && <SecondaryHeader />}
+            <div className="Home" style={{paddingTop: 50}} >
                 <div className="top-left" >
                     <HorizontalCaroussel slides={events} options={{}} />
                 </div>
@@ -183,7 +249,7 @@ const Home = () => {
                                                 locationText={event.locationText}
                                                 imageUrl={event.imageUrl} // Pass the image URL to the card
                                             />
-                                        
+
                                     </div>
                                 ))}
                             </div>
@@ -208,14 +274,16 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="bottom-left">
-                <FullCalendar
-                        plugins={[ dayGridPlugin, interactionPlugin ]}
-                        initialView="dayGridMonth"
-                        eventContent={renderEventContent}
-                        events={[
-                            { date: '2023-11-13', image:image1.src },
-                        ]}
-                    />
+                {/*<FullCalendar*/}
+                {/*        plugins={[ dayGridPlugin, interactionPlugin ]}*/}
+                {/*        initialView="dayGridMonth"*/}
+                {/*        eventContent={renderEventContent}*/}
+                {/*        events={[*/}
+                {/*            { date: '2023-11-13', image:image1.src },*/}
+                {/*        ]}*/}
+                {/*    />*/}
+
+                   <HomeCalendar />
                    
            
                       

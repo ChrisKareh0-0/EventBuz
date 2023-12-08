@@ -571,18 +571,18 @@ button:hover {
 .PhoneInput {
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
   font-weight: 500;
-  font-size: 1vw;
+  font-size: 20;
   text-indent: 5%;
   color: #fff;
-  background-color: rgb(28,28,30);
-  /* box-shadow: 0 0 .4vw rgba(0,0,0,0.5), 0 0 0 .15vw transparent; */
+  background-color: "#3b3b3b";
   border-radius: 63px;
   border: none;
   outline: none;
-  /* padding: 0.4vw; */
+  padding: 0.4vw;
   width: 380px;
   height: 40px;
   transition: .4s;
+  margin-top: 1%;
   margin-left: 10px;
 }
 .PhoneInputInput{
@@ -1362,7 +1362,7 @@ hr.solid{
   min-width: 200px;
   margin-top: 16px;
   margin-left: 25px;
-  height: 5%;
+  height: 3%;
 }
 
 .sticky-header {
@@ -1669,6 +1669,7 @@ body.nav-active .nav__list-item:nth-child(10) {
 .login-columnEmblaView{
   display: flex;
 
+
 }
 
 .Login-rowEmblav{
@@ -1812,7 +1813,7 @@ body.nav-active .nav__list-item:nth-child(10) {
   background-image: linear-gradient(
     45deg,
     var(--brand-primary),
-    var(--brand-secondary)
+    var(--brand-secondary),
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -1841,6 +1842,7 @@ body.nav-active .nav__list-item:nth-child(10) {
   /* max-width: 20%; */
   margin-right: 30%;
   margin-top: 10%;
+  height: 380px;
 }
 .embla-thumbs__slide {
   flex: 0 0 28%;
@@ -4068,7 +4070,7 @@ body .dhx_repeat_radio{
   position: absolute;
 
   margin: -25px !important;
-  margin-top: 95px !important;
+  margin-top: 39px !important;
 
   background-color: #25282d !important;
   color: #FFF !important;
@@ -4077,11 +4079,24 @@ body .dhx_repeat_radio{
 
 }
 
+.rbc-calendar{
+  padding: 2rem;
+  background-color: #25282d !important;
+}
+
+.rbc-toolbar{
+  background-color: #25282d !important;
+
+}
+.rbc-toolbar-label{
+  margin-left: 90px;
+}
+
 
 /* Optional: Adjust the event image style if necessary */
 .customEvent img {
   width: 100%;
-  height: 100%;
+  height: 50%;
   object-fit: cover;
   position: relative;
   z-index: 0; /* Increased z-index to ensure visibility above day cells */
@@ -4096,4 +4111,133 @@ body .dhx_repeat_radio{
 
 .PhoneInputCountryIconImg{
   margin-top: 13px !important;
+}
+
+.my-custom-button {
+  position: absolute; /* or 'fixed' if you want it to stay in place when scrolling */
+  top: 190px;
+  right: 60px; /* Adjust as needed */
+  /* Add more styling as needed */
+
+  --color: #00A97F;
+  padding: 0.8em 1.7em;
+  background-color: transparent;
+  border-radius: .3em;
+
+  overflow: hidden;
+  cursor: pointer;
+  transition: .5s;
+  font-weight: 400;
+  font-size: 17px;
+  border: 1px solid;
+  font-family: inherit;
+  text-transform: uppercase;
+  color: var(--color);
+  z-index: 1;
+}
+
+.my-custom-button::before, .my-custom-button::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 50px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+    background-color: var(--color);
+    transition: 1s ease;
+}
+.my-custom-button::before {
+  top: -1em;
+  left: -1em;
+}
+
+.my-custom-button::after {
+  left: calc(100% + 1em);
+  top: calc(100% + 1em);
+}
+
+.my-custom-button:hover::before, .my-custom-button:hover::after {
+  height: 410px;
+  width: 410px;
+}
+
+.my-custom-button:hover {
+  color: rgb(10, 25, 30);
+}
+
+.my-custom-button:active {
+  filter: brightness(.8);
+}
+
+/*Changed Color */
+
+.my-custom-button-changed {
+  position: absolute; /* or 'fixed' if you want it to stay in place when scrolling */
+  top: 190px;
+  right: 60px; /* Adjust as needed */
+  /* Add more styling as needed */
+
+  --color: #b62872;
+  padding: 0.8em 1.7em;
+  background-color: transparent;
+  border-radius: .3em;
+
+  overflow: hidden;
+  cursor: pointer;
+  transition: .5s;
+  font-weight: 400;
+  font-size: 17px;
+  border: 1px solid;
+  font-family: inherit;
+  text-transform: uppercase;
+  color: var(--color);
+  z-index: 1;
+}
+
+.my-custom-button::before, .my-custom-button::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  background-color: var(--color);
+  transition: 1s ease;
+}
+.my-custom-button::before {
+  top: -1em;
+  left: -1em;
+}
+
+.my-custom-button::after {
+  left: calc(100% + 1em);
+  top: calc(100% + 1em);
+}
+
+.my-custom-button:hover::before, .my-custom-button:hover::after {
+  height: 410px;
+  width: 410px;
+}
+
+.my-custom-button:hover {
+  color: rgb(10, 25, 30);
+}
+
+.my-custom-button:active {
+  filter: brightness(.8);
+}
+
+.ticket-field-row {
+  display: flex;
+  align-items: center;
+  gap: 0px; /* Adjust the space between each label-input group */
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
 }

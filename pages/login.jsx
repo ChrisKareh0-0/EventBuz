@@ -1,7 +1,7 @@
 import { Router, useRouter } from "next/router";
 import SocialLogin from "@/Components/SocialLogin";
 import Head from "next/head";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import { toast } from "react-toastify";
 import Header from "@/Components/Header";
@@ -15,6 +15,7 @@ import { Thumb } from '../Components/VerticalThumbSlider'
 import axios from "axios";
 import { Store } from "@/Redux/store";
 import { setEmailVerified, setPhoneVerified, setStatusMessage } from "@/Redux/slice";
+import RestaurantCard from "@/Components/cardDescription";
 
 
 
@@ -57,13 +58,79 @@ const login = () =>{
     const [emblaMainRef, emblaMainApi] = useEmblaCarousel(OPTIONS, [Autoplay()])
     const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
         containScroll: 'keepSnaps',
-        dragFree: true
+        dragFree: true,
+        axis: 'y'
       })
       const [emblaRef3] = useEmblaCarousel(OPTIONS2, [Autoplay()])
       const [emblaRef2] = useEmblaCarousel({}, [Autoplay()])
 
       const [selectedIndex, setSelectedIndex] = useState(0)
-
+    const events = [
+        {
+            "id": 1,
+            "title": "Massaya Zaman",
+            "countryCode": "LB",
+            "phoneNumber": "+9616665802",
+            "locationText": "Beirut, Lebanon",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 2,
+            "title": "La Petite Maison",
+            "countryCode": "FR",
+            "phoneNumber": "+33170360050",
+            "locationText": "Paris, France",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 3,
+            "title": "Pizzeria Bianco",
+            "countryCode": "US",
+            "phoneNumber": "+16022620200",
+            "locationText": "Phoenix, AZ, USA",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 4,
+            "title": "Din Tai Fung",
+            "countryCode": "TW",
+            "phoneNumber": "+886277381066",
+            "locationText": "Taipei, Taiwan",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 5,
+            "title": "Gaggan",
+            "countryCode": "TH",
+            "phoneNumber": "+6626521700",
+            "locationText": "Bangkok, Thailand",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 6,
+            "title": "Gaggan",
+            "countryCode": "TH",
+            "phoneNumber": "+6626521700",
+            "locationText": "Bangkok, Thailand",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 7,
+            "title": "Gaggan",
+            "countryCode": "TH",
+            "phoneNumber": "+6626521700",
+            "locationText": "Bangkok, Thailand",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        },
+        {
+            "id": 8,
+            "title": "Gaggan",
+            "countryCode": "TH",
+            "phoneNumber": "+6626521700",
+            "locationText": "Bangkok, Thailand",
+            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+        }
+    ]
     
 
 
@@ -228,21 +295,20 @@ const login = () =>{
                     </div>
 
                     <div className="top-right" style={{marginTop: 100, flexDirection:'column'}}>
-                        <HorizontalCaroussel slides={SLIDES} options={{}} />
+                        <HorizontalCaroussel slides={events} options={{}} />
 
-                        <div className="login-columnEmblaView">
+                        <div className="login-columnEmblaView" style={{marginTop: 50}}>
                             <div className="embla-thumbs" style={{width: 150, marginLeft: 30}}>
                                 <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
                                     <div className="embla-thumbs__container">
-                                        {SLIDES.map((index) => (
-                                        <Thumb
-                                            onClick={() => onThumbClick(index)}
-                                            selected={index === selectedIndex}
-                                            index={index}
-                                            imgSrc={imageByIndex(index)}
-                                            key={index}
-                                        />
-                                        
+                                        {events.map((event,index) => (
+                                            <Thumb
+                                                onClick={() => onThumbClick(index)}
+                                                selected={index === selectedIndex}
+                                                index={index}
+                                                imgSrc={event.imageUrl}
+                                                key={index}
+                                            />
                                         ))}
                                     </div>
                                 </div>
@@ -253,16 +319,19 @@ const login = () =>{
                                 <div className="embla2" >
                                     <div className="embla__viewport2" ref={emblaRef3}>
                                         <div className="embla__container2">
-                                        {SLIDES.map((index) => (
+                                        {events.map((index, event) => (
                                             <div className="embla__slide2" key={index}>
                                             <div className="embla__slide__number2">
                                                 <span>{index + 1}</span>
                                             </div>
-                                            <img
-                                                className="embla__slide__img2"
-                                                src={imageByIndex(index)}
-                                                alt="Your alt text"
-                                            />
+                                                <RestaurantCard
+                                                    key={event.id}
+                                                    countryCode={event.countryCode}
+                                                    title={event.title}
+                                                    phoneNumber={event.phoneNumber}
+                                                    locationText={event.locationText}
+                                                    imageUrl={event.imageUrl} // Pass the image URL to the card
+                                                />
                                             </div>
                                         ))}
                                         </div>
@@ -272,16 +341,20 @@ const login = () =>{
                                 <div className="embla3">
                                     <div className="embla__viewport3" ref={emblaRef2}>
                                         <div className="embla__container3">
-                                        {SLIDES.map((index) => (
+                                        {events.map((index, event) => (
                                             <div className="embla__slide3" key={index}>
                                             <div className="embla__slide__number3">
                                                 <span>{index + 1}</span>
                                             </div>
-                                            <img
-                                                className="embla__slide__img3"
-                                                src={imageByIndex(index)}
-                                                alt="Your alt text"
-                                            />
+
+                                                <RestaurantCard
+                                                    key={event.id}
+                                                    countryCode={event.countryCode}
+                                                    title={event.title}
+                                                    phoneNumber={event.phoneNumber}
+                                                    locationText={event.locationText}
+                                                    imageUrl={event.imageUrl} // Pass the image URL to the card
+                                                />
                                             </div>
                                         ))}
                                         </div>

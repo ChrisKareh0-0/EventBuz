@@ -12,11 +12,6 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/Home": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/Home.js"
-    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -27,10 +22,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/userProfile": [
+    "/createEvent": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/userProfile.js"
+      "static/chunks/pages/createEvent.js"
+    ],
+    "/myEvents": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/myEvents.js"
     ]
   },
   "ampFirstPages": []

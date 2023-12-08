@@ -14,9 +14,9 @@ const HorizontalCaroussel = (props) => {
   return (
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">
+        <div className="embla__container" >
             {slides.map((event,index) => (
-                <div className="embla__slideV" >
+                <div className="embla__slideV" style={{paddingLeft: '20px'}}>
                     <div className="embla__slide__numberV">
                         <span>{index + 1}</span>
                     </div>
@@ -28,6 +28,7 @@ const HorizontalCaroussel = (props) => {
                         phoneNumber={event.phoneNumber}
                         locationText={event.locationText}
                         imageUrl={event.imageUrl} // Pass the image URL to the card
+                        
                     />
 
                 </div>

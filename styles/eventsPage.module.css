@@ -4,5 +4,23 @@
     gap: 10px;
     background-color: #2a2b2e;
     width: 1200px;
+    height: 130%;
+    margin-top: 90px;
     /* Add more styles as needed */
   }
+  .scrollableGrid {
+    height: 700px; /* Adjust this value based on your design needs */
+    width: 65%;
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding: 10px;
+    /* Add other styles as needed, like margin, border, etc. */
+}
+.mainContent {
+  display: flex;
+}
+.rightSection {
+  margin-top: 30px;
+  width: 600px; /* Adjust as needed */
+  padding: 5px;
+  /* Add other styles such as background, margin, etc. */
+}
