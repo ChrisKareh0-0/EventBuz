@@ -29,7 +29,7 @@ import noImage from '../assets/NoImage.png'
 
 
 
-const userProfile = () => {
+const userProfile = ({props}) => {
     const OPTIONS = {axis: 'y'}
     const OPTIONS2 = {}
     const [emblaRef] = useEmblaCarousel(OPTIONS)
@@ -46,7 +46,7 @@ const userProfile = () => {
     })
 
     const [loading, setLoading] = useState(true)
-
+    const router = useRouter()
     const [email, setemail] = useState('')
     const [phoneNumber, setphoneNumber] = useState('')
     const [location, setLocation] = useState('')
@@ -63,6 +63,8 @@ const userProfile = () => {
     const [switchName, setSwitchName] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    const pageEvent = router.query.eventPage
+
     // const [isSwitchUser, setisSwitchUser] = useState(false);
     const [Token, setToken] = useState('')
 
@@ -70,7 +72,7 @@ const userProfile = () => {
 
     const isSwitch = useSelector(state => state.data.isSwitch)
 
-    const router = useRouter()
+    
 
     const onThumbClick = useCallback(
         (index) => {
@@ -85,10 +87,18 @@ const userProfile = () => {
         const notMainToken = localStorage.getItem('profile_access')
         console.log("Main Token", MainUserToken)
         console.log("Non Main User Token", notMainToken)
-       userProfileData()
+       
+        if( pageEvent == true ){
+            
+        } else {
+            userProfileData()
+        }
+       
+        
        getUserPlaces()
        getUserSuppliers()
     //    switchProfile()
+    console.log("is comin from card description",pageEvent)
     }, []);
     useEffect(() => {
         localStorage.setItem('Profile_LoggedIn', false)
@@ -256,7 +266,7 @@ const userProfile = () => {
         
   
 
-            <div style={{backgroundColor: "#25282d", top: 0}}>
+            <div style={{backgroundColor: "#1B1C1F", top: 0}}>
                 <HeaderSignedIn />
                 <SecondaryHeader />
 

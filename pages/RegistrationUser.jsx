@@ -213,7 +213,7 @@ const RegistrationUser = () => {
     return (
     <>
     <Header />
-      <div style={{ backgroundColor: '#25282D', display: 'grid', marginTop: 40}}>
+      <div style={{ backgroundColor: '#1B1C1F', display: 'grid', marginTop: 40}}>
           <div className="login">
               <div className="HeaderTitle" style={{marginTop: "5%"}}>
                   <p className="titleText">Sign Up</p>

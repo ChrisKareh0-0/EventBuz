@@ -263,7 +263,7 @@ const login = () =>{
     return (
         <>
         <Header />
-                <div style={{ backgroundColor: '#25282D', display: 'grid'}}>
+                <div style={{ backgroundColor: '#1B1C1F', display: 'grid'}}>
                     <div className="login">
                     
                     

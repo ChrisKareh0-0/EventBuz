@@ -11,7 +11,7 @@ const eventsHeader = () => {
                     <Button onClick={() => {
                         setPressed(true)
                         setisSwitchUser(true)
-                    }}     className="third-et-hero-tab"  style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 70, background:"#25282D" }}>
+                    }}     className="third-et-hero-tab"  style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 70, background:"#1B1C1F" }}>
                     Created
                     </Button>
                 </DropdownMenu.Trigger>
@@ -22,7 +22,7 @@ const eventsHeader = () => {
            
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                    <Button className="third-et-hero-tab"  style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 70, background:"#25282D"}}>
+                    <Button className="third-et-hero-tab"  style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 70, background:"#1B1C1F"}}>
                     Booked
                     </Button>
                 </DropdownMenu.Trigger>

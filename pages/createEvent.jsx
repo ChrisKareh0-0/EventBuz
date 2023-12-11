@@ -25,6 +25,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import {toast} from 'react-toastify'
 import FileUploadComponent from './singleFileUpload';
+import axios from 'axios';
+import { profileData } from './api/auth/URL';
+import { Store } from '@/Redux/store';
+import { setCountryRedux, setusername } from '@/Redux/slice';
 
 
 const categories = {
@@ -119,6 +123,40 @@ export default function CreateEvent() {
         console.log(error)
     })
   }
+
+  const  userProfileData = async () =>  {
+    console.log("[+] Getting User Data ")
+    
+    let Token = localStorage.getItem('access_Token')
+    // const profile_loggedIn = localStorage.getItem('Profile_LoggedIn')
+    // console.log("Value profile loggedin",profile_loggedIn)
+    // if(profile_loggedIn){ 
+    //     Token = localStorage.getItem('profile_access_token')
+    // } else {
+    //     Token = localStorage.getItem('access_Token')
+    // }
+    console.log("[+] ACCESS TOKEN", Token)
+    console.log("CURRENT TOKEN",Token)
+    await axios.request({
+        method: 'get',
+        url: profileData,
+        headers:{
+            'Content-Type' : 'application/json',
+            'Authorization' : 'Bearer '+Token
+        },
+        
+    })
+    .then((response) => {
+        Store.dispatch(setCountryRedux(response.data.data.country))
+        Store.dispatch(setusername(response.data.data.name))
+        setLoading(false)
+        
+    })
+    .catch((error) => {
+        //console.log(error)
+        setLoading(false)
+    })
+}
   
   //transformElements from sponsorName and sponsorURL to name and url for the required fields in API
   const transformElementsForAPI = (elements) => {
@@ -340,6 +378,7 @@ const saveStateToLocalStorage = () => {
     getKeywords()
 
     console.log("Redux Country", countryRedux)
+    userProfileData()
   },[])
 
   useEffect(() => {

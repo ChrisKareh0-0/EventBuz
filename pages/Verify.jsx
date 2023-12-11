@@ -44,7 +44,7 @@ function Verify() {
     };
     return (
     <>
-            <div style={{ backgroundColor: '#25282D', display: 'grid'}}>
+            <div style={{ backgroundColor: '#1B1C1F', display: 'grid'}}>
         
                 <div className="verifyContainerRow">
                     <div className="verifyDiv" style={{ display: emailVerified ? "none" : "block"}}>

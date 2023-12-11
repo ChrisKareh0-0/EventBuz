@@ -12,7 +12,7 @@ const HorizontalCaroussel = (props) => {
   const [emblaRef] = useEmblaCarousel(options, [Autoplay()])
 
   return (
-    <div className="embla">
+    <div className="embla" >
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container" >
             {slides.map((event,index) => (
@@ -22,14 +22,13 @@ const HorizontalCaroussel = (props) => {
                     </div>
 
                     <RestaurantCard
-                        key={event.id}
-                        countryCode={event.countryCode}
-                        title={event.title}
-                        phoneNumber={event.phoneNumber}
-                        locationText={event.locationText}
-                        imageUrl={event.imageUrl} // Pass the image URL to the card
-                        
-                    />
+                                                key={event.id}
+                                                countryCode={event.countryCode}
+                                                title={event.name}
+                                                phoneNumber={event.contact_phone_number}
+                                                locationText={event.venue_location}
+                                                imageUrl={event.media} // Pass the image URL to the card
+                                            />
 
                 </div>
             ))}

@@ -7,15 +7,17 @@ import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useReducer } from 'react';
+import { useRouter } from 'next/router';
 
 
 const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl}) => {
   const [isChecked, setIsChecked] = useState(false)
-    console.log("Data in the caroussel", countryCode, title, phoneNumber, locationText, imageUrl)
+    // console.log("Data in the caroussel", countryCode, title, phoneNumber, locationText, imageUrl)
   const toggleCheckbox = () => {
     setIsChecked(!isChecked)
   }
-
+  const router = useRouter()
+  console.log(countryCode, title, phoneNumber, locationText, imageUrl)
 
   return (
   
@@ -51,7 +53,10 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
             <i className="fas fa-map-marker-alt"></i>
             <span>{locationText}</span> 
           </div>
-          <button className="info-button">Book Now</button> 
+          <button onClick={() => {router.push({
+            pathname: '/userProfile',
+            query: {eventPage: true }
+          })}} className="info-button">Book Now</button> 
 
         </div>
       </div>

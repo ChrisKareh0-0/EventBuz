@@ -209,7 +209,7 @@ const ThirdHeader = () => {
                     <Button onClick={() => {
                         router.push('/userProfile')
                         
-                    }}     className="third-et-hero-tab"  style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 50, background:"#25282D" }}>
+                    }}     className="third-et-hero-tab"  style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 50, background:"#1B1C1F" }}>
                     Profile
                     </Button>
                 </DropdownMenu.Trigger>
@@ -219,7 +219,7 @@ const ThirdHeader = () => {
 
             <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                    <Button className="third-et-hero-tab"  style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 50, background:"#25282D"}}>
+                    <Button className="third-et-hero-tab"  style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 50, background:"#1B1C1F"}}>
                     My Supplier
                     </Button>
                 </DropdownMenu.Trigger>
@@ -267,7 +267,7 @@ const ThirdHeader = () => {
             </div> */}
            <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
-                    <Button style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 50, background:"#25282D", marginLeft: 10, marginRight: 140 }}>
+                    <Button style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 50, background:"#1B1C1F", marginLeft: 10, marginRight: 140 }}>
                         My Places
                     </Button>
                 </DropdownMenu.Trigger>
