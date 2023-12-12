@@ -36,7 +36,7 @@ const EventTable = ({events}) => {
       padding: '8px',
       textAlign: 'left',
       borderBottom: '1px solid #ddd',
-      backgroundColor: '#2a2b2e',
+      backgroundColor: '#1B1C1F',
       color: '#FFF',
     },
     image: {

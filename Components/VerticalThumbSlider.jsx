@@ -21,6 +21,7 @@ export const Thumb = (props) => {
           className="embla-thumbs__slide__img"
           src={imgSrc}
           alt="Your alt text"
+          style={{borderRadius: 10}}
         />
       </button>
     </div>

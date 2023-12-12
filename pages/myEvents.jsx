@@ -56,7 +56,7 @@ const myEvents = () => {
     }, []);
     useEffect(() => {
       // When the component mounts
-      document.body.style.setProperty('--color-page-background', '#2a2b2e');
+      document.body.style.setProperty('--color-page-background', '#1B1C1F');
   
       // When the component unmounts
       // return () => {
@@ -93,7 +93,7 @@ const myEvents = () => {
 
     const styles = {
       pageBackground :{
-        backgroundColor: '#2a2b2e',
+        backgroundColor: '#1B1C1F',
       }
     }
     
@@ -103,7 +103,7 @@ const myEvents = () => {
         <>
         <HeaderSignedIn />
             <SecondaryHeader />
-            <div style={{ backgroundColor: '#2a2b2e', top: 0 }}> {/* Inline styling */}
+            <div style={{ backgroundColor: '#1B1C1F', top: 0 }}> {/* Inline styling */}
             
 
             <button onClick={() => {router.push('/createEvent')}} className="justAbutton" style={{zIndex: 1000000, marginTop: -20}}> <span style={{marginLeft: 18}}>Create Event</span> </button>

@@ -31,7 +31,7 @@ const FileUploadComponent = ({ onFileUpload }) => {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background-color: #2a2b2e;
+                    background-color: #1B1C1F;
                     
                 }
                 .file-upload-label input {

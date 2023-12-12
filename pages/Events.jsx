@@ -114,7 +114,7 @@ const Events = () => {
     const [loading, setLoading] = useState(true);
       useEffect(() => {
 
-        document.body.style.setProperty('--color-page-background', '#2a2b2e');
+        document.body.style.setProperty('--color-page-background', '#1B1C1F');
       })
 
    return (

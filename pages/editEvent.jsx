@@ -89,7 +89,7 @@ const EditEvent = () => {
       }),
       menu: (provided) => ({
         ...provided,
-        backgroundColor: '#2a2b2e'
+        backgroundColor: '#1B1C1F'
       }),
       singleValue: (provided) => ({
         ...provided,
@@ -978,7 +978,7 @@ const EditEvent = () => {
             default:
                 return (
                     getCategoryFields(selectedCategory).map((field, index) => (
-                        <div key={index} className="input-group" style={{backgroundColor: "#2a2b2e"}}>
+                        <div key={index} className="input-group" style={{backgroundColor: "#1B1C1F"}}>
                             <label>{field}</label>
                             <input type="text"  value={inputValues[field] || 'null'}
                                    onChange={(e) => handleInputChange(e, field)}
@@ -1045,7 +1045,7 @@ const EditEvent = () => {
         }
         .input-fields {
           flex: 2;
-          background-color: #2A2B2E;
+          background-color: #1B1C1F;
         }
 
         .input-fields h2 {

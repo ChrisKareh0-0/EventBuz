@@ -12,7 +12,7 @@ const HorizontalCaroussel = (props) => {
   const [emblaRef] = useEmblaCarousel(options, [Autoplay()])
 
   return (
-    <div className="embla" >
+    <div className="embla" style={{width: '900px'}}>
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container" >
             {slides.map((event,index) => (

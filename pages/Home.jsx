@@ -103,7 +103,7 @@ const Home = () => {
 
     useEffect(() => {
         // When the component mounts
-        document.body.style.setProperty('--color-page-background', '#2a2b2e');
+        document.body.style.setProperty('--color-page-background', '#1B1C1F');
         getAllEvensDetails()
         userProfileData()
 
@@ -226,12 +226,12 @@ const Home = () => {
 
             {isClient && (Token ? <HeaderSignedIn /> : <Header />)}
             {isClient && Token && <SecondaryHeader />}
-            <div className="Home" style={{paddingTop: 50}} >
+            <div style={{display: 'flex', flexDirection:'row', marginTop: 30}}>
                 <div className="top-left" >
                     <HorizontalCaroussel slides={events} options={{}} />
                 </div>
 
-                <div className="top-right">
+                <div className="top-right" style={{marginLeft: 30}}>
                     <div className="emblaV" style={{marginTop: '15px'}}>
                         <div className="embla__viewportV" ref={emblaMainRef}>
                             <div className="embla__containerV">
@@ -256,7 +256,7 @@ const Home = () => {
                         </div>
                     </div>
 
-                    <div className="embla-thumbs" style={{marginTop: '20px'}}>
+                    <div className="embla-thumbs" style={{marginTop: '30px'}}>
                         <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
                             <div className="embla-thumbs__container">
                                 {events.map((event,index) => (
@@ -273,15 +273,11 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className="bottom-left">
-                {/*<FullCalendar*/}
-                {/*        plugins={[ dayGridPlugin, interactionPlugin ]}*/}
-                {/*        initialView="dayGridMonth"*/}
-                {/*        eventContent={renderEventContent}*/}
-                {/*        events={[*/}
-                {/*            { date: '2023-11-13', image:image1.src },*/}
-                {/*        ]}*/}
-                {/*    />*/}
+                </div>
+
+                <div style={{display: 'flex', flexDirection:'row', marginTop: 30}}>
+                <div className="bottom-left" style={{width: '910px'}}>
+                
 
                    <HomeCalendar />
                    
@@ -289,8 +285,8 @@ const Home = () => {
                       
 
                 </div>
-                <div className="bottom-right">
-                    <div className="embla2">
+                <div className="bottom-right" style={{width: '950px'}}>
+                    <div className="embla2" >
                         <div className="embla__viewport2" ref={emblaRef3}>
                             <div className="embla__container2">
                                 {events.map((event,index) => (
@@ -314,35 +310,36 @@ const Home = () => {
                         </div>
                     </div>
 
-                    <div className="embla3">
-                        <div className="embla__viewport3" ref={emblaRef2}>
-                            <div className="embla__container3">
-                                {events.map((event,index) => (
-                                    <div className="embla__slideV" >
-                                        <div className="embla__slide__numberV">
-                                            <span>{index + 1}</span>
+                        <div className="embla3">
+                            <div className="embla__viewport3" ref={emblaRef2}>
+                                <div className="embla__container3">
+                                    {events.map((event,index) => (
+                                        <div className="embla__slideV" >
+                                            <div className="embla__slide__numberV">
+                                                <span>{index + 1}</span>
+                                            </div>
+
+                                            <RestaurantCard
+                                                key={event.id}
+                                                countryCode={event.countryCode}
+                                                title={event.title}
+                                                phoneNumber={event.phoneNumber}
+                                                locationText={event.locationText}
+                                                imageUrl={event.imageUrl} // Pass the image URL to the card
+                                            />
+
                                         </div>
-
-                                        <RestaurantCard
-                                            key={event.id}
-                                            countryCode={event.countryCode}
-                                            title={event.title}
-                                            phoneNumber={event.phoneNumber}
-                                            locationText={event.locationText}
-                                            imageUrl={event.imageUrl} // Pass the image URL to the card
-                                        />
-
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        
                     
-                   
 
-               
-                </div> 
-            </div>
+                
+                    </div> 
+                </div>
+            
         </>
     )
         

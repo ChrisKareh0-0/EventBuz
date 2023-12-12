@@ -18,7 +18,7 @@ html,
 
 
 body {
-  background-color:#2a2b2e ;
+  background-color:#1B1C1F ;
   max-width: 100vw;
   overflow-x: hidden;
   /* margin-top: 45px; */
@@ -2920,7 +2920,7 @@ a:focus-visible {
 .category-list {
   flex: 1;
   margin-right: 20px;
-  background-color:#2a2b2e;
+  background-color:#1B1C1F;
 
 }
 
@@ -3738,7 +3738,7 @@ body .dhx_repeat_radio{
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #2a2b2e;
+  background-color: #1B1C1F;
   width: 100%;
   height: 100%;
 }
