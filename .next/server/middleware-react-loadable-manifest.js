@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST="{\"Home.jsx -> @/Components/HomeCalendar\":{\"id\":\"Home.jsx -> @/Components/HomeCalendar\",\"files\":[\"static/chunks/Components_HomeCalendar_jsx.js\"]}}"
