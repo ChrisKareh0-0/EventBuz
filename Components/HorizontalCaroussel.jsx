@@ -4,7 +4,7 @@ import Autoplay from 'embla-carousel-autoplay'
 import imageByIndex from '../functions/imageByIndex'
 import { useState } from 'react'
 import RestaurantCard from "@/Components/cardDescription";
-
+import noImage from '../assets/NoImage.png'
 const HorizontalCaroussel = (props) => {
   const { slides, options } = props
  
@@ -26,7 +26,7 @@ const HorizontalCaroussel = (props) => {
                             title={event.name}
                             phoneNumber={event.contact_phone_number}
                             locationText={event.venue_location}
-                            imageUrl={event.media.event_main_photo?.url}
+                            imageUrl={event.media ? event.media.event_main_photo?.url : noImage}
                         />
 
                 </div>

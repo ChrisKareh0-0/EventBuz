@@ -4243,3 +4243,6 @@ body .dhx_repeat_radio{
   display: flex;
   flex-direction: column;
 }
+.rbc-day-bg rbc-off-range-bg{
+  background: #1b1c1f !important;
+}
