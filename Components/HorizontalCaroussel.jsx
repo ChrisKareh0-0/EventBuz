@@ -22,13 +22,12 @@ const HorizontalCaroussel = (props) => {
                     </div>
 
                     <RestaurantCard
-                                                key={event.id}
-                                                countryCode={event.countryCode}
-                                                title={event.name}
-                                                phoneNumber={event.contact_phone_number}
-                                                locationText={event.venue_location}
-                                                imageUrl={event.media} // Pass the image URL to the card
-                                            />
+                            key={event.id}
+                            title={event.name}
+                            phoneNumber={event.contact_phone_number}
+                            locationText={event.venue_location}
+                            imageUrl={event.media.event_main_photo?.url}
+                        />
 
                 </div>
             ))}

@@ -1,24 +1,15 @@
 import Header from "@/Components/Header";
 import HorizontalCaroussel from "@/Components/HorizontalCaroussel";
 import useEmblaCarousel from 'embla-carousel-react'
-import imageByIndex from '../functions/imageByIndex'
 import React, { useCallback, useEffect, useState } from "react";
 import { Thumb } from '../Components/VerticalThumbSlider'
 import Autoplay from 'embla-carousel-autoplay'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from "@fullcalendar/interaction";
-import image1 from '../public/image1.jpg'
-import image2 from '../public/image2.jpg'
-import image3 from '../public/image3.jpg'
 import { Store } from "@/Redux/store";
 import { setCountryRedux, setusername } from "@/Redux/slice";
-import { registerEmail } from "./api/auth/APICalls";
 import { useSelector } from "react-redux";
 import RestaurantCard from "@/Components/cardDescription";
 import HeaderSignedIn from "@/Components/HeaderSignedIn";
 import SecondaryHeader from "@/Components/SecondaryHeader";
-// import HomeCalendar from "@/pages/HomeCalendar";
 import dynamic from 'next/dynamic';
 import axios from "axios";
 import { profileData } from "./api/auth/URL";
@@ -34,9 +25,6 @@ const Home = () => {
     const [emblaRef] = useEmblaCarousel(OPTIONS)
     const [emblaRef2] = useEmblaCarousel({}, [Autoplay()])
     const [emblaRef3] = useEmblaCarousel(OPTIONS2, [Autoplay()])
-    const SLIDE_COUNT = 3
-    const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
-    const emblaApi = useEmblaCarousel(emblaRef);
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [emblaMainRef, emblaMainApi] = useEmblaCarousel(OPTIONS, [Autoplay()])
     const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
@@ -44,26 +32,32 @@ const Home = () => {
         dragFree: true,
         axis: 'y'
       })
-    const [loading, setLoading] = useState(true)
-    const username = useSelector(state => state.data.username)
-    const [showCalendar, setShowCalendar] = useState(false)
+    const [loading, setLoading] = useState(true);
     const [isClient, setIsClient] = useState(false);
- 
+    const [events, setEvents] = useState([])
+
+    const getSafeData = (data) => data || 'N/A';
+      
+    //USE EFFECTS
+    useEffect(() => {
+        // When the component mounts change body color
+        document.body.style.setProperty('--color-page-background', '#1B1C1F');
+        getAllEvensDetails()
+        userProfileData()
+
+      },[])
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
 
-
-    
+    //API CALLS
     const  userProfileData = async () =>  {
         console.log("[+] Getting User Data ")
         
         let Token = localStorage.getItem('access_Token')
-        // const profile_loggedIn = localStorage.getItem('Profile_LoggedIn')
-        // console.log("Value profile loggedin",profile_loggedIn)
-        // if(profile_loggedIn){ 
-        //     Token = localStorage.getItem('profile_access_token')
-        // } else {
-        //     Token = localStorage.getItem('access_Token')
-        // }
+        
         console.log("[+] ACCESS TOKEN", Token)
         console.log("CURRENT TOKEN",Token)
         await axios.request({
@@ -77,19 +71,8 @@ const Home = () => {
         })
         .then((response) => {
             console.log("User Data",response.data.data)
-            // setemail(response.data.data.email)
-            // setphoneNumber(response.data.data.phone)
-            // setLocation(response.data.data.country)
             Store.dispatch(setCountryRedux(response.data.data.country))
-            // setWebsite(response.data.data.website)
-            // setUsername(response.data.data.name)
             Store.dispatch(setusername(response.data.data.name))
-            // setType(response.data.data.types[0].name)
-            // if (response.data.data.profile_image && response.data.data.profile_image.url) {
-            //     setProfilePicture(response.data.data.profile_image.url)
-            // }
-            //console.log("{+++++} TYPE:", response.data.data.types[0])
-            //console.log("{+++++++++++++PROFILE PICTURE}",response.data.data.profile_image.url)
             setLoading(false)
             
         })
@@ -101,17 +84,7 @@ const Home = () => {
 
 
 
-    useEffect(() => {
-        // When the component mounts
-        document.body.style.setProperty('--color-page-background', '#1B1C1F');
-        getAllEvensDetails()
-        userProfileData()
-
-      },[])
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
+   
 
       const getAllEvensDetails = async () => {
         const axios = require('axios');
@@ -129,12 +102,19 @@ const Home = () => {
         axios.request(config)
         .then((response) => {
         console.log(response.data);
+        setEvents(response.data.data)
         })
         .catch((error) => {
         console.log(error);
         });
 
       }
+
+      //handle formatVenueLocation
+      const formatVenueLocation = (location) => {
+        if (!location || !location.city || !location.country) return 'N/A';
+        return `${location.city}, ${location.country}`;
+        };
 
 
       const onThumbClick = useCallback(
@@ -176,51 +156,58 @@ const Home = () => {
             );
           };
 
-    const events = [
-        {
-            "id": 1,
-            "title": "Massaya Zaman",
-            "countryCode": "LB",
-            "phoneNumber": "+9616665802",
-            "locationText": "Beirut, Lebanon",
-            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
-        },
-        {
-            "id": 2,
-            "title": "La Petite Maison",
-            "countryCode": "FR",
-            "phoneNumber": "+33170360050",
-            "locationText": "Paris, France",
-            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
-        },
-        {
-            "id": 3,
-            "title": "Pizzeria Bianco",
-            "countryCode": "US",
-            "phoneNumber": "+16022620200",
-            "locationText": "Phoenix, AZ, USA",
-            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
-        },
-        {
-            "id": 4,
-            "title": "Din Tai Fung",
-            "countryCode": "TW",
-            "phoneNumber": "+886277381066",
-            "locationText": "Taipei, Taiwan",
-            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
-        },
-        {
-            "id": 5,
-            "title": "Gaggan",
-            "countryCode": "TH",
-            "phoneNumber": "+6626521700",
-            "locationText": "Bangkok, Thailand",
-            "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
-        }
-    ]
+    // const events = [
+    //     {
+    //         "id": 1,
+    //         "title": "Massaya Zaman",
+    //         "countryCode": "LB",
+    //         "phoneNumber": "+9616665802",
+    //         "locationText": "Beirut, Lebanon",
+    //         "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+    //     },
+    //     {
+    //         "id": 2,
+    //         "title": "La Petite Maison",
+    //         "countryCode": "FR",
+    //         "phoneNumber": "+33170360050",
+    //         "locationText": "Paris, France",
+    //         "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+    //     },
+    //     {
+    //         "id": 3,
+    //         "title": "Pizzeria Bianco",
+    //         "countryCode": "US",
+    //         "phoneNumber": "+16022620200",
+    //         "locationText": "Phoenix, AZ, USA",
+    //         "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+    //     },
+    //     {
+    //         "id": 4,
+    //         "title": "Din Tai Fung",
+    //         "countryCode": "TW",
+    //         "phoneNumber": "+886277381066",
+    //         "locationText": "Taipei, Taiwan",
+    //         "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+    //     },
+    //     {
+    //         "id": 5,
+    //         "title": "Gaggan",
+    //         "countryCode": "TH",
+    //         "phoneNumber": "+6626521700",
+    //         "locationText": "Bangkok, Thailand",
+    //         "imageUrl": "https://cdn.britannica.com/05/80605-050-AFBADB92/Torii-ritual-gates-division-secular-Itsuku-Island.jpg"
+    //     }
+    // ]
 
     const Token = typeof window !== "undefined" ? localStorage.getItem('access_Token') : null;
 
+    const preparedSlides = events.map(event => ({
+        ...event,
+        name: getSafeData(event.name),
+        contact_phone_number: getSafeData(event.contact_phone_number),
+        venue_location: formatVenueLocation(event.venue_location),
+        imageUrl: event.media && event.media.event_main_photo ? event.media.event_main_photo.url : 'N/A'
+    }));
     return(
         <>
 
@@ -228,7 +215,7 @@ const Home = () => {
             {isClient && Token && <SecondaryHeader />}
             <div style={{display: 'flex', flexDirection:'row', marginTop: 30}}>
                 <div className="top-left" >
-                    <HorizontalCaroussel slides={events} options={{}} />
+                    <HorizontalCaroussel slides={preparedSlides} options={{}} />
                 </div>
 
                 <div className="top-right" style={{marginLeft: 30}}>
@@ -242,13 +229,12 @@ const Home = () => {
                                             </div>
 
                                             <RestaurantCard
-                                                key={event.id}
-                                                countryCode={event.countryCode}
-                                                title={event.title}
-                                                phoneNumber={event.phoneNumber}
-                                                locationText={event.locationText}
-                                                imageUrl={event.imageUrl} // Pass the image URL to the card
-                                            />
+                            key={event.id}
+                            title={getSafeData(event.name)}
+                            phoneNumber={getSafeData(event.contact_phone_number)}
+                            locationText={formatVenueLocation(event.venue_location)}
+                            imageUrl={event.media.event_main_photo?.url}
+                        />
 
                                     </div>
                                 ))}
@@ -264,7 +250,7 @@ const Home = () => {
                                     onClick={() => onThumbClick(index)}
                                     selected={index === selectedIndex}
                                     index={index}
-                                    imgSrc={event.imageUrl}
+                                    imgSrc={event.media.event_main_photo?.url}
                                     key={index}
                                 />
 
@@ -296,13 +282,12 @@ const Home = () => {
                                         </div>
 
                                         <RestaurantCard
-                                            key={event.id}
-                                            countryCode={event.countryCode}
-                                            title={event.title}
-                                            phoneNumber={event.phoneNumber}
-                                            locationText={event.locationText}
-                                            imageUrl={event.imageUrl} // Pass the image URL to the card
-                                        />
+                            key={event.id}
+                            title={getSafeData(event.name)}
+                            phoneNumber={getSafeData(event.contact_phone_number)}
+                            locationText={formatVenueLocation(event.venue_location)}
+                            imageUrl={event.media.event_main_photo?.url}
+                        />
 
                                     </div>
                                 ))}
@@ -320,13 +305,12 @@ const Home = () => {
                                             </div>
 
                                             <RestaurantCard
-                                                key={event.id}
-                                                countryCode={event.countryCode}
-                                                title={event.title}
-                                                phoneNumber={event.phoneNumber}
-                                                locationText={event.locationText}
-                                                imageUrl={event.imageUrl} // Pass the image URL to the card
-                                            />
+                            key={event.id}
+                            title={getSafeData(event.name)}
+                            phoneNumber={getSafeData(event.contact_phone_number)}
+                            locationText={formatVenueLocation(event.venue_location)}
+                            imageUrl={event.media.event_main_photo?.url}
+                        />
 
                                         </div>
                                     ))}

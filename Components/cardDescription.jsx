@@ -17,7 +17,7 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
     setIsChecked(!isChecked)
   }
   const router = useRouter()
-  console.log(countryCode, title, phoneNumber, locationText, imageUrl)
+  
 
   return (
   
