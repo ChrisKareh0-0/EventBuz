@@ -1,3 +1,4 @@
+
 import { useMemo, useState } from 'react';
 import FieldRow from '@/Components/FieldRow';
 import Select from 'react-select'
@@ -99,6 +100,11 @@ export default function CreateEvent() {
   let mapRendered = false;
   let loadRendered = false;
 
+  let adminToken;
+    if (typeof window !== "undefined") {
+        adminToken = localStorage.getItem('token');
+    }
+
   const getlistTypes = async () => {
     const axios = require('axios');
 
@@ -110,7 +116,7 @@ export default function CreateEvent() {
     }
     await axios.request(config)
     .then((response) => {
-        console.log(response.data.data)
+        //console.log(response.data.data)
         
 
       const nameTypes = response.data.data.map(item => ({
@@ -120,23 +126,23 @@ export default function CreateEvent() {
       setListTypes(nameTypes)
     })
     .catch((error) => {
-        console.log(error)
+        //console.log(error)
     })
   }
 
   const  userProfileData = async () =>  {
-    console.log("[+] Getting User Data ")
+    //console.log("[+] Getting User Data ")
     
     let Token = localStorage.getItem('access_Token')
     // const profile_loggedIn = localStorage.getItem('Profile_LoggedIn')
-    // console.log("Value profile loggedin",profile_loggedIn)
+    // //console.log("Value profile loggedin",profile_loggedIn)
     // if(profile_loggedIn){ 
     //     Token = localStorage.getItem('profile_access_token')
     // } else {
     //     Token = localStorage.getItem('access_Token')
     // }
-    console.log("[+] ACCESS TOKEN", Token)
-    console.log("CURRENT TOKEN",Token)
+    //console.log("[+] ACCESS TOKEN", Token)
+    //console.log("CURRENT TOKEN",Token)
     await axios.request({
         method: 'get',
         url: profileData,
@@ -153,7 +159,7 @@ export default function CreateEvent() {
         
     })
     .catch((error) => {
-        //console.log(error)
+        ////console.log(error)
         setLoading(false)
     })
 }
@@ -171,10 +177,10 @@ export default function CreateEvent() {
     const axios = require('axios');
     const Token = localStorage.getItem('access_Token')
     const createEvent_ID = localStorage.getItem('createEvent_ID')
-    console.log("EVENT SPONSOR",elements)
+    //console.log("EVENT SPONSOR",elements)
     const transformedElements = transformElementsForAPI(elements)
-    console.log("API Sponsor Elements",transformedElements)
-    console.log(elements[0].sponsorName)
+    //console.log("API Sponsor Elements",transformedElements)
+    //console.log(elements[0].sponsorName)
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -194,11 +200,11 @@ export default function CreateEvent() {
     }
     axios.request(config)
     .then((response) => {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
         toast.success('Event Sponsor Data Saved')
     })
     .catch((error) => {
-        console.log(error)
+        //console.log(error)
         toast.error('Error Occurred, Please try Again')
 
     })
@@ -216,7 +222,7 @@ const countryListapi = () => {
 
   axios.request(config)
   .then((response) => {
-    console.log(response.data);
+    //console.log(response.data);
 
     // Ensure that the data exists and is an array before mapping
     if (response.data && Array.isArray(response.data.data)) {
@@ -233,7 +239,7 @@ const countryListapi = () => {
     }
   })
   .catch((error) => {
-    console.log(error);
+    //console.log(error);
   });
 }
 
@@ -252,7 +258,7 @@ let config = {
 // 🟣 Kurisu
 axios.request(config)
 .then((response) => {
-  console.log(JSON.stringify(response.data.data));
+  //console.log(JSON.stringify(response.data.data));
   
   const namekey = response.data.data.map(item => ({
     value: item.id,
@@ -261,7 +267,7 @@ axios.request(config)
   setKeywords(namekey)
 })
 .catch((error) => {
-  console.log(error);
+  //console.log(error);
 });
 }
 
@@ -270,7 +276,7 @@ const handleTicketInputChange = (index, field, event) => {
   const value = event && event.target ? event.target.value : '';
   const newTicketFields = [...ticketFields];
   newTicketFields[index] = { ...newTicketFields[index], [field]: value };
-  console.log('Before:', ticketFields);
+  //console.log('Before:', ticketFields);
   setTicketFields( newTicketFields);
   setticketFieldsStringified(newTicketFields)
   
@@ -325,11 +331,11 @@ const saveStateToLocalStorage = () => {
     currency,    
     }
     localStorage.setItem('createEventState', JSON.stringify(stateToSave));
-    console.log('DATA SAVED', stateToSave)
+    //console.log('DATA SAVED', stateToSave)
   }
 
   useEffect(() => {
-    console.log('WHAT ARE THE INPUT VALUES ?',inputValues)
+    //console.log('WHAT ARE THE INPUT VALUES ?',inputValues)
   },[inputValues])
 
   useEffect(() => {
@@ -374,10 +380,10 @@ const saveStateToLocalStorage = () => {
     getlistTypes()
     getListofCurrencies()
     countryListapi()
-    console.log("List of currencies Redux", listOfCurrencies)
+    //console.log("List of currencies Redux", listOfCurrencies)
     getKeywords()
 
-    console.log("Redux Country", countryRedux)
+    //console.log("Redux Country", countryRedux)
     userProfileData()
   },[])
 
@@ -406,20 +412,32 @@ const saveStateToLocalStorage = () => {
 
   const createEventOptions = async(inputValue) => {
     const axios = require('axios');
-    const Token = localStorage.getItem('access_Token')
+    let Token;
+
+    if (comingFromAdmin && adminToken) {
+        Token = adminToken;
+    } else {
+        Token = localStorage.getItem('access_Token');
+    }
+
+    // Handle the case where no token is available
+    if (!Token) {
+        console.error("No token available for authentication");
+        
+    }
     const createEvent_ID = localStorage.getItem('createEvent_ID')
     const fieldsString = JSON.stringify(fields)
     const priceCategoryString = JSON.stringify(ticketFields)
-    console.log("[++] EVENT OPTIONS DATA")
-    console.log("INPUT VALUE",inputValue)
-    console.log("reservation", reservations)
-    console.log("EVENT ID", createEvent_ID)
-    console.log("Booking Type", bookingType)
-    console.log("Additional Fields", fields)
-    console.log("Pricing Category", ticketFields)
-    console.log("OPTION IMAGE", ImageSponsor)
-    console.log("Max number of orders", maxNbReservations)
-    console.log("Terms and conditions", termsConditions)
+    //console.log("[++] EVENT OPTIONS DATA")
+    //console.log("INPUT VALUE",inputValue)
+    //console.log("reservation", reservations)
+    //console.log("EVENT ID", createEvent_ID)
+    //console.log("Booking Type", bookingType)
+    //console.log("Additional Fields", fields)
+    //console.log("Pricing Category", ticketFields)
+    //console.log("OPTION IMAGE", ImageSponsor)
+    //console.log("Max number of orders", maxNbReservations)
+    //console.log("Terms and conditions", termsConditions)
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -447,20 +465,32 @@ const saveStateToLocalStorage = () => {
     }
     axios.request(config)
     .then((response) => {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
     })
     .catch((error) => {
-        console.log(error)
+        //console.log(error)
         toast.error("Error Occured, please try again")
         setSelectedCategory("Options")
     })
 }
-    const createAdditionalFields = () => {
+    const createAdditionalFields = (comingFromAdmin,adminToken) => {
       const axios = require('axios');
       const createEvent_ID = localStorage.getItem('createEvent_ID')
-      const Token = localStorage.getItem('access_Token')
+      let Token;
+
+      if (comingFromAdmin && adminToken) {
+          Token = adminToken;
+      } else {
+          Token = localStorage.getItem('access_Token');
+      }
+  
+      // Handle the case where no token is available
+      if (!Token) {
+          console.error("No token available for authentication");
+          
+      }
       const fieldsString = JSON.stringify(fields)
-      console.log("Event ID in Additional Fields", createEvent_ID)
+      //console.log("Event ID in Additional Fields", createEvent_ID)
 
       let config = {
         method: 'post',
@@ -480,55 +510,56 @@ const saveStateToLocalStorage = () => {
 
       axios.request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
     }
 
   
   const changeHandler = value => {
-    console.log(value.label)
+    //console.log(value.label)
     setCountry(value)
-    console.log(country)
+    //console.log(country)
   }
 
   const handleValueChange = (fieldId, newValue) => {
-    console.log("New Value for field", fieldId, "is", newValue)
+    //console.log("New Value for field", fieldId, "is", newValue)
   }
 
   //APIs
   const executeApiCall = () => {
+    let comingFromAdmin = true;
     switch (selectedCategory){
       case "General Information":
-        createEvent(inputValues,'false','potato',() => {
+        createEvent(inputValues,comingFromAdmin,adminToken,() => {
           setSelectedCategory("General Information")
         });
         break;
       case "Venue Location":
-        createEventVenue(inputValues);
+        createEventVenue(inputValues, comingFromAdmin, adminToken);
         break;
       case "Contact Person":
-        createEventContact(inputValues, () => {
+        createEventContact(inputValues, comingFromAdmin, adminToken,() => {
           setSelectedCategory("Contact Person")
         })
         break;
       case "Social Media":
-        createEventSocial(inputValues, () => {
+        createEventSocial(inputValues,comingFromAdmin, adminToken, () => {
           setSelectedCategory("Social Media")
         })
         break;
       case "Options":
-        createEventOptions(inputValues,() => {
+        createEventOptions(inputValues,comingFromAdmin, adminToken,() => {
           setSelectedCategory('Options')
         } )
         break;
       case "Additional Fields":
-        createAdditionalFields()
+        createAdditionalFields(comingFromAdmin, adminToken)
         break;
       case "Promotional Video and Images":
-        createEventMedia(files)
+        createEventMedia(files, comingFromAdmin, eventToken)
         break;
 
     }
@@ -575,7 +606,7 @@ const saveStateToLocalStorage = () => {
   
     const newInputValues = { ...inputValues, [fieldName]: newValue };
     setInputValues(newInputValues);
-    console.log(newInputValues);
+    //console.log(newInputValues);
   };
   
   const handleFieldRowChange = (id, fieldName, event) => {
@@ -584,8 +615,8 @@ const saveStateToLocalStorage = () => {
       field.id === id ? { ...field, [fieldName]: value } : field
     ));
     setfieldsStringified(JSON.stringify(fields))
-    // console.log(fields)
-    console.log(fieldsStrigified)
+    // //console.log(fields)
+    //console.log(fieldsStrigified)
   };
   const deleteFieldRow = (id) => {
     setFields(fields.filter(field => field.id !== id));
@@ -600,7 +631,7 @@ const handlePhoneInputChange = (index, eventOrValue) => {
         newPhoneData[index] = { type: bookingType, value: value };
         setPhoneData(newPhoneData);
     }
-    console.log(phoneData)
+    //console.log(phoneData)
     setBookingType(phoneData)
 }
 const handleWebsiteInputChange = (index, event) => {
@@ -609,7 +640,7 @@ const handleWebsiteInputChange = (index, event) => {
       const newWebsiteData = [...websiteData];
       newWebsiteData[index] = { type: 'website', value: value };
       setWebsiteData(newWebsiteData);
-      console.log("WEBSITES",websiteData)
+      //console.log("WEBSITES",websiteData)
       setBookingType(websiteData)
   }
 };
@@ -684,13 +715,25 @@ const handleCountryChange = (title, selectedOption) => {
 
 
 
-const createEventVenue = async(inputValue) => {
+const createEventVenue = async(inputValue, comingFromAdmin, adminToken) => {
   const axios = require('axios');
-  const Token = localStorage.getItem('access_Token')
+  let Token;
+
+  if (comingFromAdmin && adminToken) {
+      Token = adminToken;
+  } else {
+      Token = localStorage.getItem('access_Token');
+  }
+
+  // Handle the case where no token is available
+  if (!Token) {
+      console.error("No token available for authentication");
+      
+  }
   const createEvent_ID = localStorage.getItem('createEvent_ID')
   
-  console.log("EVENT ID", createEvent_ID)
-  console.log("Country ID", selectedCountryId)
+  //console.log("EVENT ID", createEvent_ID)
+  //console.log("Country ID", selectedCountryId)
   let config = {
       method: 'post', 
       maxBodyLength: Infinity,
@@ -709,11 +752,11 @@ const createEventVenue = async(inputValue) => {
   };
   axios.request(config)
   .then((response) => {
-      console.log(JSON.stringify(response.data));
+      //console.log(JSON.stringify(response.data));
       toast.success("Event Location Created Successfully")
   })
   .catch((error) => {
-      console.log(error)
+      //console.log(error)
       toast.error("Error Occured, please try again")
       setSelectedCategory("Venue Location")
   })
@@ -736,10 +779,16 @@ const rows = files.reduce((acc, current, index) => {
   }
   return acc;
 }, []);
+// if (!adminToken) {
+//     return <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+//             <div STYLE={{width: '50%'}}>There's no admin Token</div>
+//         </div>;
+//   }
   return (
     
 
   <div className='backgroundCreateEvent' style={{minHeight: '200vh'}}>
+    <p style={{color: 'white'}}>Admin Access Token = {adminToken}</p>
     <div className="container">
       <div className="category-list">
         {Object.keys(categories).map((category) => (
@@ -768,7 +817,7 @@ const rows = files.reduce((acc, current, index) => {
                             key={index}
                             fileData={fileData}
                             onFileChange={(file) => {
-                              console.log('Promotional Videos and Images Data',files)
+                              //console.log('Promotional Videos and Images Data',files)
                               handleFileChange(file, rowIndex * 2 + index)}}
                         />
                     ))}
@@ -1141,10 +1190,10 @@ const rows = files.reduce((acc, current, index) => {
                           ? { ...element, [field]: value }
                           : element
                   ));
-                  console.log(elements)
+                  //console.log(elements)
               };
                   const handleRemoveElement = (id) => {
-                    console.log('Removing element with id:', id);  // Log the id value
+                    //console.log('Removing element with id:', id);  // Log the id value
                     setElements(prevElements => prevElements.filter(element => element.id !== id));
                 }
 
@@ -1322,7 +1371,7 @@ const rows = files.reduce((acc, current, index) => {
   >
     <a 
       onClick={() => {
-        // console.log(inputValues)
+        // //console.log(inputValues)
         // createEvent(inputValues)
         nextCategory()
         executeApiCall()

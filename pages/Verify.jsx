@@ -75,7 +75,7 @@ function Verify() {
                             verifyEmail(OTP)
                             setTimeout(() => {
                             if (statusMessage == 200){
-                                router.push("/userProfile")
+                                router.push("/dataDetails")
                             } else {
                                 toast.error("Something went wrong please try again")
                             }
@@ -111,13 +111,13 @@ function Verify() {
                             verifyEmail(OTP)
                             setTimeout(() => {
                             if (statusMessage == 200){
-                                router.push("/userProfile")
+                                router.push("/dataDetails")
                             } else {
                                 toast.error("Something went wrong please try again")
                             }
                             }, timeout);
                         }} className="VerifyBttn" type="submit">Verify</button>
-                        <button style={{backgroundColor: 'black', color: 'pink'}} onClick={()=>{router.push("/userProfile")}} className="VerifyBttn" type="submit">Skip</button>
+                        <button style={{backgroundColor: 'black', color: 'pink'}} onClick={()=>{router.push("/dataDetails")}} className="VerifyBttn" type="submit">Skip</button>
 
                     </div>
                 </div>

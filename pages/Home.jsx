@@ -22,7 +22,7 @@ const Home = () => {
    
     const OPTIONS = {axis: 'y'}
     const OPTIONS2 = {}
-    const [emblaRef] = useEmblaCarousel(OPTIONS)
+    // const [emblaRef] = useEmblaCarousel(OPTIONS)
     const [emblaRef2] = useEmblaCarousel({}, [Autoplay()])
     const [emblaRef3] = useEmblaCarousel(OPTIONS2, [Autoplay()])
     const [selectedIndex, setSelectedIndex] = useState(0)
@@ -215,11 +215,11 @@ const Home = () => {
             {isClient && Token && <SecondaryHeader />}
             <div style={{display: 'flex', flexDirection:'row', marginTop: 30}}>
                 <div className="top-left" >
-                    <HorizontalCaroussel slides={preparedSlides} options={{}} />
+                    {/* <HorizontalCaroussel slides={preparedSlides} options={{}} /> */}
                 </div>
 
                 <div className="top-right" style={{marginLeft: 30}}>
-                    <div className="emblaV" style={{marginTop: '15px'}}>
+                    {/* <div className="emblaV" style={{marginTop: '15px'}}>
                         <div className="embla__viewportV" ref={emblaMainRef}>
                             <div className="embla__containerV">
                                 {events.map((event,index) => (
@@ -240,9 +240,9 @@ const Home = () => {
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="embla-thumbs" style={{marginTop: '30px'}}>
+                    {/* <div className="embla-thumbs" style={{marginTop: '30px'}}>
                         <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
                             <div className="embla-thumbs__container">
                                 {events.map((event,index) => (
@@ -257,7 +257,7 @@ const Home = () => {
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 </div>
 
@@ -272,7 +272,7 @@ const Home = () => {
 
                 </div>
                 <div className="bottom-right" style={{width: '950px'}}>
-                    <div className="embla2" >
+                    {/* <div className="embla2" >
                         <div className="embla__viewport2" ref={emblaRef3}>
                             <div className="embla__container2">
                                 {events.map((event,index) => (
@@ -293,9 +293,9 @@ const Home = () => {
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
-                        <div className="embla3">
+                        {/* <div className="embla3">
                             <div className="embla__viewport3" ref={emblaRef2}>
                                 <div className="embla__container3">
                                     {events.map((event,index) => (
@@ -316,7 +316,7 @@ const Home = () => {
                                     ))}
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         
                     
 

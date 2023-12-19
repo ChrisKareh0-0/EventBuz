@@ -1,197 +1,77 @@
-
-import React, {useState, useEffect} from 'react';
-import { useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from '../styles/eventsPage.module.css'
+import styles from '../styles/eventsPage.module.css';
 import RestaurantCard from '@/Components/cardDescription';
 import HeaderSignedIn from '@/Components/HeaderSignedIn';
 import SecondaryHeader from '@/Components/SecondaryHeader';
 import HorizontalCaroussel from '@/Components/HorizontalCaroussel';
-import useEmblaCarousel from 'embla-carousel-react'
-import Autoplay from 'embla-carousel-autoplay'
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
-import { Thumb } from '@/Components/VerticalThumbSlider';
-import { useRouter } from 'next/router';
 const Events = () => {
-  const OPTIONS = {axis: 'x'}
-  const OPTIONS2 = {}
-  const SLIDE_COUNT = 3
-  const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+  // ... [rest of your setup]
 
-  const router = useRouter()
-  const [emblaMainRef, emblaMainApi] = useEmblaCarousel(OPTIONS, [Autoplay()])
-  const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
-      containScroll: 'keepSnaps',
-      dragFree: true,
-      axis: 'y'
-    })
-    const [emblaRef3] = useEmblaCarousel(OPTIONS2, [Autoplay()])
-    const [emblaRef2] = useEmblaCarousel({}, [Autoplay()])
-    const [selectedIndex, setSelectedIndex] = useState(0)
+  const [events, setEvents] = useState([]);
 
-    const events = [
-        {
-          "id": 1,
-          "title": "Massaya Zaman",
-          "countryCode": "LB",
-          "phoneNumber": "+9616665802",
-          "locationText": "Beirut, Lebanon",
-          "imageUrl": "https://example.com/images/massaya-zaman.jpg"
-        },
-        {
-          "id": 2,
-          "title": "La Petite Maison",
-          "countryCode": "FR",
-          "phoneNumber": "+33170360050",
-          "locationText": "Paris, France",
-          "imageUrl": "https://example.com/images/la-petite-maison.jpg"
-        },
-        {
-          "id": 3,
-          "title": "Pizzeria Bianco",
-          "countryCode": "US",
-          "phoneNumber": "+16022620200",
-          "locationText": "Phoenix, AZ, USA",
-          "imageUrl": "https://example.com/images/pizzeria-bianco.jpg"
-        },
-        {
-          "id": 4,
-          "title": "Din Tai Fung",
-          "countryCode": "TW",
-          "phoneNumber": "+886277381066",
-          "locationText": "Taipei, Taiwan",
-          "imageUrl": "https://example.com/images/din-tai-fung.jpg"
-        },
-        {
-          "id": 5,
-          "title": "Gaggan",
-          "countryCode": "TH",
-          "phoneNumber": "+6626521700",
-          "locationText": "Bangkok, Thailand",
-          "imageUrl": "https://example.com/images/gaggan.jpg"
-        },
-        {
-          "id": 6,
-          "title": "Massaya Zaman",
-          "countryCode": "LB",
-          "phoneNumber": "+9616665802",
-          "locationText": "Beirut, Lebanon",
-          "imageUrl": "https://example.com/images/massaya-zaman.jpg"
-        },
-        {
-          "id": 7,
-          "title": "La Petite Maison",
-          "countryCode": "FR",
-          "phoneNumber": "+33170360050",
-          "locationText": "Paris, France",
-          "imageUrl": "https://example.com/images/la-petite-maison.jpg"
-        },
-        {
-          "id": 8,
-          "title": "Pizzeria Bianco",
-          "countryCode": "US",
-          "phoneNumber": "+16022620200",
-          "locationText": "Phoenix, AZ, USA",
-          "imageUrl": "https://example.com/images/pizzeria-bianco.jpg"
-        },
-        {
-          "id": 9,
-          "title": "Din Tai Fung",
-          "countryCode": "TW",
-          "phoneNumber": "+886277381066",
-          "locationText": "Taipei, Taiwan",
-          "imageUrl": "https://example.com/images/din-tai-fung.jpg"
-        },
-        {
-          "id": 10,
-          "title": "Gaggan",
-          "countryCode": "TH",
-          "phoneNumber": "+6626521700",
-          "locationText": "Bangkok, Thailand",
-          "imageUrl": "https://example.com/images/gaggan.jpg"
-        }
-      ]
-    const [loading, setLoading] = useState(true);
-      useEffect(() => {
+  // Function to safely extract data or return 'N/A'
+  const getSafeData = (data) => data || 'N/A';
 
-        document.body.style.setProperty('--color-page-background', '#1B1C1F');
-      })
+  // Function to format venue location
+  const formatVenueLocation = (location) => {
+    if (!location || !location.city || !location.country) return 'N/A';
+    return `${location.city}, ${location.country}`;
+  };
 
-   return (
+  // Fetch event details
+  useEffect(() => {
+    const getAllEvensDetails = async () => {
+      try {
+        const response = await axios.get('https://stageeventbuz.online/api/v1/events/all', {
+          headers: { 
+            'Accept': 'application/json', 
+            'Content-Type': 'application/json'
+          }
+        });
+        setEvents(response.data.data);
+        console.log('ALL EVENTS', response.data.data)
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+
+    getAllEvensDetails();
+  }, []);
+
+  // Set background color of the page
+  useEffect(() => {
+    document.body.style.setProperty('--color-page-background', '#1B1C1F');
+  });
+
+  return (
     <div className='Home'>
       <HeaderSignedIn />
       <SecondaryHeader />
       <div className={styles.mainContent}>
         <div className={styles.scrollableGrid}>
           <div className={styles.grid}>
-                {events.map(event => (
-                    <RestaurantCard
-                        key={event.id}
-                        countryCode={event.countryCode}
-                        title={event.title}
-                        phoneNumber={event.phoneNumber}
-                        locationText={event.locationText}
-                        imageUrl={event.imageUrl} // Pass the image URL to the card
-                    />
-                ))}
+            {/* Rendering events using RestaurantCard */}
+            {events.map(event => (
+              <RestaurantCard
+                key={event.id}
+                eventIDCard = {event.id}
+                title={getSafeData(event.name)}
+                phoneNumber={getSafeData(event.contact_phone_number)}
+                locationText={formatVenueLocation(event.venue_location)}
+                imageUrl={event.media?.event_main_photo?.url || 'N/A'}
+                cardStyle={{height: '300px', width: '520px'}}
+              />
+            ))}
           </div>
         </div>
-        <div className={styles.rightSection}>
-        <HorizontalCaroussel slides={events} options={{}} />
-
-<div className="login-columnEmblaView" style={{marginTop: 50}}>
-    <div className="Login-rowEmblav">
-
-        <div className="embla2" style={{width: '700px'}} >
-            <div className="embla__viewport2" ref={emblaRef3}>
-                <div className="embla__container2">
-                {events.map((index, event) => (
-                    <div className="embla__slide2" key={index} >
-                    <div className="embla__slide__number2">
-                        <span>{index + 1}</span>
-                    </div>
-                        <RestaurantCard
-                            key={event.id}
-                            countryCode={event.countryCode}
-                            title={event.title}
-                            phoneNumber={event.phoneNumber}
-                            locationText={event.locationText}
-                            imageUrl={event.imageUrl} // Pass the image URL to the card
-                        />
-                    </div>
-                ))}
-                </div>
-            </div>
-        </div>
-
-        <div className="embla3" style={{width: '680px'}}>
-            <div className="embla__viewport3" ref={emblaRef2}>
-                <div className="embla__container3">
-                {events.map((index, event) => (
-                    <div className="embla__slide3" key={index} >
-                    <div className="embla__slide__number3">
-                        <span>{index + 1}</span>
-                    </div>
-
-                        <RestaurantCard
-                            key={event.id}
-                            countryCode={event.countryCode}
-                            title={event.title}
-                            phoneNumber={event.phoneNumber}
-                            locationText={event.locationText}
-                            imageUrl={event.imageUrl} // Pass the image URL to the card
-                        />
-                    </div>
-                ))}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-        </div>
       </div>
+      
     </div>
-        
-   )
-}
+  );
+};
+
 export default Events;

@@ -9,7 +9,7 @@ import '@radix-ui/themes/styles.css';
 import { Theme } from '@radix-ui/themes';
 import 'react-calendar/dist/Calendar.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-
+import '@/styles/reactBigCalendarModified.css'
 
 
 export default function App({ Component, pageProps, session }) {

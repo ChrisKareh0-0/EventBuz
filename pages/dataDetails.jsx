@@ -29,7 +29,7 @@ import noImage from '../assets/NoImage.png'
 
 
 
-const userProfile = ({props}) => {
+const dataDetails = ({props}) => {
     const OPTIONS = {axis: 'y'}
     const OPTIONS2 = {}
     const [emblaRef] = useEmblaCarousel(OPTIONS)
@@ -63,7 +63,8 @@ const userProfile = ({props}) => {
     const [switchName, setSwitchName] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const pageEvent = router.query.eventPage
+    
+    const [eventIDCardo, seteventIDCard] = useState(0)
 
     // const [isSwitchUser, setisSwitchUser] = useState(false);
     const [Token, setToken] = useState('')
@@ -85,11 +86,28 @@ const userProfile = ({props}) => {
     useEffect(() => {
         const MainUserToken = localStorage.getItem('access_Token')
         const notMainToken = localStorage.getItem('profile_access')
+        const pageEvent = router.query.eventPage
+        if (router.isReady) { // Check if the router is ready
+            const queryEventIDCard = router.query.eventIDCard;
+            if (queryEventIDCard) {
+            //   setEventID(queryEventIDCard);
+            console.log("[+] EVENT ID CARD",queryEventIDCard)
+            }
+            console.log("LINE 95",typeof window)
+        } else if (typeof window !== 'undefined') {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventIDCard = urlParams.get('eventIDCard');
+            if (eventIDCard) {
+              console.log("[+] EVENT ID CARD", eventIDCard);
+              seteventIDCard(eventIDCard)
+            }
+          }
         console.log("Main Token", MainUserToken)
         console.log("Non Main User Token", notMainToken)
+        // console.log("[+]EVENT ID IN DATA DETAILS PAGE", eventIDCard)
        
-        if( pageEvent == true ){
-            
+        if (!pageEvent){
+            getEventDetails();
         } else {
             userProfileData()
         }
@@ -185,6 +203,47 @@ const userProfile = ({props}) => {
         .catch((error) => {
             //console.log(error)
         })
+    }
+
+    const getEventDetails = () => {
+        const axios = require('axios');
+        const FormData = require('form-data');
+        let data = new FormData();
+
+        let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `https://stageeventbuz.online/api/v1/events/${eventIDCardo}/details`,
+        headers: { 
+            'Accept': 'application/json', 
+            'Content-Type': 'application/json', 
+            
+        },
+        data : data
+        };
+
+        axios.request(config)
+        .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setemail(response.data.data.email)
+            setphoneNumber(response.data.data.phone)
+            setLocation(response.data.data.country)
+            Store.dispatch(setCountryRedux(response.data.data.country))
+            setWebsite(response.data.data.website)
+            setUsername(response.data.data.name)
+            Store.dispatch(setusername(response.data.data.name))
+            setType(response.data.data.types[0].name)
+            if (response.data.data.profile_image && response.data.data.profile_image.url) {
+                setProfilePicture(response.data.data.profile_image.url)
+            }
+            //console.log("{+++++} TYPE:", response.data.data.types[0])
+            //console.log("{+++++++++++++PROFILE PICTURE}",response.data.data.profile_image.url)
+            setLoading(false)
+        })
+        .catch((error) => {
+        console.log(error);
+        });
+
     }
 
     const getUserSuppliers = async () => {
@@ -441,4 +500,4 @@ const userProfile = ({props}) => {
    
     )
 }
-export default userProfile
+export default dataDetails

@@ -231,12 +231,28 @@ const subscriptionsData = async () => {
     })
 }
 
-const createEvent = async (inputValue, onError) => {
+const createEvent = async (inputValue, comingFromAdmin,adminToken, onError) => {
+    console.log("is it coming from admin?",comingFromAdmin)
     console.log(typeof inputValue)
     console.log("Data passed to API",inputValue)
     const axios = require('axios');
-    const Token = localStorage.getItem('access_Token')
-    console.log("TOKEN in verifyEmail Function", Token)
+    let Token;
+
+    if (comingFromAdmin && adminToken) {
+        Token = adminToken;
+        console.log("AccessToken ADMIN",Token)
+    } else {
+        console.log("AccessToken",Token)
+        Token = localStorage.getItem('access_Token');
+    }
+
+    // Handle the case where no token is available
+    if (!Token) {
+        console.error("No token available for authentication");
+        
+    }
+
+    
 let config = {
   method: 'post',
   maxBodyLength: Infinity,
@@ -310,7 +326,19 @@ const editEvent = (inputValue, onError, eventID) => {
 
 const createEventContact = async(inputValue, onError) => {
     const axios = require('axios');
-    const Token = localStorage.getItem('access_Token')
+    let Token;
+
+    if (comingFromAdmin && adminToken) {
+        Token = adminToken;
+    } else {
+        Token = localStorage.getItem('access_Token');
+    }
+
+    // Handle the case where no token is available
+    if (!Token) {
+        console.error("No token available for authentication");
+        
+    }
     const createEvent_ID = localStorage.getItem('createEvent_ID')
     let config = {
         method: 'post',
@@ -339,10 +367,22 @@ const createEventContact = async(inputValue, onError) => {
     })
 }
 
-const createEventMedia = (media) => {
+const createEventMedia = (media,comingFromAdmin,adminToken) => {
     const axios = require('axios');
     const createEvent_ID = localStorage.getItem('createEvent_ID')
-    const Token = localStorage.getItem('access_Token')
+    let Token;
+
+    if (comingFromAdmin && adminToken) {
+        Token = adminToken;
+    } else {
+        Token = localStorage.getItem('access_Token');
+    }
+
+    // Handle the case where no token is available
+    if (!Token) {
+        console.error("No token available for authentication");
+        
+    }
 
     let config = {
         method: 'post',
@@ -374,7 +414,19 @@ const createEventMedia = (media) => {
 
 const createEventSocial = async(inputValue, onError) => {
     const axios = require('axios');
-    const Token = localStorage.getItem('access_Token')
+    let Token;
+
+    if (comingFromAdmin && adminToken) {
+        Token = adminToken;
+    } else {
+        Token = localStorage.getItem('access_Token');
+    }
+
+    // Handle the case where no token is available
+    if (!Token) {
+        console.error("No token available for authentication");
+        
+    }
     const createEvent_ID = localStorage.getItem('createEvent_ID')
     console.log(inputValue)
     let config = {

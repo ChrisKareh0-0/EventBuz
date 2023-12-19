@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+// import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useRouter } from 'next/router'; // Import useRouter for navigation
 import axios from 'axios';
 const localizer = momentLocalizer(moment);
@@ -56,7 +56,7 @@ const MyCalendar = () => {
             <div 
                 className="customEvent"
                 onClick={() => router.push({
-                    pathname: '/userProfile',
+                    pathname: '/dataDetails',
                     query: {
                         eventPage: true,
                         idEvent: event.id
@@ -79,6 +79,7 @@ const MyCalendar = () => {
                 components={{
                     event: CustomEvent
                 }}
+                views={['month']} // Specify only the views you want
             />
         </div>
     );

@@ -16,7 +16,7 @@ import ThirdHeader from "@/Components/ThirdHeader";
 import ContactInfo from "@/Components/userData";
 
 
-const userProfile = () => {
+const dataDetails = () => {
     const OPTIONS = {axis: 'y'}
     const OPTIONS2 = {}
     const [emblaRef] = useEmblaCarousel(OPTIONS)
@@ -260,4 +260,4 @@ const userProfile = () => {
     </>
     )
 }
-export default userProfile
+export default dataDetails

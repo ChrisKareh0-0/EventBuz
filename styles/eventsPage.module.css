@@ -9,7 +9,7 @@
     /* Add more styles as needed */
   }
   .scrollableGrid {
-    height: 700px; /* Adjust this value based on your design needs */
+    height: 55%; /* Adjust this value based on your design needs */
     width: 65%;
     overflow-y: auto; /* Enables vertical scrolling */
     padding: 10px;

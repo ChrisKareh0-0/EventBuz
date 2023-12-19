@@ -7,7 +7,7 @@ const SecondaryHeader = () => {
         <div style={{top: 90}} className="secondary-et-hero-tabs-container">
 
             <a className="secondary-et-hero-tab" href="#tab-es6">My Panel</a>
-            <a className="secondary-et-hero-tab" onClick={() => router.push('/userProfile')}>My Profile</a>
+            <a className="secondary-et-hero-tab" onClick={() => router.push('/dataDetails')}>My Profile</a>
             <a className="secondary-et-hero-tab" href="#tab-react">My Contacts</a>
             <a className="secondary-et-hero-tab" href="#tab-angular">My Notifications</a>
             <a className="secondary-et-hero-tab" href="#tab-other">My Invitations</a>

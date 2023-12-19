@@ -207,7 +207,7 @@ const ThirdHeader = () => {
         <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
                     <Button onClick={() => {
-                        router.push('/userProfile')
+                        router.push('/dataDetails')
                         
                     }}     className="third-et-hero-tab"  style={{fontFamily: "sans-serif", fontWeight: 100, fontSize: 13, height: 50, background:"#1B1C1F" }}>
                     Profile

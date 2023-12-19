@@ -175,7 +175,7 @@ const login = () =>{
                 if(response.data.phoneVerified || response.data.emailVerified){
                     console.log('[+]LINE 107 IF')
                     toast.success('Account Found')
-                    router.push('/userProfile')
+                    router.push('/dataDetails')
                 } else {
                     console.log('[+]Line 111 else')
                     toast.success('Account Found!')
@@ -210,7 +210,7 @@ const login = () =>{
             if(errorMessage){
                 router.push('/Verify')
             } else {
-                router.push('/userProfile')
+                router.push('/dataDetails')
             }
         } else if (status === 404) {
             toast.error ('Account not found')
@@ -294,7 +294,7 @@ const login = () =>{
                     
                     </div>
 
-                    <div className="top-right" style={{marginTop: 100, flexDirection:'column'}}>
+                    {/* <div className="top-right" style={{marginTop: 100, flexDirection:'column'}}>
                         <HorizontalCaroussel slides={events} options={{}} />
 
                         <div className="login-columnEmblaView" style={{marginTop: 50}}>
@@ -362,7 +362,7 @@ const login = () =>{
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
         </>
     )

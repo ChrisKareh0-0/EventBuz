@@ -10,8 +10,9 @@ import React, { useReducer } from 'react';
 import { useRouter } from 'next/router';
 
 
-const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl}) => {
+const RestaurantCard = ({eventIDCard, countryCode, title, phoneNumber, locationText, imageUrl, cardStyle}) => {
   const [isChecked, setIsChecked] = useState(false)
+  console.log("EVENTID", eventIDCard)
     // console.log("Data in the caroussel", countryCode, title, phoneNumber, locationText, imageUrl)
   const toggleCheckbox = () => {
     setIsChecked(!isChecked)
@@ -21,7 +22,7 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
 
   return (
   
-    <div className="cardDescription">
+    <div className="cardDescription" style={cardStyle}>
       
       <div className="card-image">
       <button className="favorite-button" onClick={toggleCheckbox}>
@@ -54,8 +55,10 @@ const RestaurantCard = ({countryCode, title, phoneNumber, locationText, imageUrl
             <span>{locationText}</span> 
           </div>
           <button onClick={() => {router.push({
-            pathname: '/userProfile',
-            query: {eventPage: true }
+            pathname: '/dataDetails',
+            query: {eventPage: true,
+              eventIDCard: eventIDCard,
+            }
           })}} className="info-button">Book Now</button> 
 
         </div>
