@@ -33,13 +33,13 @@ import { setCountryRedux, setusername } from '@/Redux/slice';
 
 
 const categories = {
-  "General Information": ["name", "type", "keyword", "description"],
-  "Venue Location": ["venue_name", "country", "city", "building_name", "room_name", "room_number", "full_address", "street"],
+  "General Information": ["Name", "Type", "Keyword", "Description"],
+  "Venue Location": ["Venue Name", "Country", "City", "Building Name", "Room Name", "Room Number", "Full Address", "Street"],
   "Contact Person": ["Contact Name", "Contact Phone", "Contact Email"],
   "Event Sponsor": [],
   "Promotional Video and Images": ["Contact Namme", "Contact Phone", "Contact Email"],
   "Event Schedule": ["Contact Name", "Contact Phone", "Contact Email"],
-  "Social Media": ["facebook", "instagram", "twitter", "pinterest", "linkedin"],
+  "Social Media": ["Facebook", "Instagram", "Twitter", "Pinterest", "Linkedin"],
   "Options": ["Show on Main Calendar?", "Free Event?", "Reservations", "Max. Number of Orders, Tickets Additional Fields", "Tag Line", "Event Term & Condition", "Ticket Attachment"],
   "Additional Fields": ["Contact Name", "Contact Phone", "Contact Email"],
   // "Notifications": ["Notification List", "Summaries", "On App Message", "Email Message"],
@@ -806,7 +806,7 @@ const rows = files.reduce((acc, current, index) => {
           </div>
         ))}
       </div>
-      <div className="input-fields">
+      <div className="input-fields batata">
         <h2>{selectedCategory}</h2>
        { (() => {
         switch (selectedCategory) {
@@ -1292,7 +1292,7 @@ const rows = files.reduce((acc, current, index) => {
                         ) }
                           {renderMapComponent()}
                         
-                        {title === "country" ? (
+                        {title === "Country" ? (
                             // Special rendering for 'country' field
                             <>
                               <label>{title}</label>
@@ -1370,7 +1370,7 @@ const rows = files.reduce((acc, current, index) => {
 {selectedCategory !== "Event Sponsor" && (
   <button 
     className="userProfileButton" 
-    style={{marginLeft: 580, marginTop: 40}}
+    style={{marginLeft: 685, marginTop: 40}}
   >
     <a 
       onClick={() => {
@@ -1432,9 +1432,9 @@ const rows = files.reduce((acc, current, index) => {
 
         .input-group {
           margin-bottom: 0px;
-          width: 80%;
+          width: 83.5%;
           margin-top: 25px;
-          margin-left: 70px;
+          margin-left: 30px;
         }
         .input-group label {
           display: block;
