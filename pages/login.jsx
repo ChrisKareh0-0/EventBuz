@@ -157,7 +157,7 @@ const login = () =>{
         await axios.request({
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'https://stageeventbuz.online/api/v1/check-email',
+            url: 'https://eventbuznew.online/api/v1/check-email',
             // headers: {
             //     'Content-Type' : 'application/json',
             // },

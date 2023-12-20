@@ -16,6 +16,7 @@ const HeaderSignedIn = () => {
     const [waddup, setwaddup] = useState(false)
     const [waddupData, setwaddupData] = useState('')
     const [switched, setswitched] = useState(false)
+    const [localUsername, setLocalUsername] = useState('')
     const username = useSelector(state => state.data.username)
     const isSwitch = useSelector(state => state.data.isSwitch);
     // const notUsername = useSelector(state => state.data.notusername)
@@ -65,8 +66,9 @@ const HeaderSignedIn = () => {
             },
         })
         .then((response) => {
-            console.log(response.data.data)
-            // setUsername(response.data.data.name)
+            
+            console.log("[+] USERNAME SHOULD SHOW UP",response.data.data)
+            setLocalUsername(response.data.data.name)
             // Store.dispatch(setPlaceName(response.data.data.name))
             
         })
@@ -168,7 +170,7 @@ const HeaderSignedIn = () => {
 
                
 
-                        <a className="usernameTitle">{capitalizeFirstLetter(username)}</a>
+                        <a className="usernameTitle">{capitalizeFirstLetter(localUsername)}</a>
                         
 
                     </button>

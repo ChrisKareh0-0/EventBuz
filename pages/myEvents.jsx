@@ -70,7 +70,7 @@ const myEvents = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'https://stageeventbuz.online/api/v1/events/get-user-events',
+            url: 'https://eventbuznew.online/api/v1/events/get-user-events',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',

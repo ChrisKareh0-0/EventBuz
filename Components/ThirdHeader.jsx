@@ -62,7 +62,7 @@ const ThirdHeader = () => {
         let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/get-user-suppliers',
+        url: 'https://eventbuznew.online/api/v1/get-user-suppliers',
         headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer '+ Token
@@ -122,7 +122,7 @@ const ThirdHeader = () => {
         let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/switch-profile',
+        url: 'https://eventbuznew.online/api/v1/switch-profile',
         headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer '+'34|DHhs9SLHBZBi5xElsQlHTCN76Gh1GtR3r9mcHsXA78f0ceba', 

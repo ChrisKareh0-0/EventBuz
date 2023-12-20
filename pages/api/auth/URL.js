@@ -1,4 +1,4 @@
-const App_URL = `https://stageeventbuz.online/api/v1`
+const App_URL = `https://eventbuznew.online/api/v1`
 
 const registrationByEmail = `${App_URL}/register`
 const checkEmailURL = `${App_URL}/check-email`

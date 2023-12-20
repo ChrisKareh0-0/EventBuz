@@ -105,7 +105,7 @@ export default function CreateEvent() {
   let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'https://stageeventbuz.online/api/v1/events/type',
+      url: 'https://eventbuznew.online/api/v1/events/type',
       
     }
     await axios.request(config)
@@ -178,7 +178,7 @@ export default function CreateEvent() {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url:'https://stageeventbuz.online/api/v1/create-event-sponsor/',
+        url:'https://eventbuznew.online/api/v1/create-event-sponsor/',
         headers: {
             'Content-Type':'application/json',
             'Accept':'application/json',
@@ -210,7 +210,7 @@ const countryListapi = () => {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: 'https://stageeventbuz.online/api/v1/country/all',
+    url: 'https://eventbuznew.online/api/v1/country/all',
     headers: { }
   };
 
@@ -243,7 +243,7 @@ const getKeywords = () => {
 let config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'https://stageeventbuz.online/api/v1/keyword/all',
+  url: 'https://eventbuznew.online/api/v1/keyword/all',
   headers: { 
     'Accept': 'application/json', 
     'Content-Type': 'application/json'
@@ -423,7 +423,7 @@ const saveStateToLocalStorage = () => {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url:'https://stageeventbuz.online/api/v1/create-event-option/',
+        url:'https://eventbuznew.online/api/v1/create-event-option/',
         headers: {
             'Content-Type':'application/json',
             'Accept':'application/json',
@@ -465,7 +465,7 @@ const saveStateToLocalStorage = () => {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/create-event-additional-field',
+        url: 'https://eventbuznew.online/api/v1/create-event-additional-field',
         headers: { 
           'Content-Type': 'application/json', 
           'Accept': 'application/json', 
@@ -694,7 +694,7 @@ const createEventVenue = async(inputValue) => {
   let config = {
       method: 'post', 
       maxBodyLength: Infinity,
-      url: 'https://stageeventbuz.online/api/v1/create-event-venue-location/',
+      url: 'https://eventbuznew.online/api/v1/create-event-venue-location/',
       headers: {
           'Content-Type':'application/json',
           'Accept':'application/json',

@@ -100,7 +100,7 @@ const EditEvent = () => {
     //APIs
     const getEventDetails = async () => {
         try {
-            const response = await axios.get(`https://stageeventbuz.online/api/v1/events/${eventID}/details`);
+            const response = await axios.get(`https://eventbuznew.online/api/v1/events/${eventID}/details`);
             console.log("[+] EDIT DATA", response.data.data)
             populateFormWithEventData(response.data.data);
             setScheduleData(response.data.data.schedules)
@@ -117,7 +117,7 @@ const EditEvent = () => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/events/type',
+        url: 'https://eventbuznew.online/api/v1/events/type',
         
       }
       await axios.request(config)
@@ -142,7 +142,7 @@ const EditEvent = () => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'https://stageeventbuz.online/api/v1/keyword/all',
+      url: 'https://eventbuznew.online/api/v1/keyword/all',
       headers: { 
         'Accept': 'application/json', 
         'Content-Type': 'application/json'
@@ -170,7 +170,7 @@ const EditEvent = () => {
       let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/country/all',
+        url: 'https://eventbuznew.online/api/v1/country/all',
         headers: { }
       };
     
@@ -267,7 +267,7 @@ const EditEvent = () => {
         let config = {
             method: 'put',
             maxBodyLength: Infinity,
-            url: 'https://stageeventbuz.online/api/v1/events/13/check-status',
+            url: 'https://eventbuznew.online/api/v1/events/13/check-status',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',

@@ -55,7 +55,7 @@ const RestaurantCard = ({eventIDCard, countryCode, title, phoneNumber, locationT
             <span>{locationText}</span> 
           </div>
           <button onClick={() => {router.push({
-            pathname: '/dataDetails',
+            pathname: '/eventDescription',
             query: {eventPage: true,
               eventIDCard: eventIDCard,
             }

@@ -92,7 +92,7 @@ const Home = () => {
         let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/events/all',
+        url: 'https://eventbuznew.online/api/v1/events/all',
         headers: { 
             'Accept': 'application/json', 
             'Content-Type': 'application/json'

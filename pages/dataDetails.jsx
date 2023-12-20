@@ -64,7 +64,7 @@ const dataDetails = ({props}) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     
-    const [eventIDCardo, seteventIDCard] = useState(0)
+    const [eventIDCardo, seteventIDCardo] = useState(0)
 
     // const [isSwitchUser, setisSwitchUser] = useState(false);
     const [Token, setToken] = useState('')
@@ -87,30 +87,14 @@ const dataDetails = ({props}) => {
         const MainUserToken = localStorage.getItem('access_Token')
         const notMainToken = localStorage.getItem('profile_access')
         const pageEvent = router.query.eventPage
-        if (router.isReady) { // Check if the router is ready
-            const queryEventIDCard = router.query.eventIDCard;
-            if (queryEventIDCard) {
-            //   setEventID(queryEventIDCard);
-            console.log("[+] EVENT ID CARD",queryEventIDCard)
-            }
-            console.log("LINE 95",typeof window)
-        } else if (typeof window !== 'undefined') {
-            const urlParams = new URLSearchParams(window.location.search);
-            const eventIDCard = urlParams.get('eventIDCard');
-            if (eventIDCard) {
-              console.log("[+] EVENT ID CARD", eventIDCard);
-              seteventIDCard(eventIDCard)
-            }
-          }
+        
         console.log("Main Token", MainUserToken)
         console.log("Non Main User Token", notMainToken)
         // console.log("[+]EVENT ID IN DATA DETAILS PAGE", eventIDCard)
        
-        if (!pageEvent){
-            getEventDetails();
-        } else {
+      
             userProfileData()
-        }
+        
        
         
        getUserPlaces()
@@ -145,7 +129,7 @@ const dataDetails = ({props}) => {
         let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/switch-profile',
+        url: 'https://eventbuznew.online/api/v1/switch-profile',
         headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer '+Token, 
@@ -210,10 +194,28 @@ const dataDetails = ({props}) => {
         const FormData = require('form-data');
         let data = new FormData();
 
+        if (router.isReady) { // Check if the router is ready
+            const queryEventIDCard = router.query.eventIDCard;
+            if (queryEventIDCard) {
+            //   setEventID(queryEventIDCard);
+            console.log("[+] EVENT ID CARD",queryEventIDCard)
+            seteventIDCardo(eventIDCard)
+            }
+            console.log("LINE 95",typeof window)
+        } else if (typeof window !== 'undefined') {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventIDCard = urlParams.get('eventIDCard');
+            if (eventIDCard) {
+              console.log("[+] EVENT ID CARD", eventIDCard);
+              seteventIDCardo(eventIDCard)
+              
+            }
+          }
+
         let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `https://stageeventbuz.online/api/v1/events/${eventIDCardo}/details`,
+        url: `https://eventbuznew.online/api/v1/events/${eventIDCardo}/details`,
         headers: { 
             'Accept': 'application/json', 
             'Content-Type': 'application/json', 
@@ -253,7 +255,7 @@ const dataDetails = ({props}) => {
         let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/get-user-suppliers',
+        url: 'https://eventbuznew.online/api/v1/get-user-suppliers',
         headers: { 
             'Content-Type': 'application/json', 
             'Authorization': 'Bearer '+ Token
@@ -317,7 +319,7 @@ const dataDetails = ({props}) => {
         })
     }
 
-
+    
  
 
     return (

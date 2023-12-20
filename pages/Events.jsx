@@ -26,7 +26,7 @@ const Events = () => {
   useEffect(() => {
     const getAllEvensDetails = async () => {
       try {
-        const response = await axios.get('https://stageeventbuz.online/api/v1/events/all', {
+        const response = await axios.get('https://eventbuznew.online/api/v1/events/all', {
           headers: { 
             'Accept': 'application/json', 
             'Content-Type': 'application/json'

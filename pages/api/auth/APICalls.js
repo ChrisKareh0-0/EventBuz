@@ -30,7 +30,7 @@ console.log("DATA",data)
 let config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'https://stageeventbuz.online/api/v1/register',
+  url: 'https://eventbuznew.online/api/v1/register',
   headers: {
     'Content-Type':'application/json'
   },
@@ -75,7 +75,7 @@ console.log("EMAIL",email)
 let config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'https://stageeventbuz.online/api/v1/register',
+  url: 'https://eventbuznew.online/api/v1/register',
   headers: {
     'Content-Type':'application/json'
   },
@@ -256,7 +256,7 @@ const createEvent = async (inputValue, comingFromAdmin,adminToken, onError) => {
 let config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'https://stageeventbuz.online/api/v1/create-event',
+  url: 'https://eventbuznew.online/api/v1/create-event',
   headers: { 
     'Content-Type': 'application/json', 
     'Accept': 'application/json', 
@@ -296,7 +296,7 @@ const editEvent = (inputValue, onError, eventID) => {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: `https://stageeventbuz.online/api/v1/create-event/${eventID}`,
+        url: `https://eventbuznew.online/api/v1/create-event/${eventID}`,
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -343,7 +343,7 @@ const createEventContact = async(inputValue, onError) => {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url:'https://stageeventbuz.online/api/v1/create-event-contact',
+        url:'https://eventbuznew.online/api/v1/create-event-contact',
         headers: {
             'Content-Type':'application/json',
             'Accept':'application/json',
@@ -387,7 +387,7 @@ const createEventMedia = (media,comingFromAdmin,adminToken) => {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://stageeventbuz.online/api/v1/upload-event-media',
+        url: 'https://eventbuznew.online/api/v1/upload-event-media',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -432,7 +432,7 @@ const createEventSocial = async(inputValue, onError) => {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url:'https://stageeventbuz.online/api/v1/create-event-social-media/',
+        url:'https://eventbuznew.online/api/v1/create-event-social-media/',
         headers: {
             'Content-Type':'application/json',
             'Accept':'application/json',
@@ -464,7 +464,7 @@ const getListofCurrencies = async() => {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'https://stageeventbuz.online/api/v1/currency/all',
+      url: 'https://eventbuznew.online/api/v1/currency/all',
       headers: { 
         'Accept': 'application/json', 
         'Content-Type': 'application/json'
