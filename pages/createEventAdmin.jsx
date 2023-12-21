@@ -87,13 +87,20 @@ export default function CreateEvent() {
 
 
   const options = useMemo(() => countryList().getData(), [])
+  const [optionsData, setOptionsData] = useState({
+    showOnMainCalendar: '',
+    freeEvent: '',
+    reservations: '',
+    maxNbReservations: '',
+    bookingType: '',
+  });
 
-  const latte = useSelector(state => state.data.latitude)
-  const long = useSelector(state => state.data.longitude)
 
-  //Country Redux
+  //Redux
   const countryRedux = useSelector(state => state.data.countryRedux)
   const listOfCurrencies = useSelector(state => state.data.listOfCurrencies)
+  const latte = useSelector(state => state.data.latitude)
+  const long = useSelector(state => state.data.longitude)
 
   const [nextId, setNextId] = useState(1);
 
@@ -175,7 +182,7 @@ export default function CreateEvent() {
     }));
   };
 
-  // const ImageSponsor = useSelector(state => state.data.sponsorPicture )
+  const ImageSponsor = useSelector(state => state.data.sponsorPicture )
   const createEventSponsor = async(elements) => {
     const axios = require('axios');
     const Token = localStorage.getItem('access_Token')
@@ -413,7 +420,7 @@ const saveStateToLocalStorage = () => {
     }
   }
 
-  const createEventOptions = async(inputValue) => {
+  const createEventOptions = async(inputValue,comingFromAdmin, adminToken ) => {
     const axios = require('axios');
     let Token;
 
@@ -431,16 +438,7 @@ const saveStateToLocalStorage = () => {
     const createEvent_ID = localStorage.getItem('createEvent_ID')
     const fieldsString = JSON.stringify(fields)
     const priceCategoryString = JSON.stringify(ticketFields)
-    //console.log("[++] EVENT OPTIONS DATA")
-    //console.log("INPUT VALUE",inputValue)
-    //console.log("reservation", reservations)
-    //console.log("EVENT ID", createEvent_ID)
-    //console.log("Booking Type", bookingType)
-    //console.log("Additional Fields", fields)
-    //console.log("Pricing Category", ticketFields)
-    //console.log("OPTION IMAGE", ImageSponsor)
-    //console.log("Max number of orders", maxNbReservations)
-    //console.log("Terms and conditions", termsConditions)
+
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -544,7 +542,7 @@ const saveStateToLocalStorage = () => {
         createEventVenue(inputValues, comingFromAdmin, adminToken);
         break;
       case "Contact Person":
-        createEventContact(inputValues, comingFromAdmin, adminToken,() => {
+        createEventContact(inputValues,latte ,long,comingFromAdmin, adminToken,() => {
           setSelectedCategory("Contact Person")
         })
         break;
@@ -562,7 +560,9 @@ const saveStateToLocalStorage = () => {
         createAdditionalFields(comingFromAdmin, adminToken)
         break;
       case "Promotional Video and Images":
-        createEventMedia(files, comingFromAdmin, eventToken)
+        createEventMedia(files, comingFromAdmin, adminToken, () => {
+          setSelectedCategory('Promotional Video and Images')
+        })
         break;
 
     }
@@ -570,7 +570,7 @@ const saveStateToLocalStorage = () => {
   }
 
   const handleMapLoad = () => {
-    setLoading(false);  // Set loading to false when the map has loaded
+    setLoading(false);  
   };
 
   const renderMapComponent = () => {
@@ -609,7 +609,13 @@ const saveStateToLocalStorage = () => {
   
     const newInputValues = { ...inputValues, [fieldName]: newValue };
     setInputValues(newInputValues);
-    //console.log(newInputValues);
+
+    if (selectedCategory === "Options") {
+      setOptionsData(prev => ({
+          ...prev,
+          [fieldName]: newValue
+      }));
+    }
   };
   
   const handleFieldRowChange = (id, fieldName, event) => {
@@ -618,8 +624,6 @@ const saveStateToLocalStorage = () => {
       field.id === id ? { ...field, [fieldName]: value } : field
     ));
     setfieldsStringified(JSON.stringify(fields))
-    // //console.log(fields)
-    //console.log(fieldsStrigified)
   };
   const deleteFieldRow = (id) => {
     setFields(fields.filter(field => field.id !== id));
@@ -643,7 +647,6 @@ const handleWebsiteInputChange = (index, event) => {
       const newWebsiteData = [...websiteData];
       newWebsiteData[index] = { type: 'website', value: value };
       setWebsiteData(newWebsiteData);
-      //console.log("WEBSITES",websiteData)
       setBookingType(websiteData)
   }
 };
@@ -658,7 +661,6 @@ const removeWebsiteInput = (index) => {
 };
 
 const addTicketField = () => {
-  // Check if all fields are filled out
   const allFieldsFilled = ticketFields.every(field => 
     field.categoryName && field.categoryName.trim() !== '' &&
     field.price && field.price.toString().trim() !== '' &&
@@ -668,7 +670,6 @@ const addTicketField = () => {
   if (allFieldsFilled) {
     setTicketFields([...ticketFields, { categoryName: '', price: '', nbReservations: '' }]);
   } else {
-    // Optionally, show an alert or message to the user
     toast.error('Please fill out all the existing fields before adding a new one.')
   }
 };
@@ -692,9 +693,7 @@ const removeTicketField = (index) => {
     setInputValues(prevValues => ({
       ...prevValues,
       bookingType: selectedOption.value,
-    }));
-    
-    // Show a default phone input field when the booking type is 'Phone'
+    }));    
     if (selectedOption.value === 'Call') {
       setPhoneInputs(['']);
     } else {
@@ -719,6 +718,8 @@ const handleCountryChange = (title, selectedOption) => {
 
 
 const createEventVenue = async(inputValue, comingFromAdmin, adminToken) => {
+  console.log("DATA IN INPUT VALUE IN CREATE EVENT MENUE", inputValue)
+  
   const axios = require('axios');
   let Token;
 
@@ -728,15 +729,13 @@ const createEventVenue = async(inputValue, comingFromAdmin, adminToken) => {
       Token = localStorage.getItem('access_Token');
   }
 
-  // Handle the case where no token is available
   if (!Token) {
       console.error("No token available for authentication");
       
   }
   const createEvent_ID = localStorage.getItem('createEvent_ID')
   
-  //console.log("EVENT ID", createEvent_ID)
-  //console.log("Country ID", selectedCountryId)
+
   let config = {
       method: 'post', 
       maxBodyLength: Infinity,
@@ -755,11 +754,9 @@ const createEventVenue = async(inputValue, comingFromAdmin, adminToken) => {
   };
   axios.request(config)
   .then((response) => {
-      //console.log(JSON.stringify(response.data));
       toast.success("Event Location Created Successfully")
   })
   .catch((error) => {
-      //console.log(error)
       toast.error("Error Occured, please try again")
       setSelectedCategory("Venue Location")
   })
@@ -782,11 +779,6 @@ const rows = files.reduce((acc, current, index) => {
   }
   return acc;
 }, []);
-// if (!adminToken) {
-//     return <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-//             <div STYLE={{width: '50%'}}>There's no admin Token</div>
-//         </div>;
-//   }
   return (
     
 
@@ -807,20 +799,19 @@ const rows = files.reduce((acc, current, index) => {
         ))}
       </div>
       <div className="input-fields">
-        <h2>{selectedCategory}</h2>
+        <h2 style={{fontSize: 30}}>{selectedCategory}</h2>
        { (() => {
         switch (selectedCategory) {
           case "Promotional Video and Images":
             return (
               <div>
             {rows.map((row, rowIndex) => (
-                <div className="row" style={{marginTop: '40px'}} key={rowIndex}> {/* Add styles for row */}
+                <div className="row" style={{marginTop: '40px'}} key={rowIndex}>
                     {row.map((fileData, index) => (
                         <PromotionalVideosAndImages 
                             key={index}
                             fileData={fileData}
                             onFileChange={(file) => {
-                              //console.log('Promotional Videos and Images Data',files)
                               handleFileChange(file, rowIndex * 2 + index)}}
                         />
                     ))}
@@ -836,19 +827,10 @@ const rows = files.reduce((acc, current, index) => {
             );
             case "Options":
               const addFieldsOp = () => {
-                // const newFields = [...fields];
-                // newFields.push({ id:new Date().getTime()})
-                // setFields(newFields);  
-                
-                 // Check if any field has an empty 'name'.
                   const isAnyFieldNameEmpty = fields.some(field => !field.name.trim());
-
-                  if (isAnyFieldNameEmpty) {
-                    // Alert the user or handle the error as needed
-                    
+                  if (isAnyFieldNameEmpty) {                    
                     toast.error("Please fill in the name for all fields before adding a new one.")
                   } else {
-                    // All field names are filled, proceed to add a new field
                     const newFields = [...fields, { id: new Date().getTime(), name: '', type: 'Text', isRequired: false }];
                     setFields(newFields);
                   }
@@ -1180,39 +1162,47 @@ const rows = files.reduce((acc, current, index) => {
 
                 case "Event Sponsor":
                   const handleAddElements = () => {
-                    setElements(prevElements => {
+                    // Check if the first element is valid before adding a new element
+                    if (isFirstElementValid()) {
+                      setElements(prevElements => {
                         const newElements = [...prevElements];
                         newElements.unshift({ id: nextId });
-                        setNextId(prevNextId => prevNextId + 1);  // Functional update
+                        setNextId(prevNextId => prevNextId + 1);
                         return newElements;
-                    });
-                };
+                      });
+                    } else {
+                      // Optionally, you can alert the user that the first element is not complete
+                      toast.error("Please complete the first element before adding a new one.");
+                    }
+                  };
+                  
+                  const isFirstElementValid = () => {
+                    if (elements.length === 0) return true; // If there are no elements, allow adding new ones
+                    const firstElement = elements[0];
+                    return firstElement && firstElement.sponsorName && firstElement.sponsorURL;
+                  };
                 const handleSponsorInputChange = (id, field, value) => {
                   setElements(prevElements => prevElements.map(element =>
                       element.id === id
                           ? { ...element, [field]: value }
                           : element
                   ));
-                  //console.log(elements)
               };
                   const handleRemoveElement = (id) => {
-                    //console.log('Removing element with id:', id);  // Log the id value
                     setElements(prevElements => prevElements.filter(element => element.id !== id));
                 }
 
                 const isSingleEventSponsorValid = (element) => {
-                  return element.sponsorName && element.sponsorURL;
+                  const firstElement = elements[0];
+                  return firstElement && firstElement.sponsorName && firstElement.sponsorURL;
                 }
                  
                   const handleSaveAndAdd = (id) => {
-                    // if(!isEventSponsorValid()){
-                    //   toast.error("Please fill in all the fields")
-                      
-                    // } else {
+                   
 
                       handleAddElements();
                       createEventSponsor(elements)  
-                    // }
+                    
                   }
                   const handleEventSponsorFileUpload = (file) => {
                     // Handle the file upload for Event Sponsor
@@ -1222,7 +1212,7 @@ const rows = files.reduce((acc, current, index) => {
                   return eventSponsorData.file !== null && elements.every(element => element.sponsorName && element.sponsorURL);
               };
                   return (
-                    <div>
+                    <div style={{width: '900px'}}>
 
 
 
@@ -1231,26 +1221,28 @@ const rows = files.reduce((acc, current, index) => {
                           <FileUploadComponent onFileUpload={handleEventSponsorFileUpload} />
 
                         <div style={{marginTop:'60px'}}>
+                          <a style={{fontSize: 20}}>Sponsor Name</a>
                           <input
                             type="text"
 
-                            style={{marginTop: 20, width: "145%", backgroundColor: "#3b3b3b"}}
+                            style={{marginTop: 20, width: "300%", backgroundColor: "#3b3b3b"}}
                             value={element.sponsorName || ''}
                             onChange={e => handleSponsorInputChange(element.id, 'sponsorName', e.target.value)}
                           />
+                          <a style={{paddingTop: 30, fontSize: 20}}>Sponsor Url</a>
                           <input
                             type="text"
 
-                            style={{marginTop: 30, width: "145%", backgroundColor:"#3b3b3b"}}
+                            style={{marginTop: 30, width: "300%", backgroundColor:"#3b3b3b"}}
                             value={element.sponsorURL || ''}
                             onChange={e => handleSponsorInputChange(element.id, 'sponsorURL', e.target.value)}
                           />
                         </div>
-                        <div style={{ display: 'flex', flexDirection:'column' ,justifyContent: 'flex-end', gap: 3, marginBottom:30, marginLeft: 60 }}>
+                        <div style={{ display: 'flex', flexDirection:'row' ,justifyContent: 'flex-end', gap: 13,  position: 'absolute' }}>
                           <button className='userProfileButton' style={{marginLeft: 0, width: 160}} onClick={() => handleSaveAndAdd(element.id)}><a style={{marginLeft:62}}>Save</a></button>
                           {index !== 0 && (
                             <button 
-                              disabled={!isSingleEventSponsorValid(element)} 
+                              disabled={isSingleEventSponsorValid(element)} 
                               className='userProfileButton' 
                               style={{marginLeft: 0, width: 160}} 
                               onClick={() => handleRemoveElement(element.id)}
@@ -1262,14 +1254,14 @@ const rows = files.reduce((acc, current, index) => {
                       </div>
                     ))}
                     
-                    {eventSponsorData.preview && (
+                    {/* {eventSponsorData.preview && (
                       <>
                         <a style={{marginTop: '30px'}}>Uploaded Image Preview</a>
                           <div style={{marginLeft:'50px'}}className="file-preview">
                             <img src={eventSponsorData.preview} alt="Uploaded File Preview" style={{ maxWidth: '100%', maxHeight: '300px' }} />
                           </div>
                       </>
-                    )}
+                    )} */}
                   </div>
                 );
                  

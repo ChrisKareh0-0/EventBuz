@@ -12,7 +12,7 @@ const MapComponent = ({onLoad}) => {
   
 
   const searchBoxRef = useRef(null);
-  const longPressTimeout = useRef(null);
+  
 
 
   useEffect(() => {
@@ -33,30 +33,7 @@ const MapComponent = ({onLoad}) => {
   };
  
 
-  const handleMouseDown = (event) => {
-    longPressTimeout.current = setTimeout(() => {
-      const location = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-      setMarkerPosition(location);
-    }, 1000);  // 1000 ms (1 second) delay for long press
-  };
 
-  const handleMouseUp = () => {
-    clearTimeout(longPressTimeout.current);
-  };
-
-  const fetchIPGeolocation = async () => {
-    try {
-      const response = await fetch('http://ip-api.com/json');
-      const data = await response.json();
-      const { lat, lon: lng } = data;  // Adjusted lon to lng for consistency
-      if (typeof lat === 'number' && typeof lng === 'number') {
-        setMarkerPosition({ lat, lng });
-        console.log(markerPosition)
-      }
-    } catch (error) {
-      console.error('Error fetching IP geolocation: ', error);
-    }
-  };
 
   const handleClick = (event) => {
     const location = { lat: event.latLng.lat(), lng: event.latLng.lng() };

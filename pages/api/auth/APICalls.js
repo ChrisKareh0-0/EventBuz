@@ -324,7 +324,7 @@ const editEvent = (inputValue, onError, eventID) => {
 
 
 
-const createEventContact = async(inputValue, onError) => {
+const createEventContact = async(inputValue,latte,long,comingFromAdmin,adminToken ,onError) => {
     const axios = require('axios');
     let Token;
 
@@ -352,6 +352,8 @@ const createEventContact = async(inputValue, onError) => {
         data: {
             ...inputValue,
             event_id: createEvent_ID,
+            lat:latte,
+            long: long,
             
         }    
     }
@@ -367,7 +369,7 @@ const createEventContact = async(inputValue, onError) => {
     })
 }
 
-const createEventMedia = (media,comingFromAdmin,adminToken) => {
+const createEventMedia = (media,comingFromAdmin,adminToken, onError) => {
     const axios = require('axios');
     const createEvent_ID = localStorage.getItem('createEvent_ID')
     let Token;
@@ -409,10 +411,11 @@ const createEventMedia = (media,comingFromAdmin,adminToken) => {
         .catch((error) => {
             console.log(error);
             toast.error(error.response.data.message)
+            onError()
         });
 }
 
-const createEventSocial = async(inputValue, onError) => {
+const createEventSocial = async(inputValue,comingFromAdmin,adminToken, onError) => {
     const axios = require('axios');
     let Token;
 

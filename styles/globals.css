@@ -2963,9 +2963,10 @@ a:focus-visible {
 .uploadZones{
   display: flex;
   flex-direction: row;
-  gap: 90px;
+  gap: 24px;
   margin-left: 55px;
   margin-top: 30px;
+  width: 100%;
 }
 
 .previewImage{
