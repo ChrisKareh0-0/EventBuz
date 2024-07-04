@@ -95,6 +95,13 @@ export default function CreateEvent() {
     bookingType: '',
   });
 
+  const formatTitle = (title) => {
+    return title
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
 
   //Redux
   const countryRedux = useSelector(state => state.data.countryRedux)
@@ -804,7 +811,7 @@ const rows = files.reduce((acc, current, index) => {
         switch (selectedCategory) {
           case "Promotional Video and Images":
             return (
-              <div>
+              <div style={{paddingLeft: 30 }}>
             {rows.map((row, rowIndex) => (
                 <div className="row" style={{marginTop: '40px'}} key={rowIndex}>
                     {row.map((fileData, index) => (
@@ -850,11 +857,11 @@ const rows = files.reduce((acc, current, index) => {
               const handleCurrencyChange = (selectedOption) => {
                 setCurrency(selectedOption ? selectedOption.value : '');
               };
-              return (
+              return ( 
                 <>
-                  <div className="calendar-options-container">
+                  <div className="calendar-options-container" style={{ marginLeft: 30 }}>
                     {/* ... other fields ... */}
-                    <a>Show on Main Calendar ?</a>
+                    <a style={{ padding:0 }}>Show on Main Calendar ?</a>
                     <Select
                       options={[
                         { value: '1', label: 'Yes' },
@@ -864,7 +871,7 @@ const rows = files.reduce((acc, current, index) => {
                       value={options.find(option => option.value === showOnMainCalendar)}
                       onChange={(selectedOption) => handleInputChange({ target: { value: selectedOption ? selectedOption.value : '' } }, 'show_on_main_calendar')}
                     />
-                    <a>Free Event ?</a>
+                    <a style={{ padding:0 }}>Free Event ?</a>
                     <Select
                       options={[
                           { value: '1', label: 'Yes' },
@@ -875,7 +882,7 @@ const rows = files.reduce((acc, current, index) => {
                       onChange={(selectedOption) => handleInputChange({ target: { value: selectedOption ? selectedOption.value : '' } }, 'free_event')}
                   />
             
-                    <a>Reservations ?</a>
+                    <a style={{ padding:0 }}>Reservations ?</a>
                     <Select
                       options={[
                         { value: '1', label: 'Yes' },
@@ -989,7 +996,7 @@ const rows = files.reduce((acc, current, index) => {
 
                     />
                         ))}
-                     <button className="userProfileButton"  style={{marginTop: 10, height: 30, marginLeft: 770}} onClick={addFieldsOp}><a style={{marginLeft: 50}}>Add Field</a></button>
+                     <button className="userProfileButton"  style={{marginTop: 10, height: 30, marginLeft: 70}} onClick={addFieldsOp}><a style={{marginLeft: 50}}>Add Field</a></button>
 
                       </>
                     )}
@@ -1050,12 +1057,12 @@ const rows = files.reduce((acc, current, index) => {
                     </div>
                     )}
                     <div>
-                    <a style={{position: 'absolute', paddingTop: 40}}>Tag Line</a>
+                    <a style={{position: 'absolute', padding: 0}}>Tag Line</a>
                     <input 
                         type="text" 
 
                         onChange={(e) => handleInputChange(e, 'tag_line')}
-                        style={{backgroundColor: "#3b3b3b", marginTop: 90}}
+                        style={{backgroundColor: "#3b3b3b", marginTop: 40}}
                     />
                     </div>
                     <label style={{color:"#FFF", marginTop:20}}>Event Terms & Conditions</label>
@@ -1085,7 +1092,7 @@ const rows = files.reduce((acc, current, index) => {
                 setFields(newFields)
               }
               return (
-                <div>
+                <div style={{ marginLeft: 30 }}>
                 {fields.map((field, index, array) => (
                   <FieldRow 
                   key={field.id} 
@@ -1108,13 +1115,13 @@ const rows = files.reduce((acc, current, index) => {
                 if (!generalInfoFields) return <p>General Information not found</p>;
               
                 return generalInfoFields.map((title, index) => (
-                  <div key={`${selectedCategory}-${index}`} className="input-group">
-                  <label>{title}</label>
+                  <div key={`${selectedCategory}-${index}`} className="input-group batata">
+                  <label className="capitalize" >{title}</label>
                   {title == "keyword" ? (
                     <CreatableSelect 
                     key={`${selectedCategory}-${title}`}
                     value={keywords.filter(option => inputValues[title] && JSON.parse(inputValues[title]).includes(option.value))}
-
+                    className='mt-3'
                     isMulti options={keywords}  
                     onChange={(selectedOptions) => {
                       const syntheticEvent = {
@@ -1133,7 +1140,7 @@ const rows = files.reduce((acc, current, index) => {
                       key={`${selectedCategory}-${title}`}
                       options={listTypes}
                       value={listTypes.filter(option => inputValues[title] && inputValues[title].includes(option.value))}
-
+                      className='mt-3'
                       isMulti  
                       onChange={(selectedOptions) => {
                         const syntheticEvent = {
@@ -1212,7 +1219,7 @@ const rows = files.reduce((acc, current, index) => {
                   return eventSponsorData.file !== null && elements.every(element => element.sponsorName && element.sponsorURL);
               };
                   return (
-                    <div style={{width: '900px'}}>
+                    <div style={{width: '900px'}}> 
 
 
 
@@ -1221,25 +1228,25 @@ const rows = files.reduce((acc, current, index) => {
                           <FileUploadComponent onFileUpload={handleEventSponsorFileUpload} />
 
                         <div style={{marginTop:'60px'}}>
-                          <a style={{fontSize: 20}}>Sponsor Name</a>
-                          <input
+                          <a style={{fontSize: 20, paddingLeft: 0}}>Sponsor Name</a>
+                          <input 
                             type="text"
 
                             style={{marginTop: 20, width: "300%", backgroundColor: "#3b3b3b"}}
                             value={element.sponsorName || ''}
                             onChange={e => handleSponsorInputChange(element.id, 'sponsorName', e.target.value)}
                           />
-                          <a style={{paddingTop: 30, fontSize: 20}}>Sponsor Url</a>
+                          <a style={{paddingTop: 30,paddingLeft: 0, fontSize: 20}}>Sponsor Url</a>
                           <input
                             type="text"
 
-                            style={{marginTop: 30, width: "300%", backgroundColor:"#3b3b3b"}}
+                            style={{marginTop: 20, width: "300%", backgroundColor:"#3b3b3b"}}
                             value={element.sponsorURL || ''}
                             onChange={e => handleSponsorInputChange(element.id, 'sponsorURL', e.target.value)}
                           />
                         </div>
-                        <div style={{ display: 'flex', flexDirection:'row' ,justifyContent: 'flex-end', gap: 13,  position: 'absolute' }}>
-                          <button className='userProfileButton' style={{marginLeft: 0, width: 160}} onClick={() => handleSaveAndAdd(element.id)}><a style={{marginLeft:62}}>Save</a></button>
+                        <div style={{ display: 'flex' ,justifyContent: 'center', gap: 13,  position: 'absolute' }}>
+                          <button className='userProfileButton' style={{display: 'flex', justifyContent:'center' ,marginLeft: 0, width: 300,}} onClick={() => handleSaveAndAdd(element.id)}><a>Save</a></button>
                           {index !== 0 && (
                             <button 
                               disabled={isSingleEventSponsorValid(element)} 
@@ -1287,17 +1294,28 @@ const rows = files.reduce((acc, current, index) => {
                         {title === "country" ? (
                             // Special rendering for 'country' field
                             <>
-                              <label>{title}</label>
+                              <label className='capitalize'>{title}</label>
                               <input 
                                 disabled={true} 
                                 style={{ color: "#FFF", backgroundColor:"#3b3b3b" }} 
                                 placeholder={countryRedux}
                               />
                             </>
+                          ) : 
+                            title === "venue_name" ? (
+                            <>
+                              <label className='capitalize mt-3'>{formatTitle(title)}</label>
+                              <input 
+                                style={{ color: "#FFF", backgroundColor:"#3b3b3b" }} 
+                                type={title === "room_number" ? "number" : "text"}
+                                value={inputValues[title] || ''}
+                                onChange={(e) => handleInputChange(e, title)}
+                              />
+                            </>
                           ) : (
                             // Rendering for all other fields
                             <>
-                              <label>{title}</label>
+                              <label className='capitalize'>{formatTitle(title)}</label>
                               <input 
                                 style={{ color: "#FFF", backgroundColor:"#3b3b3b" }} 
                                 type={title === "room_number" ? "number" : "text"}
@@ -1322,7 +1340,7 @@ const rows = files.reduce((acc, current, index) => {
                           {title === "Contact Phone" ? (
  
                             <PhoneInput
-                                style={{marginTop:0, marginLeft: 0, borderRadius: 10, backgroundColor: "#3b3b3b", border: "1px solid #cccccc", minWidth:'100%'}}
+                                style={{marginTop:10, marginLeft: 0, borderRadius: 10, backgroundColor: "#3b3b3b", border: "1px solid #cccccc", minWidth:'100%'}}
 
                                 
                                 value={inputValues[title] || ''}
@@ -1347,8 +1365,8 @@ const rows = files.reduce((acc, current, index) => {
           default:
             return (
               getCategoryFields(selectedCategory).map((field, index) => (
-                <div key={index} className="input-group" style={{backgroundColor: "#1B1C1F"}}>
-                  <label>{field}</label>
+                <div key={index} className="input-group" style={{backgroundColor: "#1B1C1F", width: '97%'}}>
+                  <label>{formatTitle(field)}</label>
                   <input type="text" value={inputValues[field] || ''}
                               onChange={(e) => handleInputChange(e, field)} 
                               style={{backgroundColor: "#3b3b3b"}}/>
@@ -1362,7 +1380,7 @@ const rows = files.reduce((acc, current, index) => {
 {selectedCategory !== "Event Sponsor" && (
   <button 
     className="userProfileButton" 
-    style={{marginLeft: 580, marginTop: 40}}
+    style={{marginLeft: 815, marginTop: 40}}
   >
     <a 
       onClick={() => {
@@ -1424,9 +1442,9 @@ const rows = files.reduce((acc, current, index) => {
 
         .input-group {
           margin-bottom: 0px;
-          width: 80%;
+          width: 85%;
           margin-top: 25px;
-          margin-left: 70px;
+          margin-left: 30px;
         }
         .input-group label {
           display: block;

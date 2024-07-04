@@ -588,15 +588,15 @@ button:hover {
   margin-left: 10px;
 }
 .PhoneInputInput{
-  margin-left: 10px;
+  /* margin-left: 10px; */
   background-color: rgba(0, 0, 0, 0.0) !important;
   border-width: 0;
   margin-top: 1px;
 }
 
 .PhoneInputCountryIcon{
-  margin-bottom: 30px;
-  margin-left: 30px;
+  /* margin-bottom: 25px; */
+  /* margin-left: 10px; */
 
 }
 .PhoneInputCountryIcon--square {
@@ -604,8 +604,8 @@ button:hover {
   margin-left: 10px;
 }
 .PhoneInputCountrySelectArrow{
-  margin-bottom: 10px;
-  margin-left: 10px;
+  /* margin-bottom: 10px; */
+  margin-left: 20px;
 }
 
 .form-control{
@@ -2964,7 +2964,7 @@ a:focus-visible {
   display: flex;
   flex-direction: row;
   gap: 24px;
-  margin-left: 55px;
+  margin-left: 30px;
   margin-top: 30px;
   width: 100%;
 }
@@ -3424,7 +3424,7 @@ a .uil {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   margin-left: 15px;
   gap: 15px;
 }
@@ -4113,7 +4113,7 @@ body .dhx_repeat_radio{
 }
 
 .PhoneInputCountryIconImg{
-  margin-top: 13px !important;
+  /* margin-top: 13px !important; */
 }
 
 .my-custom-button {

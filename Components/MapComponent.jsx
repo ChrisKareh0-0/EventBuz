@@ -81,10 +81,10 @@ const MapComponent = ({onLoad}) => {
     libraries={libraries}
   >
      <StandaloneSearchBox onLoad={onSearchBoxLoaded} onPlacesChanged={onPlacesChanged}>
-        <input style={{backgroundColor: "#3b3b3b", borderRadius: 20}} className='mapSearch' type="text" placeholder="Search location" />
+        <input style={{backgroundColor: "#3b3b3b", borderRadius: 20, color: "#fff"}} className='mapSearch' type="text" placeholder="Search location" />
       </StandaloneSearchBox>
     <GoogleMap
-      mapContainerStyle={{ width: '100%', height: '400px' }}
+      mapContainerStyle={{ width: '100%', height: '400px', marginTop: 10}}
       center={markerPosition}
       zoom={8}
       onLoad={onLoad}
